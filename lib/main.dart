@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         //accentColor: Colors.white
+        //eeeee
       ),
       home: Test()
     );
