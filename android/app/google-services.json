@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "896551849909",
+    "firebase_url": "https://onlineshop-bdfb4.firebaseio.com",
+    "project_id": "onlineshop-bdfb4",
+    "storage_bucket": "onlineshop-bdfb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896551849909:android:6620a626e3e4aa7c9a93fc",
+        "android_client_info": {
+          "package_name": "com.example.onlineshopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896551849909-jrufdmtvsm6fc25a804md72g91k776j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw1NiYhSk_6YrPKNjHmC8mzdeTYfXlB8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896551849909-jrufdmtvsm6fc25a804md72g91k776j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "896551849909-g2ujjqlqmvuetc74g0fd50qkesgamk5l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.onlineshopping"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
