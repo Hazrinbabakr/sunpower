@@ -7,14 +7,14 @@ import 'Favorites.dart';
 import 'cart_screen.dart';
 import 'home.dart';
 import 'order_history.dart';
-class Pages extends StatefulWidget {
-  const Pages({Key key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
 
   @override
-  _PagesState createState() => _PagesState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _PagesState extends State<Pages> {
+class _HomePageState extends State<HomePage> {
   int currentTabIndex=0;
 
   onTapped(int index) {

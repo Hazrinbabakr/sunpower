@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/screen/homepage.dart';
 import 'package:onlineshopping/test.dart';
 
 void main() async{
@@ -11,18 +13,18 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({ key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        //accentColor: Colors.white
+        primaryColor: Colors.white,
+       accentColor: Colors.red[900]
         //eeeee
       ),
-      home: Test()
+      home: HomePage()
+      //Test()
     );
   }
 }

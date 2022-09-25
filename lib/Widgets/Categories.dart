@@ -3,7 +3,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/screen/shops_Screen.dart';
+import 'package:onlineshopping/screen/productList.dart';
 
 
 class CategoriesWidget extends StatefulWidget {
@@ -52,7 +52,7 @@ return  GridView.count(
         print('Main Category ID  ${data.id.toString()}');
 
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ShopsScreen( data.id.toString()),
+            builder: (context) => ProductsList( data.id.toString(),data['name']),
           ));
 
       },

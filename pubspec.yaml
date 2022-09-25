@@ -46,6 +46,8 @@ dependencies:
   #intl: ^0.17.0
   carousel_slider: ^1.4.1
   cached_network_image: ^2.1.0
+  flutter_neumorphic: ^3.0.0
+
 
 
 

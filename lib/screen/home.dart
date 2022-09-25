@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/Categories.dart';
 import 'package:onlineshopping/Widgets/DeliveryAddress.dart';
 import 'package:onlineshopping/Widgets/Offers.dart';
+import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,8 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
             DeliveryAddress(),
             SizedBox(height: 10,),
             // Offers
-            Offers(),
+            //Offers(),
             CategoriesWidget(),
+            SizedBox(height: 120,),
+            SocialMediaWidget()
 
           ],
         ),

@@ -1,6 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, file_names, prefer_const_constructors, avoid_unnecessary_containers, deprecated_member_use, avoid_print, unnecessary_null_comparison
-
-
+// ignore_for_file: use_key_in_widget_constructors, file_names, prefer_const_constructors, avoid_unnecessary_containers, deprecated_member_use, avoid_print, unnecessary_null_compariso
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -141,7 +139,6 @@ class _AddProductState extends State<AddProduct> {
                               'img': productImage.toString()
 
                             });
-
                             Navigator.of(context).pop();
 
                           }
