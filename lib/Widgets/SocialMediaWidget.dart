@@ -13,7 +13,7 @@ class SocialMediaWidget extends StatelessWidget {
         Image.asset('images/category/web.png',width: 30,),
         Image.asset('images/category/fb.png',width: 30,),
         Image.asset('images/category/insta.png',width: 30,),
-          Image.asset('images/category/snap.png',width: 30,),
+        Image.asset('images/category/snap.png',width: 30,),
 
 
 
