@@ -1,3 +1,4 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,19 +16,88 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   DocumentSnapshot productDetailSnapShot;
-  DocumentSnapshot snapshot;
+  DocumentSnapshot modelSnapshot;
+  DocumentSnapshot makeSnapshot;
+  DocumentSnapshot productSnapshot;
+  List<DocumentSnapshot> makeListSnapShot;
+  List<DocumentSnapshot> modelListSnapShot;
+  String modelName='';
+  String makeName='';
   Future getProducts() async{
      productDetailSnapShot = await FirebaseFirestore.instance
         .collection('products').doc(widget.productID)
         .get();
      setState(() {
-       snapshot=productDetailSnapShot;
+       productSnapshot=productDetailSnapShot;
      });
+  }
+  Future getMake() async{
+    productDetailSnapShot = await FirebaseFirestore.instance
+        .collection('make').doc(productSnapshot.data()['makeId'].toString())
+        .get();
+    setState(() {
+      makeSnapshot=productDetailSnapShot;
+      makeName=makeSnapshot.data()['make'];
+
+    });
+  }
+  Future getModel() async{
+    productDetailSnapShot = await FirebaseFirestore.instance
+        .collection('make').doc(productSnapshot.data()['makeId'].toString()).
+    collection('models').doc(productSnapshot.data()['modelId'].toString())
+        .get();
+    setState(() {
+      modelSnapshot=productDetailSnapShot;
+      modelName=modelSnapshot.data()['mname'];
+    });
+  }
+  getMakeRelated() {
+    int i = 0;
+    FirebaseFirestore.instance
+        .collection('products')
+        .where('makeId',isEqualTo: productSnapshot.data()['makeId'])
+        //.where('productID',isNotEqualTo: productSnapshot.id)
+        .get()
+        .then((value) {
+      makeListSnapShot = new List<DocumentSnapshot>(value.docs.length);
+      value.docs.forEach((element) async {
+        setState(() {
+          makeListSnapShot[i] = element;
+        });
+        i++;
+      });
+    }).whenComplete(() {
+      print(makeListSnapShot.length);
+    });
+
+  }
+  getModelRelated() {
+    int i = 0;
+    FirebaseFirestore.instance
+        .collection('products')
+        .where('modelId',isEqualTo: productSnapshot.data()['modelId'])
+        .get()
+        .then((value) {
+      modelListSnapShot = new List<DocumentSnapshot>(value.docs.length);
+      value.docs.forEach((element) async {
+        setState(() {
+          modelListSnapShot[i] = element;
+        });
+        i++;
+      });
+    }).whenComplete(() {
+      print(modelListSnapShot.length);
+    });
+
   }
   @override
   void initState() {
-    getProducts();
-    print(widget.productID+'   Product ID');
+    getProducts().then((value)
+    => getMake().then((value)
+    => getModel()).then((value)
+    => getMakeRelated()).then((value)
+    => getModelRelated()));
+    //print(widget.productID+'   Product ID');
     // TODO: implement initState
     super.initState();
   }
@@ -41,13 +111,14 @@ class _ProductDetailsState extends State<ProductDetails> {
         title: Text('Product details'),
         leading: BackArrowWidget(),
       ),
-      body:snapshot==null?
+      body:productSnapshot==null?
       EmptyWidget():
      //Text(snapshot.data()['name']),
 
       Stack(
         fit: StackFit.expand,
         children: <Widget>[
+
           Container(
 
             margin: EdgeInsets.only(bottom: 125),
@@ -59,6 +130,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   primary: true,
                   shrinkWrap: false,
                   slivers: <Widget>[
+
                     SliverAppBar(
                       // shape: RoundedRectangleBorder(
                       //   borderRadius: BorderRadius.vertical(
@@ -84,9 +156,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Hero(
                             tag: 'testt',
                             child: CachedNetworkImage(
-                              fit: BoxFit.cover,
+                             // fit: BoxFit.cover,
                               //fit: BoxFit.contain,
-                              imageUrl: snapshot.data()['img'].toString(),
+                              imageUrl: productSnapshot.data()['img'].toString(),
                               placeholder: (context, url) =>
                                   Image.asset(
                                     'images/category/loadingimg.jpeg',
@@ -99,7 +171,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                     // bottom:  PreferredSize(child: Text('tat')),
 
 
                     ),
@@ -115,9 +186,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 15),
+                              horizontal: 10, vertical: 15),
                           child: Wrap(
-                            runSpacing: 8,
+                            runSpacing: 15,
                             children: [
                               Column(
                                 crossAxisAlignment:
@@ -128,134 +199,305 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Expanded(
-                                        flex: 3,
-                                        child: Padding(
-                                          padding: const EdgeInsets
-                                              .symmetric(
-                                              horizontal: 30),
-                                          child: Container(
-                                            // color: Colors.red,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
-                                              children: <Widget>[
-                                                Text(
-                                                 'name' ??
-                                                      '',
-                                                  overflow: TextOverflow
-                                                      .ellipsis,
-                                                  maxLines: 3,
-                                                  style: Theme.of(
-                                                      context)
-                                                      .textTheme
-                                                      .headline3
-                                                      .merge(TextStyle(
-                                                    fontSize: 23,
-                                                    //color: Color(0xff828282)
-                                                  )),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text('112',
-                                                  style: Theme.of(
-                                                      context)
-                                                      .textTheme
-                                                      .headline5
-                                                      .merge(TextStyle(
-                                                      fontSize:
-                                                      16)),
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                stock == 0
-                                                    ? Text('out of stock',
-                                                  style: Theme.of(
-                                                      context)
-                                                      .textTheme
-                                                      .subtitle2
-                                                      .merge(TextStyle(
-                                                      color: Colors
-                                                          .red)),
-                                                )
-                                                    : SizedBox()
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 5),
+                                        flex: 2,
                                         child: Container(
-                                          // decoration: BoxDecoration(
-                                          //   color: Theme.of(context)
-                                          //       .primaryColor,
-                                          //   borderRadius:
-                                          //   BorderRadius.circular(
-                                          //       5),
-                                          //   boxShadow: [
-                                          //     BoxShadow(
-                                          //       color: Colors.grey
-                                          //           .withOpacity(0.5),
-                                          //       spreadRadius: 2,
-                                          //       blurRadius: 8,
-                                          //       //offset: Offset(1, 0),
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                          height: 40,
-                                          width: 140,
                                           // color: Colors.red,
-                                          child:  Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Center(child: Row(
-                                              children: [
-                                                Text('120,000 ',style:
-                                                TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
-                                                Text('IQD',style:
-                                                TextStyle(fontWeight: FontWeight.bold,fontSize: 13),),
-                                              ],
-                                            )),
-                                          )
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: Padding(
-                                          padding: const EdgeInsets
-                                              .symmetric(
-                                              horizontal: 30),
-                                          child: Row(
-                                            children: [
-                                              Text('p122'),
-                                              SizedBox(width: 14),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .start,
+                                            children: <Widget>[
+                                              SizedBox(height: 10,),
+                                              Text(
+                                                productSnapshot.data()['name'] ??
+                                                    '',
+                                               // overflow: TextOverflow.fade,
+                                                maxLines: 3,
+                                                style: Theme.of(
+                                                    context)
+                                                    .textTheme
+                                                    .headline3
+                                                    .merge(TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                  color:Colors.black
+                                                )),
+                                              ),
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                              Row(children: [
+                                                Text('Availability:',
+                                                  style: TextStyle(
+                                                      fontSize: 15,fontWeight: FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                productSnapshot.data()['quantity']==0?
+                                                Text('Out of Stock',
+                                                  style: TextStyle(
+                                                      fontSize: 15,fontWeight: FontWeight.bold,color: Colors.red),
+                                                ):
+                                                Text('In Stock',
+                                                  style: TextStyle(
+                                                      fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),
+                                                ),
+                                              ],),
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+
                                             ],
                                           ),
                                         ),
                                       ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 20),
+                                          child: Column(
+                                            children: [
+                                              Container(
 
+                                                height: 40,
+                                                width: 140,
+                                                // color: Colors.red,
+                                                child:  Row(
+                                                  children: [
+                                                    Text(productSnapshot.data()['retail price'],style:
+                                                    TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                                                    Text(' IQD',style:
+                                                    TextStyle(fontWeight: FontWeight.bold,fontSize: 10),),
+                                                  ],
+                                                )
+                                              ),
+                                              Container(
+                                                  height: 20,
+                                                  width: 140,
+                                                  // color: Colors.red,
+                                                  child:  Row(
+                                                    children: [
+                                                      Text('35 000',style:
+                                                      TextStyle(fontSize: 16,decoration: TextDecoration.lineThrough),),
+                                                      Text(' IQD',style:
+                                                      TextStyle(fontSize: 8,decoration: TextDecoration.lineThrough),),
+                                                    ],
+                                                  )
+                                              ),
+
+
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                  Text('discount price'),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
+
+
+                                  Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        DefaultTabController(
+                                          length: 2, // length of tabs
+                                          initialIndex: 0,
+                                          child: Container(
+                                            // color: Colors.red,
+                                            child: TabBar(
+                                              indicatorColor: Theme.of(context).accentColor,
+                                              indicatorPadding: EdgeInsets.all(0),
+                                              labelPadding: EdgeInsets.symmetric(horizontal: 50),
+                                              // indicator: UnderlineTabIndicator(
+                                              //     borderSide: BorderSide(width: 1.0),
+                                              //     insets: EdgeInsets.symmetric(horizontal:10.0)
+                                              // ),
+                                              //indicatorSize: TabBarIndicatorSize.,//TabBarIndicatorSize(3),
+                                              onTap: (index){
+                                                setState(() {
+                                                  selectedIndex = index;
+                                                });
+                                              },
+                                              isScrollable: true,
+                                              tabs: [
+                                                Tab(text:  "Specification"),
+                                                Tab(text:  "Description"),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    top: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 0.5))),
+                                            child: Padding(
+                                                padding:
+                                                const EdgeInsets.all(15.0),
+                                                child: getCurrentPage()
+                                            ))
+                                      ])
+
+
 
                                 ],
+
+
+
                               ),
 
 
-                              Text('related product'),
+                              SizedBox(
+                                height: 190,
+                              ),
+
+                              (makeListSnapShot == null || makeListSnapShot.isEmpty)
+                                  ? SizedBox()
+                                  : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Related Make',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                      SizedBox(height: 15,),
+                                      Container(
+                              // color: Colors.red,
+                               // width: 200,
+                                        height: 270,
+                                        child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              itemCount: makeListSnapShot.length,
+                                              itemBuilder: (context, i) {
+                                                return (makeListSnapShot[i] != null)
+                                                    ? InkWell(
+                                                  onTap: (){
+                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                      builder: (context) => ProductDetails( makeListSnapShot[i].id.toString()),
+                                                    ));
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 15),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          width: 150,
+                                                          height: 150,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(20)
+                                                                //                 <--- border radius here
+                                                              ),
+                                                              border: Border.all(color: Colors.black12,width: 0.6),
+                                                              image: DecorationImage(
+                                                                // fit: BoxFit.cover,
+                                                                  image: NetworkImage(
+                                                                      makeListSnapShot[i]['img'].toString()
+                                                                  )
+                                                              )),
+                                                        ),
+
+                                                     Padding(
+                                                       padding: const EdgeInsets.only(left: 10,top: 10),
+                                                       child: Column(
+                                                         //crossAxisAlignment: CrossAxisAlignment.start,
+                                                         children: [
+                                                           Container(
+                                                             width: 150,
+                                                             height: 30,
+                                                             //color: Colors.grey,
+                                                             child: Text(makeListSnapShot[i]['name'],
+                                                               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,), overflow: TextOverflow.ellipsis,),
+                                                           ),
+                                                         //  SizedBox(height: 10,),
+                                                           Text('1,000 IQD',style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
+                                                           SizedBox(height: 10,),
+                                                           Text('1,500 IQD',style: TextStyle(fontSize: 12,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                         ],
+                                                       ),
+                                                     )
+                                                      ],
+                                                    ),
+                                                  ),)
+                                                    : SizedBox();
+                                              }),
+                                      ),
+                                    ],
+                                  ),
+                              SizedBox(
+                                height: 300,
+                              ),
+
+                              (modelListSnapShot == null || modelListSnapShot.isEmpty)
+                                  ? SizedBox()
+                                  : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Related Model',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                  SizedBox(height: 15,),
+                                  Container(
+                                    // color: Colors.red,
+                                    // width: 200,
+                                    height: 270,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemCount: modelListSnapShot.length,
+                                        itemBuilder: (context, i) {
+                                          return (modelListSnapShot[i] != null)
+                                              ? InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) => ProductDetails( modelListSnapShot[i].id.toString()),
+                                              ));
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(right: 15),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: 150,
+                                                    height: 150,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(20)
+                                                          //                 <--- border radius here
+                                                        ),
+                                                        border: Border.all(color: Colors.black12,width: 0.6),
+                                                        image: DecorationImage(
+                                                          // fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                modelListSnapShot[i]['img'].toString()
+                                                            )
+                                                        )),
+                                                  ),
+
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 10,top: 10),
+                                                    child: Column(
+                                                      //crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          width: 150,
+                                                          height: 30,
+                                                          //color: Colors.grey,
+                                                          child: Text(modelListSnapShot[i]['name'],
+                                                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,), overflow: TextOverflow.ellipsis,),
+                                                        ),
+                                                        //  SizedBox(height: 10,),
+                                                        Text('1,000 IQD',style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
+                                                        SizedBox(height: 10,),
+                                                        Text('1,500 IQD',style: TextStyle(fontSize: 12,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),)
+                                              : SizedBox();
+                                        }),
+                                  ),
+                                ],
+                              ),
                               SizedBox(
                                 height: 300,
                               ),
@@ -266,7 +508,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
@@ -410,8 +651,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       // addtocart
                       SizedBox(
                           width: MediaQuery.of(context).size.width - 40,
-                          child: stock == 0
-                              ? Center(
+                          child:  productSnapshot.data()['quantity']==0?
+                               Center(
                             child: Stack(
                               fit: StackFit.loose,
                               alignment: AlignmentDirectional.centerEnd,
@@ -448,16 +689,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 .spaceBetween,
                                             children: [
                                               Text(
-                                                'Add to cart',
+                                                'Add To Cart',
                                                 textAlign:
                                                 TextAlign.center,
                                                 style: TextStyle(
                                                     color:
                                                     Theme.of(context)
                                                         .primaryColor,
-                                                    fontSize: 17,
+                                                    fontSize: 18,
                                                     fontWeight:
-                                                    FontWeight.w600),
+                                                    FontWeight.bold),
                                               ),
                                               SizedBox(
                                                 width: 3,
@@ -561,10 +802,164 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ],
               ),
             ),
-          )
+          ),
+          // Positioned(
+          //   top: 100,
+          //   right: 10,
+          //   child: stock != 0
+          //       ? Text('out of stock',
+          //     style: TextStyle(
+          //         fontSize: 15,color: Colors.red),
+          //   )
+          //       : SizedBox(),),
         ],
       ),
     );
   }
-  int stock=1;
+  int selectedIndex = 0;
+  getCurrentPage(){
+    if(selectedIndex == 1){
+      return Text(productSnapshot.data()['desc'],style: TextStyle(fontSize: 16,height: 1.3),);
+
+    }else if (selectedIndex == 0){
+      return
+       Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('Make',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(makeName.toString(),
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('Model',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(modelName,
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+
+
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('Brand',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(productSnapshot.data()['brand'],
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('Item Code',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(productSnapshot.data()['itemCode'].toString(),
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('oemCode',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(productSnapshot.data()['oemCode'].toString(),
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('piecesInBox',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(productSnapshot.data()['piecesInBox'].toString(),
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 15,),
+           Row(
+             //mainAxisAlignment: MainAxisAlignment.spaceAround,
+             children: [
+               Expanded(
+                 child: Text('volt',
+                   maxLines: 3,
+                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                 ),
+               ),
+               Expanded(
+                 child: Text(productSnapshot.data()['volt'],
+                   maxLines: 5,
+                   style: TextStyle(fontSize: 15),
+                 ),
+               )
+             ],),
+           SizedBox(height: 35,),
+           Container(
+             height: 65,
+              width: 200,
+             child: BarcodeWidget(
+               data: productSnapshot.data()['barCode'].toString(),
+               barcode: Barcode.code128(escapes: true),
+             ),
+           ),
+
+
+       ],);
+
+    }
+
+  }
 }

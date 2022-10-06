@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/screen/homepage.dart';
-import 'package:onlineshopping/test.dart';
+import 'package:onlineshopping/screen/suplashScreen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
        accentColor: Colors.red[900]
         //eeeee
       ),
-      home: HomePage()
+      home: SplashScreen()
       //Test()
     );
   }

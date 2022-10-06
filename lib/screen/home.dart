@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/Categories.dart';
-import 'package:onlineshopping/Widgets/DeliveryAddress.dart';
+import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
 
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             //Delivery address widget
-            DeliveryAddress(),
+            HomeAppBar(),
             SizedBox(height: 10,),
             // Offers
             //Offers(),

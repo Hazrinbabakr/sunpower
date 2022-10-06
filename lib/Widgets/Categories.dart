@@ -35,7 +35,7 @@ return  GridView.count(
   // crossAxisSpacing: 1,
   // mainAxisSpacing: 1,
   //childAspectRatio: 0.8,
-  childAspectRatio: 0.90, // (itemWidth/itemHeight),
+  //childAspectRatio: 0.60, // (itemWidth/itemHeight),
   padding: EdgeInsets.symmetric(
       horizontal: 10, vertical: 10),
   // Create a grid with 2 columns. If you change the scrollDirection to
@@ -49,7 +49,7 @@ return  GridView.count(
     DocumentSnapshot data= snapshot.data.docs.elementAt(index);
     return  InkWell(
       onTap: (){
-        print('Main Category ID  ${data.id.toString()}');
+       // print('Main Category ID  ${data.id.toString()}');
 
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProductsList( data.id.toString(),data['name']),
@@ -59,8 +59,8 @@ return  GridView.count(
       child: Column(
         children: [
           Container(
-            height: 150,
-            width: 150,
+            height: 130,
+            width: 130,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                     Radius.circular(15)

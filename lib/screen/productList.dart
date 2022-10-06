@@ -73,16 +73,14 @@ class _ProductsListState extends State<ProductsList> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Container(
-                    height: 150,
+                    height: 175,
                     decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey[200],
                                   spreadRadius: 1,
-                                  blurRadius: 10
-                              )
-
+                                  blurRadius: 10)
                             ]),
                     child: Row(
                         children: [
@@ -95,18 +93,23 @@ class _ProductsListState extends State<ProductsList> {
                                 ),
                                 border: Border.all(color: Colors.black12,width: 0.6),
                                 image: DecorationImage(
-                                    fit: BoxFit.cover,
+                                   // fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        productListSnapShot[i]['img'].toString()))),
+                                        productListSnapShot[i]['img'].toString()
+                                    )
+                                )),
                           ),
                           //SizedBox(width: 30,),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 10,top: 30,left: 30),
+                            padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30),
                             child: Column(
-                             // mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(productListSnapShot[i]['name'].toString().toUpperCase(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23),),
+                                Container(
+                                  //color: Colors.red,
+                                    width: 170,
+                                    child: Text(productListSnapShot[i]['name'].toString().toUpperCase(),
+                                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,)),
                                 SizedBox(height: 10,),
                                 Text('1,000 IQD',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                                 SizedBox(height: 10,),
@@ -114,17 +117,9 @@ class _ProductsListState extends State<ProductsList> {
                               ],
                             ),
                           ),
-
-
-
                         ],
-
-
-
-
                   )),
-                        ),
-                      )
+                        ),)
                       : EmptyWidget();
                 }),
           )
