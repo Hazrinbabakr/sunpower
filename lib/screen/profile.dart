@@ -1,7 +1,11 @@
 // ignore_for_file: file_names, prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/Widgets/language_bottom_sheet.dart';
 import 'package:onlineshopping/Widgets/profileavatarWidget.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/services/local_storage_service.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -54,6 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   ListTile(
                       onTap: () {
+                        LanguageBottomSheet.showLanguageBottomSheet(context);
                       },
                       dense: true,
                       leading: Icon(
@@ -61,7 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 22,
                         color: Theme.of(context).focusColor,
                       ),
-                      title: Text('Language',
+                      title: Text(
+                        AppLocalizations.of(context).trans("language"),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
@@ -74,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 22,
                         color: Theme.of(context).focusColor,
                       ),
-                      title: Text('Contact Us',
+                      title: Text(AppLocalizations.of(context).trans('contact_us'),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
@@ -87,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 22,
                         color: Theme.of(context).focusColor,
                       ),
-                      title: Text('About Us',
+                      title: Text(AppLocalizations.of(context).trans('about_us'),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
@@ -100,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 22,
                         color: Theme.of(context).focusColor,
                       ),
-                      title: Text('Feedback',
+                      title: Text(AppLocalizations.of(context).trans('feedback'),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
@@ -111,8 +117,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 120,),
 
             InkWell(
-              onTap: (){
+              onTap: () async {
+                LocalStorageService.instance.user = null;
+                await FirebaseAuth.instance.signOut();
 
+                // restart the app
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //  color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 SizedBox(width: 10,),
-                Text('Log Out',
+                Text(AppLocalizations.of(context).trans('logout'),
                     style: TextStyle(color: Theme.of(context).accentColor,fontSize: 18)
                 ),
               ],

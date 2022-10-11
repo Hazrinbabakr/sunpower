@@ -1,0 +1,18 @@
+{
+  "name": "User name",
+  "address": "Address",
+  "phone": "Phone",
+  "continue": "Continue",
+  "fieldIsRequired": "This field is required!",
+  "signup": "Signup",
+  "login": "Login",
+  "login_business": "Business login",
+  "invalid_email": "Invalid email!",
+  "verifyYourNumber": "Please enter the code that has been sent to your phone",
+  "language": "Language",
+  "contact_us": "Contact Us",
+  "about_us": "About Us",
+  "feedback": "Feedback",
+  "logout": "Logout",
+  "guest": "Guest"
+}

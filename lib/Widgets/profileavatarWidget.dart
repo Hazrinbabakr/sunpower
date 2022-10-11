@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 
 class ProfileAvatarWidget extends StatefulWidget {
@@ -49,7 +50,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                 children: <Widget>[
                   widget.isGuest
                       ? Center(
-                        child: Text('Guest',
+                        child: Text(AppLocalizations.of(context).trans("guest"),
                     style: Theme.of(context).textTheme.headline4.merge(
                           TextStyle(color: Theme.of(context).hintColor)),
                   ),
