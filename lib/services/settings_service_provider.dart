@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onlineshopping/models/user.dart';
 import 'package:provider/provider.dart';
 
+import 'local_storage_service.dart';
+
 class SettingsServiceProvider extends ChangeNotifier {
 
 
@@ -13,6 +15,7 @@ class SettingsServiceProvider extends ChangeNotifier {
 
   setLocale(String lang){
     locale = lang;
+    LocalStorageService.instance.languageCode = lang;
     notifyListeners();
   }
 }
