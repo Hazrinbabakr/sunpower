@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:onlineshopping/app/Application.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/auth/signup_normal_user/sign_up_main_page.dart';
 import 'package:onlineshopping/screen/homepage.dart';
@@ -34,39 +35,41 @@ class MyApp extends StatelessWidget {
       create: (BuildContext context) {
         return SettingsServiceProvider();
       },
-      child: Consumer<SettingsServiceProvider>(
-        builder: (context,settings,child){
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                primaryColor: Colors.white,
-                accentColor: Colors.red[900]
-            ),
-            home: FirebaseAuth.instance.currentUser != null ?
-                HomePage():
-            MainLoginPage(),//SignUpMainPage(),
-            builder: (context, child) {
-              if (AppLocalizations.of(context).locale.languageCode ==
-                  "ku") {
-                child = Directionality(
-                    textDirection: TextDirection.rtl, child: child);
-              }
-              return child;
-            },
-            localizationsDelegates: [
-              const AppLocalizationsDelegate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate,
-              KurdishMaterialLocalizations.delegate,
-              KurdishCupertinoLocalization.delegate
-            ],
-            supportedLocales: Lang.values.map((e) => Locale(e)).toList(),
-            locale: Locale(settings.locale ?? (LocalStorageService.instance.languageCode ?? "en")),
-            //Test()
-          );
-        },
+      child: Application(
+        child: Consumer<SettingsServiceProvider>(
+          builder: (context,settings,child){
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                  primaryColor: Colors.white,
+                  accentColor: Colors.red[900]
+              ),
+              home: FirebaseAuth.instance.currentUser != null ?
+                  HomePage():
+              MainLoginPage(),//SignUpMainPage(),
+              builder: (context, child) {
+                if (AppLocalizations.of(context).locale.languageCode ==
+                    "ku") {
+                  child = Directionality(
+                      textDirection: TextDirection.rtl, child: child);
+                }
+                return child;
+              },
+              localizationsDelegates: [
+                const AppLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate,
+                KurdishMaterialLocalizations.delegate,
+                KurdishCupertinoLocalization.delegate
+              ],
+              supportedLocales: Lang.values.map((e) => Locale(e)).toList(),
+              locale: Locale(LocalStorageService.instance.languageCode),
+              //Test()
+            );
+          },
+        ),
       ),
     );
   }

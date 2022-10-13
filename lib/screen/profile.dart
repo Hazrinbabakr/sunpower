@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/language_bottom_sheet.dart';
 import 'package:onlineshopping/Widgets/profileavatarWidget.dart';
+import 'package:onlineshopping/app/Application.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
-
-import 'auth/normal_user_login/login_normal_user.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -122,13 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onTap: () async {
                 LocalStorageService.instance.user = null;
                 await FirebaseAuth.instance.signOut();
-
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                  return LoginPage();
-                }));
-                // restart the app
-
-
+                Application.restartApp(context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
