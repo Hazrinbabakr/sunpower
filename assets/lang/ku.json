@@ -9,10 +9,10 @@
   "login_business": "Business login",
   "invalid_email": "Invalid email!",
   "verifyYourNumber": "Please enter the code that has been sent to your phone",
-  "language": "اللغة",
-  "contact_us": "اتصل بنا",
-  "about_us": "من نحن",
-  "feedback": "تفييم",
-  "logout": "تسجيل خروج",
-  "guest": "ضيف"
+  "language": "زمان",
+  "contact_us": "پەیوەندیمان پێوەبکە",
+  "about_us": "دەربارەی ئێمە",
+  "feedback": "پێشنیار",
+  "logout": "چوونە دەرەوە",
+  "guest": "میوان"
 }

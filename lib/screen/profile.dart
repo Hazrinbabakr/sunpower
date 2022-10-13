@@ -7,6 +7,8 @@ import 'package:onlineshopping/Widgets/profileavatarWidget.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
 
+import 'auth/normal_user_login/login_normal_user.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -121,7 +123,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 LocalStorageService.instance.user = null;
                 await FirebaseAuth.instance.signOut();
 
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return LoginPage();
+                }));
                 // restart the app
+
+
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

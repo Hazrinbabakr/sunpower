@@ -5,6 +5,7 @@ import 'package:onlineshopping/Widgets/Categories.dart';
 import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
+import 'package:onlineshopping/services/local_storage_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,6 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
             //Delivery address widget
             HomeAppBar(),
             SizedBox(height: 10,),
+
+
+
+            // LocalStorageService.instance.user.role == 1?
+            // Text('wholesale'):
+            // Text('normal'),
+
+
+
             // Offers
             //Offers(),
             CategoriesWidget(),

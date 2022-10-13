@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/CustomAppButton.dart';
 import 'package:onlineshopping/Widgets/phone_input_widget.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
@@ -26,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).trans("signup")),
+        leading: BackArrowWidget(),
         elevation: 0,
         centerTitle: true,
       ),

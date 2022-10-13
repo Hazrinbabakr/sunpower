@@ -33,7 +33,7 @@ class SearchModal extends ModalRoute<void> {
       type: MaterialType.transparency,
       // make sure that the overlay content is not cut off
       child: SafeArea(
-        minimum: EdgeInsets.only(top: 40),
+        minimum: EdgeInsets.only(top: 30),
         child:  Container(
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
