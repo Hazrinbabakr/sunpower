@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/search.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/cart_screen.dart';
 
 
 
@@ -11,8 +12,6 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-//height: 200,
-      //padding: EdgeInsets.only(top: 40,bottom: 30),
       decoration: BoxDecoration(
           color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.only(
@@ -28,7 +27,19 @@ class HomeAppBar extends StatelessWidget {
          child:
          Center(child: Column(
            children: [
-             Image.asset('images/category/logo.png',width: 200,color: Colors.white,),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceAround,
+               children: [
+                 Image.asset('images/category/logo.png',width: 200,color: Colors.white,),
+              InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CartScreen(),
+                    ));
+                  },
+                  child: Icon(Icons.shopping_cart,color: Colors.white,))
+               ],
+             ),
              InkWell(
                onTap: () {
                  Navigator.of(context).push(SearchModal());

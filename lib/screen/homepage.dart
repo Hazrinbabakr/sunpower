@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   final currentPage = [
     HomeScreen(),
     FavoriteScreen(),
-    CartScreen(),
+    // CartScreen(),
     OrderHistoryScreen(),
     ProfileScreen(),
   ];
@@ -54,12 +54,12 @@ class _HomePageState extends State<HomePage> {
             title: Text(''),
             // backgroundColor: Colors.purple[600]
           ),
-          BottomNavigationBarItem(
-
-            icon: Icon(Icons.shopping_cart_outlined),
-            title: Text(''),
-            // backgroundColor: Colors.purple[600]
-          ),
+          // BottomNavigationBarItem(
+          //
+          //   icon: Icon(Icons.shopping_cart_outlined),
+          //   title: Text(''),
+          //   // backgroundColor: Colors.purple[600]
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket),
             title: Text(""),
