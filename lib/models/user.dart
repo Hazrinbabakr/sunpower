@@ -5,6 +5,7 @@ class AppUser{
   final int role;
   final String address;
 
+
   AppUser({this.name, this.email, this.phone, this.role, this.address});
 
   factory AppUser.fromJson(Map<String,dynamic> json) {
@@ -13,7 +14,7 @@ class AppUser{
       email: json["email"]??"",
       phone: json["phone"]??"",
       role: json["role"]??0,
-      address: json["address"]??""
+      address: json["address"]??"",
     );
   }
 

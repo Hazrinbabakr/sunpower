@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetails.dart';
 
 class ProductsList extends StatefulWidget {
@@ -101,15 +102,21 @@ class _ProductsListState extends State<ProductsList> {
                           ),
                           //SizedBox(width: 30,),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30),
+                            padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   //color: Colors.red,
                                     width: 170,
-                                    child: Text(productListSnapShot[i]['name'].toString().toUpperCase(),
-                                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,)),
+                                    child: Text(
+                                      AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                      productListSnapShot[i]['nameK'].toString().toUpperCase():
+                                      AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                      productListSnapShot[i]['nameA'].toString().toUpperCase():
+                                      productListSnapShot[i]['name'].toString().toUpperCase(),
+
+                                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,maxLines: 3,)),
                                 SizedBox(height: 10,),
                                 Text('1,000 IQD',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                                 SizedBox(height: 10,),

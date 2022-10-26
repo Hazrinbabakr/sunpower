@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/search.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 
 
@@ -45,7 +46,7 @@ class HomeAppBar extends StatelessWidget {
                      child: Row(
                        children: [
                          Icon(Icons.search_rounded,size: 25,),
-                         Text(' Search',style: TextStyle(fontSize: 17),)
+                         Text(AppLocalizations.of(context).trans('search'),style: TextStyle(fontSize: 17),)
                        ],
                      ),
                    ),

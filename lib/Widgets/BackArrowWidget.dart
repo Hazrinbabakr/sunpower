@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 class BackArrowWidget extends StatelessWidget {
   const BackArrowWidget({key}) : super(key: key);
@@ -15,7 +16,9 @@ class BackArrowWidget extends StatelessWidget {
     fillColor: Colors.white,
     child: Center(
     child: Icon(
-    Icons.arrow_back_ios_outlined,
+      AppLocalizations.of(context).locale.languageCode.toString()=='en'?
+    Icons.arrow_back_ios_outlined:
+      Icons.arrow_forward_ios_outlined,
     size: 24.0,
       color: Colors.red[900],
     ),

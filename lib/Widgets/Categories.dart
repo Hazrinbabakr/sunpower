@@ -3,6 +3,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productList.dart';
 
 
@@ -52,7 +53,16 @@ return  GridView.count(
        // print('Main Category ID  ${data.id.toString()}');
 
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ProductsList( data.id.toString(),data['name']),
+            builder: (context) => ProductsList(
+                data.id.toString(),
+                AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                data['nameK'].toString():
+                AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                data['nameA'].toString():
+                data['name'].toString(),
+
+
+            ),
           ));
 
       },
@@ -73,7 +83,13 @@ return  GridView.count(
                         data['img'].toString()))),
           ),
           SizedBox(height: 7,),
-          Text(data['name'].toString(),style: TextStyle(fontWeight: FontWeight.w600,),)
+          Text(
+              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+            data['nameK'].toString():
+              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+            data['nameA'].toString():
+            data['name'].toString(),
+            style: TextStyle(fontWeight: FontWeight.w600,),)
         ],
       ),
     );

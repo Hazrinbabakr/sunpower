@@ -60,6 +60,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
     if(kDebugMode) {
       print("Load ${locale.languageCode}");
     }
+
     return localizations;
   }
 
