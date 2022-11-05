@@ -26,6 +26,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String modelName='';
   String makeName='';
   FirebaseAuth _auth;
+  User user;
 
   int inPrice= 0;
   final userCollection = FirebaseFirestore.instance.collection('users');
@@ -88,7 +89,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         i++;
       });
     }).whenComplete(() {
-      print(makeListSnapShot.length);
     });
 
   }
@@ -106,20 +106,19 @@ class _ProductDetailsState extends State<ProductDetails> {
         });
         i++;
       });
-    }).whenComplete(() {
-      print(modelListSnapShot.length);
     });
 
   }
   @override
   void initState() {
     _auth = FirebaseAuth.instance;
+    user= _auth.currentUser;
     getProducts().then((value)
     => getMake().then((value)
     => getModel()).then((value)
     => getMakeRelated()).then((value)
     => getModelRelated()));
-    //print(widget.productID+'   Product ID');
+    getFavList();
     // TODO: implement initState
     super.initState();
   }
@@ -563,7 +562,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 onTap: (){
                                   setState(() {
                                     quantity= quantity+1;
-                                    print(quantity.toString());
 
                                   });
                                 },
@@ -629,7 +627,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     if(quantity>1){
                                       quantity= quantity-1;
                                     }
-                                    print(quantity.toString());
 
 
                                   });
@@ -693,12 +690,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 height: 50,
                                 width: 50,
                                 // color: Colors.red,
-                                child:  Icon(
-                                  Icons.favorite,
-                                  size: 30,
-                                  color: Theme.of(context).accentColor,
+                                child: isfav? InkWell(
+                                  child: Icon(
+                                    Icons.favorite,
+                                    size: 30,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ):
+
+                                InkWell(
+                                  child: Icon(
+                                    Icons.favorite_border,
+                                    size: 30,
+                                    color: Theme.of(context).accentColor,
+                                  ),
                                 )
                             ),
+
+
                             // addtocart
                             SizedBox(
                                 width: MediaQuery.of(context).size.width - 40,
@@ -815,6 +824,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               "nameA": productSnapshot.data()['nameA'],
                                               "nameK": productSnapshot.data()['nameK'],
                                               "supPrice": productSnapshot.data()['retail price'] * quantity,
+                                              "img": productSnapshot.data()['img'],
                                             });
                                             print('added');
                                             Scaffold.of(context).showSnackBar(_snackBar);
@@ -1045,4 +1055,37 @@ class _ProductDetailsState extends State<ProductDetails> {
     backgroundColor: Colors.green,
     duration: Duration(seconds: 2),
   );
+
+
+bool isfav=false;
+List<DocumentSnapshot> getFav;
+List <String> favList=[];
+
+
+  getFavList() {
+
+    int i = 0;
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('favorite').get().then((value) {
+      getFav = new List<DocumentSnapshot>(value.docs.length);
+      value.docs.forEach((element) async {
+        setState(() {
+          getFav[i] = element;
+          favList.add(getFav[i].id);
+          if(favList.contains(widget.productID)){
+            isfav=true;
+          }else{
+           isfav=false;
+          }
+          print('$favList    favvvvv');
+          print('$isfav    issfavvvvv');
+        });
+        i++;
+      });
+    });
+
+  }
+
+
+
+
 }
