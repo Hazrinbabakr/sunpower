@@ -50,6 +50,7 @@ dependencies:
   cached_network_image: ^2.1.0
   barcode_widget:
   pinput:
+  firebase_messaging:
 
 
 
