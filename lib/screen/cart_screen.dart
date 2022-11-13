@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,10 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   FirebaseAuth _auth;
+  User user;
   final userCollection = FirebaseFirestore.instance.collection('users');
   List<DocumentSnapshot> cart;
   List<Map> cartList = [];
-  User user;
   double subTotal=0.0;
   DocumentSnapshot adminInfo;
   DocumentSnapshot adminInfoCollection;
@@ -88,9 +89,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
 
-
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -101,6 +99,7 @@ class _CartScreenState extends State<CartScreen> {
     getAdminInfo();
     getUserInfo();
     rundomNumber = uuid.v1();
+   // parseTimeStamp();
   }
 
 
@@ -443,6 +442,9 @@ class _CartScreenState extends State<CartScreen> {
                           InkWell(
                               onTap: (){
                                 setState(() {
+                                  var date =  DateTime.now();
+                                  var orderDate = DateFormat('MM-dd-yyyy, hh:mm a').format(date);
+
                                   // cartList.add({
                                   //   'name': snapshot.data.docs[index]['name'],
                                   //   'price': snapshot.data.docs[index]['price'],
@@ -461,7 +463,8 @@ class _CartScreenState extends State<CartScreen> {
                                       "userAddress": address,
                                       "userPhone": phone,
                                       "dinnar": dinnar,
-                                      "orderID":rundomNumber
+                                      "orderID":rundomNumber,
+                                      "date": orderDate,
                                     });
 
                                     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').doc(rundomNumber).set({
@@ -475,6 +478,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "userPhone": phone,
                                       "dinnar": dinnar,
                                       "OrderStatus": 'Pending',
+                                      "date": orderDate,
                                     });
 
 

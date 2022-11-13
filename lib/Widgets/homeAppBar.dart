@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/search.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
@@ -7,8 +9,25 @@ import 'package:onlineshopping/screen/cart_screen.dart';
 
 
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   const HomeAppBar({ key}) : super(key: key);
+
+  @override
+  _HomeAppBarState createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  FirebaseAuth _auth;
+  User user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    user = _auth.currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +56,35 @@ class HomeAppBar extends StatelessWidget {
                       builder: (context) => CartScreen(),
                     ));
                   },
-                  child: Icon(Icons.shopping_cart,color: Colors.white,))
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('users').doc(user.uid).collection('cart').snapshots(),
+                    builder: (context, snapshot) {
+                      return Stack(
+                        children: [
+                          Icon(Icons.shopping_cart,color: Colors.white,size: 30,),
+                          Positioned(
+                              top:0,
+                              child:snapshot.data?.docs?.length==null? CircularProgressIndicator(): Container(
+                                width:16,
+                                  height:16,
+                                  decoration: BoxDecoration(
+                                    color:Colors.red,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15)
+                                        //                 <--- border radius here
+                                      ),
+                                   //   border: Border.all(color: Colors.black12,width: 0.6),
+                                      ),
+                                  child: Center(
+                                    child:
+                                    Text(snapshot.data?.docs?.length.toString() ?? '0',
+                                      style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold),),
+                                  ))
+                          )
+                        ],
+                      );
+                    }
+                  ))
                ],
              ),
              InkWell(

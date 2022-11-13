@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,14 @@ class OrderHistoryScreen extends StatefulWidget {
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   List<DocumentSnapshot> orderHistoryList;
+  List<DocumentSnapshot> currentOrderList;
   FirebaseAuth _auth;
   User user;
   
   getProducts() {
     int i = 0;
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders')
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').
+    where("OrderStatus",isNotEqualTo: "Pending")
         .get()
         .then((value) {
       orderHistoryList = new List<DocumentSnapshot>(value.docs.length);
@@ -33,11 +36,29 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         i++;
       });
     }).whenComplete(() {
-      print(orderHistoryList.length);
+     // print(orderHistoryList.length);
     });
   }
-  
-  
+  getCurrentProducts() {
+    int i = 0;
+    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').
+    where("OrderStatus",isEqualTo: "Pending")
+        .get()
+        .then((value) {
+      currentOrderList = new List<DocumentSnapshot>(value.docs.length);
+      value.docs.forEach((element) async {
+        setState(() {
+          currentOrderList[i] = element;
+        });
+        i++;
+      });
+    }).whenComplete(() {
+     // print(currentOrderList.length);
+    });
+  }
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,54 +66,317 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     _auth= FirebaseAuth.instance;
     user=_auth.currentUser;
     getProducts();
+    getCurrentProducts();
   }
 
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
             title: Text('Order History'),
             elevation: 0,
         ),
         body:
-        (orderHistoryList == null)
-            ? EmptyWidget()
-            : Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: orderHistoryList.length,
-              itemBuilder: (context, i) {
-                return (orderHistoryList[i] != null)
-                    ? InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProductDetails( orderHistoryList[i].id.toString()),
-                    ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Container(
-                        height: 175,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey[200],
-                                  spreadRadius: 1,
-                                  blurRadius: 10)
-                            ]),
-                        child: Row(
-                          children: [
-                            Text(orderHistoryList[i]['OrderStatus'])
-                          ],
-                        )),
-                  ),)
-                    : EmptyWidget();
-              }),
-        )
+       SingleChildScrollView(
+         child:((currentOrderList == null) & (orderHistoryList == null))?
+         EmptyWidget():
+         Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+
+             //currentttt
+           (currentOrderList.length==0)
+               ? SizedBox()
+               : Padding(
+             padding: const EdgeInsets.only(top: 30),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Padding(
+                   padding: const EdgeInsets.symmetric(horizontal: 15),
+                   child: Text('Current Orders',style: TextStyle(color: Colors.green[900],fontSize: 20),),
+                 ),
+                 SizedBox(height: 25,),
+                 ListView.builder(
+                     shrinkWrap: true,
+                     itemCount: currentOrderList.length,
+                     itemBuilder: (context, i) {
+                       return (currentOrderList[i] != null)
+                           ? ExpansionTile(title: Padding(
+                         padding: const EdgeInsets.only(bottom: 20),
+                         child: Container(
+                           // height: 175,
+                             decoration: BoxDecoration(
+                                 color: Colors.white,
+                                 boxShadow: [
+                                   BoxShadow(
+                                       color: Colors.grey[200],
+                                       spreadRadius: 1,
+                                       blurRadius: 10)
+                                 ]),
+                             child: Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Text(currentOrderList[i]['OrderStatus'],style: TextStyle(color: Colors.deepOrange[900],fontSize: 18),),
+                                   Padding(
+                                     padding: const EdgeInsets.symmetric(vertical:7 ),
+                                     child: Text(currentOrderList[i]['date'],style: TextStyle(fontSize: 12),),
+                                   ),
+                                   Row(
+                                     children: [
+                                       Text('Deliver to: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                       Expanded(child: Text(currentOrderList[i]['userAddress'].toString())),
+                                     ],
+                                   ),
+
+
+
+
+                                 ],
+                               ),
+                             )),
+                       ),
+                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(children: [
+                            Container(
+                              height: 60,
+                              // color: Colors.red,
+                              // margin: EdgeInsets.only(
+                              //     left: 15.0),
+                              child: ListView.builder(
+                                  itemCount: currentOrderList[i][
+                                  "productList"]
+                                      .length,
+                                  itemBuilder:
+                                      (context, index) {
+                                    return SingleChildScrollView(
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .start,
+                                          children: [
+                                            Row(
+                                              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('${currentOrderList[i]["productList"][index]['quantity'].toString()}x'),
+                                                SizedBox(width: 10,),
+                                                Text(
+                                                  currentOrderList[i]["productList"][index]['name'],
+                                                  style:
+                                                  TextStyle(fontSize: 14
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 5,),
+
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                            Row(
+                              children: [
+                                Text('Delivery Fee: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                Expanded(child: Text('${currentOrderList[i]['deliveryFee'].toString()}\$')),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('Total Price: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                Expanded(child: Text('${currentOrderList[i]['totalPrice'].toString()}\S')),
+                              ],
+                            ),
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Exchanged Rate',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+
+                                ),
+                                SizedBox(width: 10,),
+                                Text('${(currentOrderList[i]['dinnar']*100).floor().toString()} IQD',
+                                  style: TextStyle(fontSize: 13,),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 10,)
+
+                          ],),
+                        )
+
+                       ],
+                       )
+                           : EmptyWidget();
+                     }),
+
+               ],
+             ),
+           ),
+           //SizedBox(height: 10,child: Container(color: Colors.green,),),
+
+
+
+
+
+
+
+
+             //historyyy
+             (orderHistoryList.length==0)
+                 ? SizedBox()
+                 : Padding(
+               padding: const EdgeInsets.only(top: 30),
+               child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 15),
+                     child: Text('Previous Orders',style: TextStyle(color: Colors.green[900],fontSize: 20),),
+                   ),
+                   SizedBox(height: 25,),
+                   ListView.builder(
+                       shrinkWrap: true,
+                       itemCount: orderHistoryList.length,
+                       itemBuilder: (context, i) {
+                         return (orderHistoryList[i] != null)
+                             ? ExpansionTile(title: Padding(
+                           padding: const EdgeInsets.only(bottom: 20),
+                           child: Container(
+                             // height: 175,
+                               decoration: BoxDecoration(
+                                   color: Colors.white,
+                                   boxShadow: [
+                                     BoxShadow(
+                                         color: Colors.grey[200],
+                                         spreadRadius: 1,
+                                         blurRadius: 10)
+                                   ]),
+                               child: Padding(
+                                 padding: const EdgeInsets.all(8.0),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text(orderHistoryList[i]['OrderStatus'],style: TextStyle(color: Colors.green[700],fontSize: 18,fontWeight: FontWeight.bold),),
+                                     Padding(
+                                       padding: const EdgeInsets.symmetric(vertical:7 ),
+                                       child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12),),
+                                     ),
+                                     Row(
+                                       children: [
+                                         Text('Deliver to: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                         Expanded(child: Text(orderHistoryList[i]['userAddress'].toString())),
+                                       ],
+                                     ),
+
+
+
+
+                                   ],
+                                 ),
+                               )),
+                         ),
+                           children: [
+                             Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 20),
+                               child: Column(children: [
+                                 Container(
+                                   height: 60,
+                                   // color: Colors.red,
+                                   // margin: EdgeInsets.only(
+                                   //     left: 15.0),
+                                   child: ListView.builder(
+                                       itemCount: orderHistoryList[i][
+                                       "productList"]
+                                           .length,
+                                       itemBuilder:
+                                           (context, index) {
+                                         return SingleChildScrollView(
+                                           child: Container(
+                                             child: Column(
+                                               crossAxisAlignment:
+                                               CrossAxisAlignment
+                                                   .start,
+                                               children: [
+                                                 Row(
+                                                   //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                   children: [
+                                                     Text('${orderHistoryList[i]["productList"][index]['quantity'].toString()}x'),
+                                                     SizedBox(width: 10,),
+                                                     Text(
+                                                       orderHistoryList[i]["productList"][index]['name'],
+                                                       style:
+                                                       TextStyle(fontSize: 14
+                                                       ),
+                                                     ),
+                                                   ],
+                                                 ),
+                                                 SizedBox(height: 5,),
+
+                                               ],
+                                             ),
+                                           ),
+                                         );
+                                       }),
+                                 ),
+                                 Row(
+                                   children: [
+                                     Text('Delivery Fee: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                     Expanded(child: Text('${orderHistoryList[i]['deliveryFee'].toString()}\$')),
+                                   ],
+                                 ),
+                                 Row(
+                                   children: [
+                                     Text('Total Price: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                     Expanded(child: Text('${orderHistoryList[i]['totalPrice'].toString()}\S')),
+                                   ],
+                                 ),
+                                 Row(
+                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Text('Exchanged Rate',
+                                       style: TextStyle(fontWeight: FontWeight.bold),
+
+                                     ),
+                                     SizedBox(width: 10,),
+                                     Text('${(orderHistoryList[i]['dinnar']*100).floor().toString()} IQD',
+                                       style: TextStyle(fontSize: 13,),
+                                     ),
+                                   ],
+                                 ),
+
+                                 SizedBox(height: 10,)
+
+                               ],),
+                             )
+
+                           ],
+                         )
+                             : EmptyWidget();
+                       }),
+
+                 ],
+               ),
+             ),
+             //SizedBox(height: 10,child: Container(color: Colors.green,),),
+
+
+           ],),
+       )
     );
   }
 }
+
+
+

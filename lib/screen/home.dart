@@ -25,12 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 10,),
 
 
+            //
+            // LocalStorageService.instance.user.role == 1?
+            // Text('wholesale'):
+            // Text('normal'),
 
-            LocalStorageService.instance.user.role == 1?
-            Text('wholesale'):
-            Text('normal'),
-
-            Text(FirebaseAuth.instance.currentUser.uid.toString()),
+           // Text(FirebaseAuth.instance.currentUser.uid.toString()),
 
 
             // Offers

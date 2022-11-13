@@ -8,6 +8,7 @@ import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetails.dart';
+import 'package:onlineshopping/services/local_storage_service.dart';
 
 class ProductsList extends StatefulWidget {
    final String categoryID;
@@ -96,7 +97,7 @@ class _ProductsListState extends State<ProductsList> {
                                 image: DecorationImage(
                                    // fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        productListSnapShot[i]['img'].toString()
+                                        productListSnapShot[i]['images'][0].toString()
                                     )
                                 )),
                           ),
@@ -118,9 +119,11 @@ class _ProductsListState extends State<ProductsList> {
 
                                       style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,maxLines: 3,)),
                                 SizedBox(height: 10,),
-                                Text('1,000 IQD',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                                //LocalStorageService.instance.user.role == 1?
+                                Text('${LocalStorageService.instance.user.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                                 SizedBox(height: 10,),
-                                Text('1,500 IQD',style: TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                Text( productListSnapShot[i]['old price'].toString()=='0'?'':'${productListSnapShot[i]['old price'].toString()}\$',style:
+                                TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
                               ],
                             ),
                           ),

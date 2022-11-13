@@ -26,7 +26,6 @@
 //               child: ClipRRect(
 //                 borderRadius: BorderRadius.circular(10),
 //                 child:CarouselSlider(
-//                   height: 400.0,
 //                   items: snapshot.data.docs.map((i) {
 //                     return Builder(
 //                       builder: (BuildContext context) {

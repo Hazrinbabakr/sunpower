@@ -44,10 +44,12 @@ class MyApp extends StatelessWidget {
         child: Consumer<SettingsServiceProvider>(
           builder: (context,settings,child){
             return MaterialApp(
+
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                   primaryColor: Colors.white,
-                  accentColor: Colors.red[900]
+                  accentColor: Colors.red[900],
+                  fontFamily: 'NRT',
               ),
               home: FirebaseAuth.instance.currentUser != null ?
                   HomePage():
