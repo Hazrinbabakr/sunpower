@@ -51,6 +51,8 @@ dependencies:
   barcode_widget:
   pinput:
   firebase_messaging:
+  advance_pdf_viewer:
+  flutter_cached_pdfview:
 
 
 

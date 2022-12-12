@@ -11,6 +11,8 @@ import 'package:flutter/rendering.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/productDetailPDF.dart';
+import 'package:onlineshopping/services/local_storage_service.dart';
 
 class ProductDetails extends StatefulWidget {
   final String productID;
@@ -373,10 +375,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       // color: Colors.red,
                                                       child:  Row(
                                                         children: [
-                                                          Text(productSnapshot.data()['retail price'].toString(),style:
+                                                      Text('${LocalStorageService.instance.user.role == 1? productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
+                                                        style:
                                                           TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                                                          Text(' IQD',style:
-                                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 10),),
+                                                          Text('\$',style:
+                                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                                                         ],
                                                       )
                                                   ),
@@ -386,10 +389,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       // color: Colors.red,
                                                       child:  Row(
                                                         children: [
-                                                          Text('35000',style:
+                                                          Text( productSnapshot['old price'].toString()=='0'?'':'${productSnapshot['old price'].toString()}',style:
                                                           TextStyle(fontSize: 16,decoration: TextDecoration.lineThrough),),
-                                                          Text(' IQD',style:
-                                                          TextStyle(fontSize: 8,decoration: TextDecoration.lineThrough),),
+                                                          Text( productSnapshot['old price'].toString()=='0'?'':'\$',style:
+                                                          TextStyle(fontSize: 10,decoration: TextDecoration.lineThrough),),
                                                         ],
                                                       )
                                                   ),
@@ -517,9 +520,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                             ),
                                                           ),
                                                           //  SizedBox(height: 10,),
-                                                          Text('${makeListSnapShot[i]['retail price'].toString()} IQD',style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
+                                                          Text('${LocalStorageService.instance.user.role == 1? makeListSnapShot[i]['wholesale price'].toString():makeListSnapShot[i]['retail price'].toString()}\$',
+                                                            style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                           SizedBox(height: 10,),
-                                                          Text('1,500 IQD',style: TextStyle(fontSize: 12,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                          Text( makeListSnapShot[i]['old price'].toString()=='0'?'':'${makeListSnapShot[i]['old price'].toString()}\$',style:
+                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+
                                                         ],
                                                       )
                                                     ],
@@ -592,9 +598,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                             ),
                                                           ),
                                                           //  SizedBox(height: 10,),
-                                                          Text('${modelListSnapShot[i]['retail price'].toString()} IQD',style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
+                                                          Text('${LocalStorageService.instance.user.role == 1? modelListSnapShot[i]['wholesale price'].toString():modelListSnapShot[i]['retail price'].toString()}\$',
+                                                            style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                           SizedBox(height: 10,),
-                                                          Text('1,500 IQD',style: TextStyle(fontSize: 12,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                          Text( modelListSnapShot[i]['old price'].toString()=='0'?'':'${modelListSnapShot[i]['old price'].toString()}\$',style:
+                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
                                                         ],
                                                       )
                                                     ],
@@ -926,11 +934,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                   .set({
                                                 "productID": widget.productID,
                                                 "quantity": quantity,
-                                                "price": productSnapshot.data()['retail price'],
+                                                "price":
+                                                LocalStorageService.instance.user.role == 1?
+                                                productSnapshot['wholesale price']
+                                                    :productSnapshot['retail price'],
                                                 "name": productSnapshot.data()['name'],
                                                 "nameA": productSnapshot.data()['nameA'],
                                                 "nameK": productSnapshot.data()['nameK'],
-                                                "supPrice": productSnapshot.data()['retail price'] * quantity,
+                                                "supPrice":
+                                                ( LocalStorageService.instance.user.role == 1?
+                                                productSnapshot['wholesale price']
+                                                    :productSnapshot['retail price']) * quantity,
+
+
                                                 "img": productSnapshot.data()['images'][0],
                                               });
                                               print('added');
@@ -1120,6 +1136,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
+                )
+              ],),
+            SizedBox(height: 15,),
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Text('Catalog',
+                    maxLines: 3,
+                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: InkWell(
+                      onTap: (){
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => PdfBook(
+    pdfUrl:productSnapshot.data()['pdfUrl'].toString(),
+    )));
+    },
+                      child: Icon(Icons.picture_as_pdf_outlined))
                 )
               ],),
             SizedBox(height: 35,),

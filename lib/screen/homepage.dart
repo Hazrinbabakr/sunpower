@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
             title: Text(""),
           ),
           BottomNavigationBarItem(
-
             icon: Icon(Icons.favorite_border),
             title: Text(''),
             // backgroundColor: Colors.purple[600]

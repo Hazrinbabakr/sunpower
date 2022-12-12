@@ -7,13 +7,13 @@ import 'package:onlineshopping/localization/AppLocal.dart';
 class ProfileAvatarWidget extends StatefulWidget {
   final String name;
   final String phoneNumber;
-  bool isGuest;
+  //bool isGuest;
 
   ProfileAvatarWidget({
     Key key,
     this.name,
     this.phoneNumber,
-    this.isGuest,
+    //this.isGuest,
   }) : super(key: key);
 
   @override
@@ -48,24 +48,26 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  widget.isGuest
-                      ? Center(
-                        child: Text(AppLocalizations.of(context).trans("guest"),
-                    style: Theme.of(context).textTheme.headline4.merge(
-                          TextStyle(color: Theme.of(context).hintColor)),
-                  ),
-                      )
-                      : Center(
+                  // widget.isGuest
+                  //     ? Center(
+                  //       child: Text(AppLocalizations.of(context).trans("guest"),
+                  //   style: Theme.of(context).textTheme.headline4.merge(
+                  //         TextStyle(color: Theme.of(context).hintColor)),
+                  // ),
+                  //     )
+                  //     :
+                  Center(
                         child: Text(
-                    "${widget.name}",
+                    "${widget.name.toUpperCase()}",
                     style: Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(color: Theme.of(context).hintColor,fontSize: 22)),
+                          TextStyle(fontSize: 22)),
                   ),
                       ),
                   SizedBox(height: 10,),
-                  widget.isGuest
-                      ? SizedBox()
-                      : Center(
+                  // widget.isGuest
+                  //     ? SizedBox()
+                  //     :
+                  Center(
                         child: Text(widget.phoneNumber,
                     style: Theme.of(context).textTheme.subtitle1.merge(
                           TextStyle(color: Theme.of(context).hintColor)),

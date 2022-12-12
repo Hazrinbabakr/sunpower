@@ -131,7 +131,7 @@ class _CartScreenState extends State<CartScreen> {
                             Text(' Delivery to  ',
                               style: TextStyle(fontSize: 16),
                             ),
-                            Text(address,
+                            Text(phone,
                               style: TextStyle(color: Colors.indigo,fontSize: 16),
                             )
                           ],),
@@ -464,6 +464,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "userPhone": phone,
                                       "dinnar": dinnar,
                                       "orderID":rundomNumber,
+                                      "OrderStatus": 'Pending',
                                       "date": orderDate,
                                     });
 
@@ -480,7 +481,6 @@ class _CartScreenState extends State<CartScreen> {
                                       "OrderStatus": 'Pending',
                                       "date": orderDate,
                                     });
-
 
                                   }).whenComplete(() {
                                     Scaffold.of(context).showSnackBar(_snackBar);

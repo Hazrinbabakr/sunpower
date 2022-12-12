@@ -14,7 +14,7 @@ class UserRegisterRequest {
       {@required this.name, @required this.address, @required this.phone});
 
   Map<String, dynamic> toJson() {
-    return {"address": address, "username": name, "phone": phone, "role": 0};
+    return {"address": address, "username": name, "phone": phone, "role": 0,"email":""};
   }
 }
 

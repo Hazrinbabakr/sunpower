@@ -6,6 +6,7 @@ import 'package:onlineshopping/Widgets/Categories.dart';
 import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
+import 'package:onlineshopping/screen/productDetailPDF.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,6 +36,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Offers
             //Offers(),
+            InkWell(
+              onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PdfBook(
+                            pdfUrl:"",
+                          )));
+              },
+              child: Text('ssss')),
+
+
             CategoriesWidget(),
             SizedBox(height: 120,),
             SocialMediaWidget()

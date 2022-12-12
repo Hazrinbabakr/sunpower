@@ -1,4 +1,5 @@
 // ignore_for_file: file_names, prefer_const_constructors
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,34 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool guest =true;
+  User user;
+  FirebaseAuth _auth;
+  String name;
+  String phone;
+  DocumentSnapshot userInfo;
+  Future getUserInfo()async{
+    userInfo= await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+
+    setState(() {
+     name= userInfo.data()['username'];
+     phone= userInfo.data()['phone'];
+     print(name);
+
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _auth= FirebaseAuth.instance;
+    user=_auth.currentUser;
+    getUserInfo();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +58,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
          
           children: <Widget>[
-            guest?
+            //guest?
             ProfileAvatarWidget(
-              name:'',
-              phoneNumber: '',
-              isGuest: true,
-            ):
-            ProfileAvatarWidget(
-              name:'User Name',
-              phoneNumber: 'USer Phone Number',
-              isGuest: false,
+              name:name ?? '',
+              phoneNumber: phone ?? '',
+              //isGuest: true,
             ),
+            //:
+            // ProfileAvatarWidget(
+            //   name:'User Name',
+            //   phoneNumber: 'USer Phone Number',
+            //  // isGuest: false,
+            // ),
           SizedBox(height: 120,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),

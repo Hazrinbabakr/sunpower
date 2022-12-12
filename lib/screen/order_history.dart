@@ -49,6 +49,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       value.docs.forEach((element) async {
         setState(() {
           currentOrderList[i] = element;
+          length= currentOrderList.length;
         });
         i++;
       });
@@ -56,7 +57,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
      // print(currentOrderList.length);
     });
   }
-
+int length=0;
 
 
   @override
@@ -89,7 +90,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
            children: [
 
              //currentttt
-           (currentOrderList.length==0)
+           (length==0)
                ? SizedBox()
                : Padding(
              padding: const EdgeInsets.only(top: 30),
@@ -123,7 +124,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                child: Column(
                                  crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
-                                   Text(currentOrderList[i]['OrderStatus'],style: TextStyle(color: Colors.deepOrange[900],fontSize: 18),),
+                                   Text(currentOrderList[i]['OrderStatus'],style: TextStyle(color: Colors.deepOrange[600],fontSize: 18),),
                                    Padding(
                                      padding: const EdgeInsets.symmetric(vertical:7 ),
                                      child: Text(currentOrderList[i]['date'],style: TextStyle(fontSize: 12),),
@@ -268,7 +269,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                  child: Column(
                                    crossAxisAlignment: CrossAxisAlignment.start,
                                    children: [
-                                     Text(orderHistoryList[i]['OrderStatus'],style: TextStyle(color: Colors.green[700],fontSize: 18,fontWeight: FontWeight.bold),),
+                                     Text(orderHistoryList[i]['OrderStatus'],
+                                       style: TextStyle(color:
+                                       orderHistoryList[i]['OrderStatus']=="Rejected"?
+                                       Colors.red[700]:  Colors.green[700]
+
+                                           ,fontSize: 18,fontWeight: FontWeight.bold),),
                                      Padding(
                                        padding: const EdgeInsets.symmetric(vertical:7 ),
                                        child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12),),
@@ -292,7 +298,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                child: Column(children: [
                                  Container(
-                                   height: 60,
+                                   height: 80,
                                    // color: Colors.red,
                                    // margin: EdgeInsets.only(
                                    //     left: 15.0),
