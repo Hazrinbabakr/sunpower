@@ -2,12 +2,13 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:onlineshopping/Widgets/Categories.dart';
 import 'package:onlineshopping/Widgets/homeAppBar.dart';
-import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
-import 'package:onlineshopping/screen/productDetailPDF.dart';
-import 'package:onlineshopping/services/local_storage_service.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -36,16 +37,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Offers
             //Offers(),
-            InkWell(
-              onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PdfBook(
-                            pdfUrl:"",
-                          )));
-              },
-              child: Text('ssss')),
+
+
+            // InkWell(
+            //   onTap: (){
+            //     setState(() {
+            //       send();
+            //     });
+            //       // Navigator.push(
+            //       //     context,
+            //       //     MaterialPageRoute(
+            //       //         builder: (context) => PdfBook(
+            //       //           pdfUrl:"",
+            //       //         )));
+            //   },
+            //   child: Text('ssss')),
 
 
             CategoriesWidget(),
@@ -58,7 +64,64 @@ class _HomeScreenState extends State<HomeScreen> {
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+
+
+  // Future sendEmail() async {
+  //   final smptServer = gmailSaslXoauth2(email, accessToken)
+  //   final email = "hizreen.safaree@gmail.com";
+  //   final token='';
+  //   final message = Message()
+  //     ..from = Address(email, "hizreen")
+  //     ..recipients = ['hizreen.safaree@gmail.com']
+  //     ..subject='Hello Hizreen'
+  //     ..text= 'this is text message';
+  //   try {
+  //     await send(message, smptServer);
+  //   } on MailerException catch (e){
+  //     print(e);
+  //   }
+  // }
+
+  Future<void> send() async {
+    final Email email = Email(
+      body: 'Email body',
+      subject: 'Email subject',
+      recipients: ['hizreen.safaree@gmail.com'],
+      cc: ['hizreen.safaree@gmail.com'],
+      bcc: ['hizreen.safaree@gmail.com'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(email);
+  }
+  //
+  // Future sendEmail({
+  //   required String name,
+  //   required String email,
+  //   required String subject,
+  //   required String message,
+  // }) async {
+  //   final serviceld= 'service_85hjoxm';
+  //   final templateId=  'template_tiadhge';
+  //   final userId=  '';
+  //
+  //   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+  //       final response = await http.post(
+  //       url,
+  //       body: {
+  //       'service_id': serviceld,
+  //       'template_id'; templateld,
+  //       'user id': userId,
+  //       },
+  //       );
+
 }
+
+
+
+
+
 
 
 

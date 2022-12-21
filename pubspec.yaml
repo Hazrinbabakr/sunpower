@@ -53,6 +53,9 @@ dependencies:
   firebase_messaging:
   advance_pdf_viewer:
   flutter_cached_pdfview:
+  url_launcher:
+  mailer:
+  flutter_email_sender:
 
 
 

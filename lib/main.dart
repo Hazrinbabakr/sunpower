@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
                   accentColor: Colors.red[900],
                   fontFamily: 'NRT',
               ),
-              home: FirebaseAuth.instance.currentUser != null ?
-                  HomePage():
-              MainLoginPage(),//SignUpMainPage(),
+              home: SplashScreen(),//SignUpMainPage(),
               builder: (context, child) {
                 if (AppLocalizations.of(context).locale.languageCode ==
                     "ku") {

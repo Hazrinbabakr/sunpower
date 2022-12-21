@@ -6,13 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/homepage.dart';
-import 'package:onlineshopping/screen/productDetails.dart';
-import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 
-import 'order_history.dart';
 
 
 class CartScreen extends StatefulWidget {
@@ -52,6 +48,7 @@ class _CartScreenState extends State<CartScreen> {
           cartList.add({
             'name':  cart[i]['name'],
             'price':  cart[i]['price'],
+            'productID':  cart[i]['productID'],
             'quantity':  cart[i]['quantity'],
             'img':  cart[i]['img'],
           });
@@ -317,6 +314,82 @@ class _CartScreenState extends State<CartScreen> {
                                                               .toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),))
                                                       ),
                                                     ),
+
+                                                    cartInfo
+                                                        .data()["quantity"]
+                                                        .toString()=="1"?
+                                                    InkWell(
+                                                      onTap:  () {
+                                                        showDialog(context:context,
+                                                          builder: (_)=>  AlertDialog(title: Text('Are You Sure?'),
+                                                            // shape: CircleBorder(),
+                                                            shape: BeveledRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(5.0),
+                                                            ),
+                                                            elevation: 30,
+                                                            backgroundColor: Colors.white,
+                                                            actions: <Widget>[
+
+                                                              InkWell(
+                                                                  onTap:(){
+                                                                    Navigator.of(context).pop();
+                                                                  },
+
+                                                                  child: Text('No',style: TextStyle(fontSize: 20,color: Colors.red[900]),)),
+                                                              SizedBox(height: 30,),
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  setState(() {
+                                                                    //productListSnapShot[i]['quantity']-1;
+                                                                    subTotal -= cartInfo.data()['price'];
+                                                                    User user = _auth.currentUser;
+                                                                    userCollection
+                                                                        .doc(user.uid)
+                                                                        .collection('cart')
+                                                                        .doc(cartInfo.id).delete();
+
+                                                                    Navigator.of(context).pop();
+
+                                                                  });
+                                                                },
+                                                                child: Text('Yes',style: TextStyle(fontSize: 20,color: Colors.green[900])),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        );
+                                                        //Addtocart
+                                                      },
+
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                            color: Theme.of(context)
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.4),
+                                                                spreadRadius: 1,
+                                                                blurRadius: 7,
+                                                                //offset: Offset(1, 0),
+                                                              ),
+                                                            ],
+                                                          ),
+
+                                                          height: 30,
+                                                          width: 30,
+                                                          // color: Colors.red,
+                                                          child:  Icon(
+                                                            Icons.delete,
+                                                            size: 25,
+                                                            color: Theme.of(context).accentColor,
+                                                          )
+                                                      ),
+                                                    ):
+
+
                                                     InkWell(
                                                       onTap:  () {
                                                         //Addtocart

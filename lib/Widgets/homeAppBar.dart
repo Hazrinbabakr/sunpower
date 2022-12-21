@@ -3,9 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/search.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/cart_screen.dart';
+import 'package:onlineshopping/screen/search.dart';
 
 
 
@@ -89,7 +89,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
              ),
              InkWell(
                onTap: () {
-                 Navigator.of(context).push(SearchModal());
+                 //Navigator.of(context).push(SearchModal());
+                 Navigator.of(context).push(MaterialPageRoute(
+                   builder: (context) => Search(),
+                 ));
                },
                child: Padding(
                  padding: const EdgeInsets.only(top: 10,left: 10,right: 10),

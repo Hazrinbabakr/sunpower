@@ -55,7 +55,7 @@ class _PdfBookState extends State<PdfBook> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 )),
           ],
         ),

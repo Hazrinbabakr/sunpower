@@ -81,9 +81,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
             title: Text('Favorites'),
             elevation: 0,
         ),
+
         body:
         (allProductListSnapShot == null)
             ? EmptyWidget()

@@ -47,13 +47,13 @@ class _ProductDetailsState extends State<ProductDetails> {
     setState(() {
       productSnapshot=productDetailSnapShot;
       // inPrice= int.parse(productSnapshot.data()['retail price']);
-      // print(inPrice.toString());
-      //print('${productDetailSnapShot.data()['images'].toString()} imgggg');
+      // //print(inPrice.toString());
+      ////print('${productDetailSnapShot.data()['images'].toString()} imgggg');
       productDetailSnapShot.data()['images'].forEach((element){
         imgList.add(element);
       });
       // imgList.add(productDetailSnapShot.data()['images'].toString());
-      // print('${productDetailSnapShot.data()['images'].length.toString()} imgggg');
+      // //print('${productDetailSnapShot.data()['images'].length.toString()} imgggg');
 
     });
   }
@@ -784,7 +784,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                            .doc(user.uid)
                                            .collection('favorite')
                                            .doc(widget.productID).delete();
-                                       print('added to fav');
+                                      // //print('added to fav');
                                        isfav= !isfav;
                                        Scaffold.of(context).showSnackBar(_snackBarRemoveFromFav);
 
@@ -809,7 +809,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                          "productID":widget.productID
                                        });
                                        isfav= !isfav;
-                                       print('added to fav');
+                                      // //print('added to fav');
                                        Scaffold.of(context).showSnackBar(_snackBarAddToFav);
 
                                      });
@@ -845,7 +845,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 BorderRadius.circular(10)),
                                             child: InkWell(
                                               onTap: () {
-                                                print('out of stock');
+                                                //print('out of stock');
                                                 // showErrorToast(context,
                                                 //     S.of(context).out_of_stock);
                                               },
@@ -949,7 +949,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                                                 "img": productSnapshot.data()['images'][0],
                                               });
-                                              print('added');
+                                              //print('added');
                                               Scaffold.of(context).showSnackBar(_snackBar);
 
                                             },
@@ -1241,7 +1241,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             isfav=false;
           }
 
-          print('$isfav    issfavvvvv');
+          //print('$isfav    issfavvvvv');
         });
         i++;
       });
