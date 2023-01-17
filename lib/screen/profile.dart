@@ -124,6 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       trailing: Icon(Icons.arrow_forward_ios)),
                   ListTile(
                       onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ContactUS()));
                       },
                       dense: true,
                       leading: Icon(

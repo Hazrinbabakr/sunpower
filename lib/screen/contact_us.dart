@@ -20,30 +20,139 @@ class _ContactUSState extends State<ContactUS> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Contact US',
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(
-              letterSpacing: 0, color: Theme.of(context).accentColor)),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //SizedBox(height: 40,),
-            Container(
-              //color: Colors.red,
-              height: 240,
-              width: double.infinity,
-              child: Image.asset(
-                'images/category/contactUs.png',
-                // height: 120,
-                // width: 100,
-                //width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            Stack(
+              children: [
+                Container(
+                  //color: Colors.red,
+                  child: Image.asset(
+                    'images/category/contactUs.png',
+                    // height: 120,
+                    // width: 100,
+                    //width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: 80,
+                  left: 130,
+                  child: Text(
+                    'CONTACT SUNPOWER',
+                    style: Theme.of(context).textTheme.headline6.merge(TextStyle(
+                        letterSpacing: 0, color: Theme.of(context).accentColor,fontSize: 20,fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
             ),
+
+            //launch("tel:0${7501440059}");
+            // print('whatsapp');
+            // launch("https://wa.link/1eanyc");
+
+
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 70,vertical: 70),
+  child:   Column(
+
+    children: [
+
+    InkWell(
+      onTap: (){
+        launch("tel:0${7500777000}");
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              height: 35,
+              width: 35,
+              child: Image.asset( 'images/category/phone.png',fit: BoxFit.cover,)),
+          Padding(
+            padding: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+            child: Text('+9640750-077-7000',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+          )
+        ],),
+    ),
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: InkWell(
+        onTap: (){
+          // print('whatsapp');
+           launch("https://wa.link/5ilhu5");
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                height: 35,
+                width: 35,
+                child: Image.asset( 'images/category/whatsapp.png',fit: BoxFit.cover,)),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+              child: Text('info@sunpowerc.com',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+            )
+          ],),
+      ),
+    ),
+      InkWell(
+        onTap: (){
+          // print('whatsapp');
+          // launch("https://wa.link/1eanyc");
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                height: 35,
+                width: 35,
+                child: Image.asset( 'images/category/gmail.png',fit: BoxFit.cover,)),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+              child: Text('info@sunpowerc.com',textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold) ),
+            )
+          ],),
+      ),
+  ],),
+)
+
+
+
+
+
+
+
+            // Container(
+            //   margin: EdgeInsets.only(left: 10,right: 10),
+            //   decoration: BoxDecoration(
+            //     //color: Theme.of(context).accentColor,
+            //     borderRadius: BorderRadius.all(Radius.circular(5)),
+            //     border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
+            //     // boxShadow: [
+            //     //   BoxShadow(
+            //     //       color: Theme.of(context).focusColor.withOpacity(0.1),
+            //     //       blurRadius: 15,
+            //     //       offset: Offset(0, 5)),
+            //     // ],
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 30,right: 30,top: 10,bottom: 10),
+            //     child: Text('sales@bonlili.com',textAlign: TextAlign.center,),
+            //   ),),
+
+
+
+
+
+
+
+
+
+
             // SizedBox(height: 10,),
             // Text(
             //    'for_any_quries_contact_bonlili',
@@ -184,9 +293,6 @@ class _ContactUSState extends State<ContactUS> {
             //       )
             //     ],),
             // ),
-            //
-            //
-            //
             // SizedBox(height: 40,),
             // Padding(
             //   padding: const EdgeInsets.only(right: 20,left: 20),
@@ -257,7 +363,7 @@ class _ContactUSState extends State<ContactUS> {
             //       ],),
             //   ),
             // ),
-            SizedBox(height: 40,),
+            // SizedBox(height: 40,),
           ],),
       ),
     );
