@@ -212,7 +212,7 @@ class _ProductsListState extends State<ProductsList> {
           child: Column(
             children: [
               SizedBox(height: 100,),
-              Text('Filter By Make',style: TextStyle(
+              Text(  AppLocalizations.of(context).trans("Filterbymake"),style: TextStyle(
                   fontSize: 25, fontWeight: FontWeight.bold),),
               ListView.builder(
                   shrinkWrap: true,

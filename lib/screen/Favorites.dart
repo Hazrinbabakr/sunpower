@@ -82,7 +82,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-            title: Text('Favorites'),
+            title: Text(  AppLocalizations.of(context).trans("Favorite"),),
             elevation: 0,
         ),
 

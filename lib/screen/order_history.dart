@@ -78,7 +78,7 @@ int length=0;
         backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-            title: Text('Order History'),
+            title: Text( AppLocalizations.of(context).trans("orderHistory"),),
             elevation: 0,
         ),
         body:
@@ -99,7 +99,7 @@ int length=0;
                children: [
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                   child: Text('Current Orders',style: TextStyle(color: Colors.green[900],fontSize: 20),),
+                   child: Text(AppLocalizations.of(context).trans("currentorder"),style: TextStyle(color: Colors.green[900],fontSize: 20),),
                  ),
                  SizedBox(height: 25,),
                  ListView.builder(
@@ -131,7 +131,7 @@ int length=0;
                                    ),
                                    Row(
                                      children: [
-                                       Text('Deliver to: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                       Text(AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold),),
                                        Expanded(child: Text(currentOrderList[i]['userAddress'].toString())),
                                      ],
                                    ),
@@ -171,7 +171,18 @@ int length=0;
                                                 Text('${currentOrderList[i]["productList"][index]['quantity'].toString()}x'),
                                                 SizedBox(width: 10,),
                                                 Text(
+
                                                   currentOrderList[i]["productList"][index]['name'],
+
+
+                                                  //
+                                                  // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                                  // currentOrderList[i]["productList"][index]['nameK'].toString().toUpperCase():
+                                                  // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                                  // currentOrderList[i]["productList"][index]['namA'].toString().toUpperCase():
+                                                  // currentOrderList[i]["productList"][index]['name'].toString().toUpperCase(),
+
+
                                                   style:
                                                   TextStyle(fontSize: 14
                                                   ),
@@ -188,7 +199,7 @@ int length=0;
                             ),
                             Row(
                               children: [
-                                Text('Delivery Fee: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
                                 Expanded(child: Text('${currentOrderList[i]['deliveryFee'].toString()}\$')),
                               ],
                             ),
@@ -201,7 +212,7 @@ int length=0;
                             Row(
                               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Exchanged Rate',
+                                Text( AppLocalizations.of(context).trans("Exchangedrate"),
                                   style: TextStyle(fontWeight: FontWeight.bold),
 
                                 ),
@@ -244,7 +255,7 @@ int length=0;
                  children: [
                    Padding(
                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                     child: Text('Previous Orders',style: TextStyle(color: Colors.green[900],fontSize: 20),),
+                     child: Text(  AppLocalizations.of(context).trans("Previousorder"),style: TextStyle(color: Colors.green[900],fontSize: 20),),
                    ),
                    SizedBox(height: 25,),
                    ListView.builder(
@@ -271,7 +282,7 @@ int length=0;
                                    children: [
                                      Text(orderHistoryList[i]['OrderStatus'],
                                        style: TextStyle(color:
-                                       orderHistoryList[i]['OrderStatus']=="Rejected"?
+                                       orderHistoryList[i]['OrderStatus']==   AppLocalizations.of(context).trans("rejected")?
                                        Colors.red[700]:  Colors.green[700]
 
                                            ,fontSize: 18,fontWeight: FontWeight.bold),),
@@ -338,20 +349,20 @@ int length=0;
                                  ),
                                  Row(
                                    children: [
-                                     Text('Delivery Fee: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                     Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
                                      Expanded(child: Text('${orderHistoryList[i]['deliveryFee'].toString()}\$')),
                                    ],
                                  ),
                                  Row(
                                    children: [
-                                     Text('Total Price: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                     Text( AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
                                      Expanded(child: Text('${orderHistoryList[i]['totalPrice'].toString()}\S')),
                                    ],
                                  ),
                                  Row(
                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                    children: [
-                                     Text('Exchanged Rate',
+                                     Text( AppLocalizations.of(context).trans("Exchangedrate"),
                                        style: TextStyle(fontWeight: FontWeight.bold),
 
                                      ),

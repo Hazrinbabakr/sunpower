@@ -50,7 +50,10 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   children: [
                     Text(
-                      "Welcome back",//AppLocalizations.of(context).trans("welcome_back"),
+                        AppLocalizations.of(context).trans("WelcomeBack"),
+
+
+                        //AppLocalizations.of(context).trans("welcome_back"),
                       style: TextStyle()
                     ),
                   ],
@@ -59,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   children: [
                     Text(
-                      "mobile number",
+                      AppLocalizations.of(context).trans("Mobilenumber"),
                       //AppLocalizations.of(context).trans("mobile_number"),
                       style: TextStyle(
                           fontSize: 12,
@@ -141,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Business Login",style: TextStyle(
+                    child: Text(  AppLocalizations.of(context).trans("Businesslogin"),style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500
                     ),),

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/homepage.dart';
 import 'package:uuid/uuid.dart';
 
@@ -104,7 +105,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title:  Text('Cart Screen'),
+            title:  Text(AppLocalizations.of(context).trans("CartScreen"),),
             elevation: 0,
             leading: BackArrowWidget()
         ),
@@ -125,11 +126,13 @@ class _CartScreenState extends State<CartScreen> {
 
                           SizedBox(height: 10,),
                           Row(children: [
-                            Text(' Delivery to  ',
+                            Text(AppLocalizations.of(context).trans("DeliveryFee"),
                               style: TextStyle(fontSize: 16),
                             ),
-                            Text(phone,
-                              style: TextStyle(color: Colors.indigo,fontSize: 16),
+                            Expanded(
+                              child: Text(address.toString(),
+                                style: TextStyle(color: Colors.indigo,fontSize: 16),
+                              ),
                             )
                           ],),
                         ],
@@ -463,7 +466,7 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('SubTotal',
+                              Text(  AppLocalizations.of(context).trans("total"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
                               Text('${subTotal.floor().toString()}\$',
@@ -475,7 +478,7 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Delivery Fee',
+                              Text(  AppLocalizations.of(context).trans("DeliveryFee"),
                                 style: TextStyle(fontSize: 16,),
 
                               ),
@@ -488,7 +491,7 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Total',
+                              Text(  AppLocalizations.of(context).trans("subtotal"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
                               Text('${((subTotal+deliveryFee)*dinnar).floor().toString()} IQD',
@@ -499,7 +502,8 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Today\'s Exchange Rate',
+                              Text(                                AppLocalizations.of(context).trans("TodayExchangeRate"),
+
                                 style: TextStyle(fontSize: 13,),
 
                               ),
@@ -588,7 +592,7 @@ class _CartScreenState extends State<CartScreen> {
                                 width: double.infinity,
 
                                 padding: EdgeInsets.all(15),
-                                child: Center(child: Text('Send Order',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)),)),
+                                child: Center(child: Text(  AppLocalizations.of(context).trans("Sendorder"),style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)),)),
                         ],
                       ),
                     )

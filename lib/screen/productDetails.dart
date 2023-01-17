@@ -145,7 +145,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          title: Text('Product details'),
+          title: Text(  AppLocalizations.of(context).trans("ProductDetails"),),
           leading: BackArrowWidget(),
         ),
         body:
@@ -338,7 +338,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     height: 30,
                                                   ),
                                                   Row(children: [
-                                                    Text('Availability:',
+                                                    Text(AppLocalizations.of(context).trans("Availability"),
                                                       style: TextStyle(
                                                           fontSize: 15,fontWeight: FontWeight.bold),
                                                     ),
@@ -346,11 +346,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       width: 5,
                                                     ),
                                                     productSnapshot.data()['quantity']==0?
-                                                    Text('Out of Stock',
+                                                    Text(  AppLocalizations.of(context).trans("OutofStock"),
+
                                                       style: TextStyle(
                                                           fontSize: 15,fontWeight: FontWeight.bold,color: Colors.red),
                                                     ):
-                                                    Text('In Stock',
+                                                    Text( AppLocalizations.of(context).trans("InStock"),
                                                       style: TextStyle(
                                                           fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),
                                                     ),
@@ -430,8 +431,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                   },
                                                   isScrollable: true,
                                                   tabs: [
-                                                    Tab(text:  "Specification"),
-                                                    Tab(text:  "Description"),
+                                                    Tab(text:
+                                                    AppLocalizations.of(context).trans("Specification"),
+                                                    ),
+                                                    Tab(text:
+                                                    AppLocalizations.of(context).trans("Description"),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -467,7 +472,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Related Make',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                      Text( AppLocalizations.of(context).trans("RelatedMake"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                       SizedBox(height: 15,),
                                       Container(
                                         // color: Colors.red,
@@ -545,7 +550,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Related Model',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                      Text(  AppLocalizations.of(context).trans("RelatedModel"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                       SizedBox(height: 15,),
                                       Container(
                                         // color: Colors.red,
@@ -864,7 +869,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                         .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Add To Cart',
+                                                        AppLocalizations.of(context).trans("Addtocart"),
                                                         textAlign:
                                                         TextAlign.center,
                                                         style: TextStyle(
@@ -1022,7 +1027,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('Make',
+                  child: Text(  AppLocalizations.of(context).trans("Make"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1039,7 +1044,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('Model',
+                  child: Text( AppLocalizations.of(context).trans("Model"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1058,7 +1063,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('Brand',
+                  child: Text( AppLocalizations.of(context).trans("Brand"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1075,7 +1080,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('Item Code',
+                  child: Text( AppLocalizations.of(context).trans("ItemCode"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1092,7 +1097,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('oemCode',
+                  child: Text( AppLocalizations.of(context).trans("OEMCode"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1109,7 +1114,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('piecesInBox',
+                  child: Text(  AppLocalizations.of(context).trans("PiecesInBox"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1126,7 +1131,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: Text('volt',
+                  child: Text(  AppLocalizations.of(context).trans("volt"),
                     maxLines: 3,
                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
@@ -1198,6 +1203,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   final _snackBarAddToFav = SnackBar(
     content:
     Text('Added To Favorite',
+      //AppLocalizations.of(context).trans("Addedtofavorite"),
       textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.white,

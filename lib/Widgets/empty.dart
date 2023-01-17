@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 class EmptyWidget extends StatefulWidget {
   EmptyWidget({
@@ -52,7 +53,7 @@ class _EmptyWidgetState extends State<EmptyWidget> {
               ),
               Center(
                 child: Text(
-                  "Empty",
+                  AppLocalizations.of(context).trans("Empty"),
                   style: TextStyle(color: Colors.grey, fontSize: 14),
                 ),
               ),
