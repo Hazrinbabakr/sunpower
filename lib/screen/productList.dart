@@ -125,85 +125,89 @@ class _ProductsListState extends State<ProductsList> {
 
       body:  (productListSnapShot == null || productListSnapShot.isEmpty)
           ? EmptyWidget()
-          : Column(
-            children: [
-             // Text(makeListSnapShot[1]["make"].toString()??""),
-              Padding(
+          : SingleChildScrollView(
+            child: Column(
+              children: [
+               // Text(makeListSnapShot[1]["make"].toString()??""),
+                Padding(
         padding: const EdgeInsets.only(top: 30),
         child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: productListSnapShot.length,
-                itemBuilder: (context, i) {
-                  return (productListSnapShot[i] != null)
-                      ? InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
-                      ));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Container(
-                          height: 175,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[200],
-                                    spreadRadius: 1,
-                                    blurRadius: 10)
-                              ]),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20)
-                                      //                 <--- border radius here
-                                    ),
-                                    border: Border.all(color: Colors.black12,width: 0.6),
-                                    image: DecorationImage(
-                                      // fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            productListSnapShot[i]['images'][0].toString()
-                                        )
-                                    )),
-                              ),
-                              //SizedBox(width: 30,),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      //color: Colors.red,
-                                        width: 170,
-                                        child: Text(
-                                          AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                          productListSnapShot[i]['nameK'].toString().toUpperCase():
-                                          AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                          productListSnapShot[i]['nameA'].toString().toUpperCase():
-                                          productListSnapShot[i]['name'].toString().toUpperCase(),
-
-                                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,maxLines: 3,)),
-                                    SizedBox(height: 10,),
-                                    //LocalStorageService.instance.user.role == 1?
-                                    Text('${LocalStorageService.instance.user.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
-                                      style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
-                                    SizedBox(height: 10,),
-                                    Text( productListSnapShot[i]['old price'].toString()=='0'?'':'${productListSnapShot[i]['old price'].toString()}\$',style:
-                                    TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
-                                  ],
+                  shrinkWrap: true,
+                  itemCount: productListSnapShot.length,
+                  itemBuilder: (context, i) {
+                    return (productListSnapShot[i] != null)
+                        ? InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
+                        ));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Container(
+                            height: 175,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey[200],
+                                      spreadRadius: 1,
+                                      blurRadius: 10)
+                                ]),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)
+                                        //                 <--- border radius here
+                                      ),
+                                      border: Border.all(color: Colors.black12,width: 0.6),
+                                      image: DecorationImage(
+                                        // fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              productListSnapShot[i]['images'][0].toString()
+                                          )
+                                      )),
                                 ),
-                              ),
-                            ],
-                          )),
-                    ),)
-                      : EmptyWidget();
-                }),
+                                //SizedBox(width: 30,),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        //color: Colors.red,
+                                          width: 170,
+                                          child: Text(
+                                            AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                            productListSnapShot[i]['nameK'].toString().toUpperCase():
+                                            AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                            productListSnapShot[i]['nameA'].toString().toUpperCase():
+                                            productListSnapShot[i]['name'].toString().toUpperCase(),
+
+                                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,maxLines: 3,)),
+                                      SizedBox(height: 10,),
+                                      //LocalStorageService.instance.user.role == 1?
+                                      Text('${LocalStorageService.instance.user.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
+                                        style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                                      SizedBox(height: 10,),
+                                      Text( productListSnapShot[i]['old price'].toString()=='0'?'':'${productListSnapShot[i]['old price'].toString()}\$',style:
+                                      TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),)
+                        : EmptyWidget();
+                  }),
       ),
-            ],
+                SizedBox(height: 190,)
+
+              ],
+            ),
           ),
 
 

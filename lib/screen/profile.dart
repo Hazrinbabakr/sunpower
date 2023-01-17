@@ -7,6 +7,7 @@ import 'package:onlineshopping/Widgets/language_bottom_sheet.dart';
 import 'package:onlineshopping/Widgets/profileavatarWidget.dart';
 import 'package:onlineshopping/app/Application.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/contact_us.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
 
 
@@ -104,6 +105,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       trailing: Icon(Icons.arrow_forward_ios)),
                   ListTile(
                       onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ContactUS()));
+
+
+
+
+
                       },
                       dense: true,
                       leading: Icon(
