@@ -84,7 +84,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
                         ],
                       );
                     }
-                  ))
+                  )
+              )
                ],
              ),
              InkWell(

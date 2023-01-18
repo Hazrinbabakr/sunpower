@@ -10,6 +10,8 @@ import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/contact_us.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
 
+import 'about_us.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -21,19 +23,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool guest =true;
   User user;
   FirebaseAuth _auth;
-  String name;
-  String phone;
   DocumentSnapshot userInfo;
-  Future getUserInfo()async{
-    userInfo= await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
-
-    setState(() {
-     name= userInfo.data()['username'];
-     phone= userInfo.data()['phone'];
-     print(name);
-
-    });
-  }
+  // Future getUserInfo()async{
+  //   userInfo= await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+  //
+  //   setState(() {
+  //    name= userInfo.data()['username'];
+  //    phone= userInfo.data()['phone'];
+  //    address= userInfo.data()['address'];
+  //
+  //    //print(name);
+  //
+  //   });
+  // }
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _auth= FirebaseAuth.instance;
     user=_auth.currentUser;
-    getUserInfo();
+   // getUserInfo();
   }
 
 
@@ -61,8 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: <Widget>[
             //guest?
             ProfileAvatarWidget(
-              name:name ?? '',
-              phoneNumber: phone ?? '',
+              userID: user.uid,
               //isGuest: true,
             ),
             //:
@@ -124,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       trailing: Icon(Icons.arrow_forward_ios)),
                   ListTile(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ContactUS()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AboutUs()));
                       },
                       dense: true,
                       leading: Icon(
@@ -136,19 +137,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
-                  ListTile(
-                      onTap: () {
-                      },
-                      dense: true,
-                      leading: Icon(
-                        Icons.feedback_outlined,
-                        size: 22,
-                        color: Theme.of(context).focusColor,
-                      ),
-                      title: Text(AppLocalizations.of(context).trans('feedback'),
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios)),
+                  // ListTile(
+                  //     onTap: () {
+                  //     },
+                  //     dense: true,
+                  //     leading: Icon(
+                  //       Icons.feedback_outlined,
+                  //       size: 22,
+                  //       color: Theme.of(context).focusColor,
+                  //     ),
+                  //     title: Text(AppLocalizations.of(context).trans('feedback'),
+                  //       style: Theme.of(context).textTheme.subtitle1,
+                  //     ),
+                  //     trailing: Icon(Icons.arrow_forward_ios)),
 
                 ],
               ),

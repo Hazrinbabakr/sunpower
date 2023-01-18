@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 
 
 class ProfileAvatarWidget extends StatefulWidget {
-  final String name;
-  final String phoneNumber;
+
+  final String userID;
   //bool isGuest;
 
   ProfileAvatarWidget({
     Key key,
-    this.name,
-    this.phoneNumber,
+    this.userID
     //this.isGuest,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class ProfileAvatarWidget extends StatefulWidget {
 
 class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
-
+  final _textFieldController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,37 +44,144 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // widget.isGuest
-                  //     ? Center(
-                  //       child: Text(AppLocalizations.of(context).trans("guest"),
-                  //   style: Theme.of(context).textTheme.headline4.merge(
-                  //         TextStyle(color: Theme.of(context).hintColor)),
-                  // ),
-                  //     )
-                  //     :
-                  Center(
-                        child: Text(
-                    "${widget.name.toUpperCase()}",
-                    style: Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(fontSize: 22)),
-                  ),
-                      ),
-                  SizedBox(height: 10,),
-                  // widget.isGuest
-                  //     ? SizedBox()
-                  //     :
-                  Center(
-                        child: Text(widget.phoneNumber,
-                    style: Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(color: Theme.of(context).hintColor)),
-                  ),
-                      ),
-                ],
-              ),
+              padding: const EdgeInsets.only(top: 20),
+              child:
+
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection("users").doc(widget.userID).snapshots(),
+                  builder: (context, snapshot) {
+                    return
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                                child: Text(
+                            "${ snapshot.data['username'].toUpperCase().toString()??''}",
+                            style: Theme.of(context).textTheme.subtitle1.merge(
+                                  TextStyle(fontSize: 22)),
+                          ),
+                              ),
+                          SizedBox(height: 10,),
+                          Center(
+                                child: Text( snapshot.data['phone'].toString()??'',
+                            style: Theme.of(context).textTheme.subtitle1.merge(
+                                  TextStyle(color: Theme.of(context).hintColor)),
+                          ),
+                              ),
+                          SizedBox(height: 10,),
+
+                          InkWell(
+                            onTap: (){
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Edit Your Address'),
+                                      content: TextField(
+                                        controller: _textFieldController,
+                                        decoration: const InputDecoration(hintText: "New Address"),
+                                      ),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          child: const Text("Cancel"),
+                                          onPressed: () => Navigator.pop(context),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text('Edit'),
+                                          onPressed: () {
+                                           // widget.address=_textFieldController.text;
+                                            FirebaseFirestore.instance
+                                                .collection("users").doc(widget.userID).update({
+                                              "address":  _textFieldController.text,
+                                              // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
+                                            });
+                                            Navigator.pop(context);
+
+                                    }
+
+                                        ),
+                                      ],
+                                    );
+                                  });
+
+
+
+                            },
+
+                            child: Center(
+                              child: Text(snapshot.data['address'].toString()??'',
+                                style: Theme.of(context).textTheme.subtitle1.merge(
+                                    TextStyle(color: Theme.of(context).hintColor)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+
+
+                  }
+              )
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: <Widget>[
+              //     Center(
+              //           child: Text(
+              //       "${widget.name.toUpperCase()}",
+              //       style: Theme.of(context).textTheme.subtitle1.merge(
+              //             TextStyle(fontSize: 22)),
+              //     ),
+              //         ),
+              //     SizedBox(height: 10,),
+              //     Center(
+              //           child: Text(widget.phoneNumber,
+              //       style: Theme.of(context).textTheme.subtitle1.merge(
+              //             TextStyle(color: Theme.of(context).hintColor)),
+              //     ),
+              //         ),
+              //     SizedBox(height: 10,),
+              //
+              //     InkWell(
+              //       onTap: (){
+              //         showDialog(
+              //             context: context,
+              //             builder: (context) {
+              //               return AlertDialog(
+              //                 title: const Text('TODO'),
+              //                 content: TextField(
+              //                   controller: _textFieldController,
+              //                   decoration: const InputDecoration(hintText: "タスクの名称を入力してください。"),
+              //                 ),
+              //                 actions: <Widget>[
+              //                   ElevatedButton(
+              //                     child: const Text("Cancel"),
+              //                     onPressed: () => Navigator.pop(context),
+              //                   ),
+              //                   ElevatedButton(
+              //                     child: const Text('Edit'),
+              //                     onPressed: () {
+              //                      // widget.address=_textFieldController.text;
+              //                       Navigator.pop(context, _textFieldController.text);
+              //
+              //               }
+              //
+              //                   ),
+              //                 ],
+              //               );
+              //             });
+              //
+              //
+              //
+              //       },
+              //
+              //       child: Center(
+              //         child: Text(widget.address,
+              //           style: Theme.of(context).textTheme.subtitle1.merge(
+              //               TextStyle(color: Theme.of(context).hintColor)),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ),
           ),
           // Expanded(
