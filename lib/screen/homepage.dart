@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/screen/profile.dart';
 import 'Favorites.dart';
+import 'auth/normal_user_login/login_main_page.dart';
 import 'cart_screen.dart';
 import 'home.dart';
 import 'order_history.dart';
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   onTapped(int index) {
     setState(() {
+
       currentTabIndex=index;
     });
     if(currentTabIndex==3){
@@ -27,10 +30,13 @@ class _HomePageState extends State<HomePage> {
 
   final currentPage = [
     HomeScreen(),
-    FavoriteScreen(),
+    FirebaseAuth.instance.currentUser != null ?
+    FavoriteScreen():MainLoginPage(),
     // CartScreen(),
-    OrderHistoryScreen(),
-    ProfileScreen(),
+    FirebaseAuth.instance.currentUser != null ?
+    OrderHistoryScreen():MainLoginPage(),
+    FirebaseAuth.instance.currentUser != null ?
+    ProfileScreen():MainLoginPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,12 +59,7 @@ class _HomePageState extends State<HomePage> {
             title: Text(''),
             // backgroundColor: Colors.purple[600]
           ),
-          // BottomNavigationBarItem(
-          //
-          //   icon: Icon(Icons.shopping_cart_outlined),
-          //   title: Text(''),
-          //   // backgroundColor: Colors.purple[600]
-          // ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket),
             title: Text(""),

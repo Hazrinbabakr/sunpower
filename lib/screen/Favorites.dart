@@ -98,9 +98,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   return (allProductListSnapShot[i] != null)
                       ? InkWell(
                     onTap: (){
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => ProductDetails( allProductListSnapShot[i].id.toString()),
-                      // ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductDetails( allProductListSnapShot[i].id.toString()),
+                      ));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20),

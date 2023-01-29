@@ -32,6 +32,8 @@ class PhoneNumberInput extends StatelessWidget {
           ),
           Expanded(
             child: TextFormField(
+              autofocus: true,
+
               controller: controller,
               validator: (val) {
                 String text = val.trim().replaceAll(" ", "");

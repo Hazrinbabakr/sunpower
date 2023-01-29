@@ -51,6 +51,8 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                   stream: FirebaseFirestore.instance.collection("users").doc(widget.userID).snapshots(),
                   builder: (context, snapshot) {
                     return
+                      snapshot.data==null?
+                        SizedBox():
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -121,67 +123,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                   }
               )
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: <Widget>[
-              //     Center(
-              //           child: Text(
-              //       "${widget.name.toUpperCase()}",
-              //       style: Theme.of(context).textTheme.subtitle1.merge(
-              //             TextStyle(fontSize: 22)),
-              //     ),
-              //         ),
-              //     SizedBox(height: 10,),
-              //     Center(
-              //           child: Text(widget.phoneNumber,
-              //       style: Theme.of(context).textTheme.subtitle1.merge(
-              //             TextStyle(color: Theme.of(context).hintColor)),
-              //     ),
-              //         ),
-              //     SizedBox(height: 10,),
-              //
-              //     InkWell(
-              //       onTap: (){
-              //         showDialog(
-              //             context: context,
-              //             builder: (context) {
-              //               return AlertDialog(
-              //                 title: const Text('TODO'),
-              //                 content: TextField(
-              //                   controller: _textFieldController,
-              //                   decoration: const InputDecoration(hintText: "タスクの名称を入力してください。"),
-              //                 ),
-              //                 actions: <Widget>[
-              //                   ElevatedButton(
-              //                     child: const Text("Cancel"),
-              //                     onPressed: () => Navigator.pop(context),
-              //                   ),
-              //                   ElevatedButton(
-              //                     child: const Text('Edit'),
-              //                     onPressed: () {
-              //                      // widget.address=_textFieldController.text;
-              //                       Navigator.pop(context, _textFieldController.text);
-              //
-              //               }
-              //
-              //                   ),
-              //                 ],
-              //               );
-              //             });
-              //
-              //
-              //
-              //       },
-              //
-              //       child: Center(
-              //         child: Text(widget.address,
-              //           style: Theme.of(context).textTheme.subtitle1.merge(
-              //               TextStyle(color: Theme.of(context).hintColor)),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+
             ),
           ),
           // Expanded(

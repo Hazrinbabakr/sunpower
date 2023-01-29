@@ -50,6 +50,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
                mainAxisAlignment: MainAxisAlignment.spaceAround,
                children: [
                  Image.asset('images/category/logo.png',width: 200,color: Colors.white,),
+
+                 FirebaseAuth.instance.currentUser != null ?
               InkWell(
                   onTap: (){
                     Navigator.of(context).push(MaterialPageRoute(
@@ -85,7 +87,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                       );
                     }
                   )
-              )
+              ) :SizedBox()
                ],
              ),
              InkWell(

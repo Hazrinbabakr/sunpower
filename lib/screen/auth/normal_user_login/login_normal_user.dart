@@ -8,6 +8,9 @@ import 'package:onlineshopping/screen/auth/providers/normal_user_login_provider.
 import 'package:onlineshopping/screen/auth/signup_normal_user/sign_up_main_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../homepage.dart';
+import 'login_main_page.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
 
@@ -31,14 +34,16 @@ class _LoginPageState extends State<LoginPage> {
     const spacing = 20.0;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).trans("login")),
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
+
           height: MediaQuery.of(context).size.height * 0.9,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: indent),
@@ -80,7 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 // SizedBox(height: spacing,),
                 // PrivacyPolicyWidget(),
-                Expanded(child: SizedBox()),
+                // Expanded(child: SizedBox()),
+                SizedBox(height: 30,),
                 SizedBox(
                   width: double.infinity,
                   child: CustomAppButton(
@@ -119,6 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: spacing,
                 ),
+
+                //register
                 InkWell(
                   onTap: (){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -133,9 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),),
                   ),
                 ),
-                SizedBox(
-                  height: spacing,
-                ),
+                //business user
                 InkWell(
                   onTap: (){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -145,6 +151,21 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(  AppLocalizations.of(context).trans("Businesslogin"),style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500
+                    ),),
+                  ),
+                ),
+                //skip
+                InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      return HomePage();
+                    }));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(  AppLocalizations.of(context).trans("skip"),style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500
                     ),),

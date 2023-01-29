@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/productDetails.dart';
 
 
 class Search extends StatefulWidget {
@@ -125,11 +126,14 @@ class _SearchState extends State<Search> {
                                 DocumentSnapshot shops =
                                 snapshot.data.docs[index];
                                 return InkWell(
-                                  onTap: () {
-
+                                  onTap: (){
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ProductDetails( shops.id),
+                                    ));
                                   },
                                   child: Card(
                                     child: ListTile(
+
                                       title: Text(
                                         AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
                                         shops.data()['nameK'].toString():

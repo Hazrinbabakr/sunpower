@@ -38,12 +38,12 @@ return  GridView.count(
   //childAspectRatio: 0.8,
   //childAspectRatio: 0.60, // (itemWidth/itemHeight),
   padding: EdgeInsets.symmetric(
-      horizontal: 10, vertical: 10),
+      horizontal: 20, vertical: 10),
   // Create a grid with 2 columns. If you change the scrollDirection to
   // horizontal, this produces 2 rows.
   crossAxisCount: MediaQuery.of(context).orientation ==
       Orientation.portrait
-      ? 2
+      ? 3
       : 4,
   children:
   List.generate(snapshot.data.docs.length, (index) {
@@ -69,8 +69,8 @@ return  GridView.count(
       child: Column(
         children: [
           Container(
-            height: 130,
-            width: 130,
+            height: 80,
+            width: 80,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                     Radius.circular(15)
@@ -89,7 +89,7 @@ return  GridView.count(
               AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
             data['nameA'].toString():
             data['name'].toString(),
-            style: TextStyle(fontWeight: FontWeight.w600,),)
+            style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12),)
         ],
       ),
     );

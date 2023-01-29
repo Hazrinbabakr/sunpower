@@ -6,8 +6,10 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:onlineshopping/Widgets/Categories.dart';
+import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
+import 'package:onlineshopping/Widgets/new_arrival.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+         // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Delivery address widget
             HomeAppBar(),
@@ -35,28 +39,30 @@ class _HomeScreenState extends State<HomeScreen> {
            // Text(FirebaseAuth.instance.currentUser.uid.toString()),
 
 
-            // Offers
-            //Offers(),
-
-
-            // InkWell(
-            //   onTap: (){
-            //     setState(() {
-            //       send();
-            //     });
-            //       // Navigator.push(
-            //       //     context,
-            //       //     MaterialPageRoute(
-            //       //         builder: (context) => PdfBook(
-            //       //           pdfUrl:"",
-            //       //         )));
-            //   },
-            //   child: Text('ssss')),
-
-
+            Offers(),
+SizedBox(height: 20,),
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 20),
+  child:
+  Text('Categories'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+),
             CategoriesWidget(),
-            SizedBox(height: 120,),
-            SocialMediaWidget()
+            //SizedBox(height: 120,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('New Arrival'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10,),
+                  NewArrival(),
+                ],
+              ),
+            ),
+
+            SocialMediaWidget(),
+            SizedBox(height: 20,),
+
 
           ],
         ),

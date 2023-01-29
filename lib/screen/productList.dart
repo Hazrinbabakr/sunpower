@@ -2,6 +2,7 @@
 // ignore_for_file: file_names, prefer_const_constructors_in_immutables, prefer_const_constructors, unrelated_type_equality_checks
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
@@ -186,15 +187,25 @@ class _ProductsListState extends State<ProductsList> {
                                             AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
                                             productListSnapShot[i]['nameA'].toString().toUpperCase():
                                             productListSnapShot[i]['name'].toString().toUpperCase(),
+                                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
 
-                                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,), overflow: TextOverflow.visible,maxLines: 3,)),
+                                          )),
                                       SizedBox(height: 10,),
                                       //LocalStorageService.instance.user.role == 1?
+                                  FirebaseAuth.instance.currentUser != null ?
+
                                       Text('${LocalStorageService.instance.user.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
-                                        style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                                        style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
+                                  Text('${productListSnapShot[i]['retail price'].toString()}\$',
+                                    style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                                       SizedBox(height: 10,),
+                                      FirebaseAuth.instance.currentUser != null ?
                                       Text( productListSnapShot[i]['old price'].toString()=='0'?'':'${productListSnapShot[i]['old price'].toString()}\$',style:
-                                      TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                      TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),)
+                                      : SizedBox()
+
                                     ],
                                   ),
                                 ),

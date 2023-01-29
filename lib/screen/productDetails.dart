@@ -14,6 +14,8 @@ import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetailPDF.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
 
+import 'auth/normal_user_login/login_main_page.dart';
+
 class ProductDetails extends StatefulWidget {
   final String productID;
   const ProductDetails(this.productID, {Key key}) : super(key: key);
@@ -134,7 +136,12 @@ class _ProductDetailsState extends State<ProductDetails> {
     => getModel()).then((value)
     => getMakeRelated()).then((value)
     => getModelRelated()));
-    getFavList();
+    if(  FirebaseAuth.instance.currentUser != null ){
+      setState(() {
+        getFavList();
+      });
+    }
+
     // TODO: implement initState
     super.initState();
   }
@@ -376,9 +383,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       // color: Colors.red,
                                                       child:  Row(
                                                         children: [
-                                                      Text('${LocalStorageService.instance.user.role == 1? productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
-                                                        style:
-                                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                                                          FirebaseAuth.instance.currentUser != null ?
+                                                          Text('${LocalStorageService.instance.user.role == 1? productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
+                                                            style:
+                                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 18),):
+                                                          Text('${productSnapshot['retail price'].toString()}',
+                                                            style:
+                                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                                                           Text('\$',style:
                                                           TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                                                         ],
@@ -472,7 +483,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text( AppLocalizations.of(context).trans("RelatedMake"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                      Text(makeListSnapShot.length >1 ?  AppLocalizations.of(context).trans("RelatedMake"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                       SizedBox(height: 15,),
                                       Container(
                                         // color: Colors.red,
@@ -483,7 +494,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             shrinkWrap: true,
                                             itemCount: makeListSnapShot.length,
                                             itemBuilder: (context, i) {
-                                              return (makeListSnapShot[i] != null)
+                                              return (makeListSnapShot[i] != null && makeListSnapShot[i]['name'] !=  productSnapshot.data()['name'] )
                                                   ? InkWell(
                                                 onTap: (){
                                                   Navigator.of(context).push(MaterialPageRoute(
@@ -525,11 +536,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                             ),
                                                           ),
                                                           //  SizedBox(height: 10,),
+                                                          FirebaseAuth.instance.currentUser != null ?
                                                           Text('${LocalStorageService.instance.user.role == 1? makeListSnapShot[i]['wholesale price'].toString():makeListSnapShot[i]['retail price'].toString()}\$',
+                                                            style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),):
+                                                          Text('${makeListSnapShot[i]['retail price'].toString()}\$',
                                                             style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                           SizedBox(height: 10,),
+                                                          FirebaseAuth.instance.currentUser != null ?
                                                           Text( makeListSnapShot[i]['old price'].toString()=='0'?'':'${makeListSnapShot[i]['old price'].toString()}\$',style:
-                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),):
+                                                              SizedBox()
 
                                                         ],
                                                       )
@@ -550,7 +566,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(  AppLocalizations.of(context).trans("RelatedModel"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                      Text(modelListSnapShot.length >1 ?  AppLocalizations.of(context).trans("RelatedModel"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                       SizedBox(height: 15,),
                                       Container(
                                         // color: Colors.red,
@@ -561,7 +577,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             shrinkWrap: true,
                                             itemCount: modelListSnapShot.length,
                                             itemBuilder: (context, i) {
-                                              return (modelListSnapShot[i] != null)
+                                              return (modelListSnapShot[i] != null && modelListSnapShot[i]['name'] !=  productSnapshot.data()['name'] )
                                                   ? InkWell(
                                                 onTap: (){
                                                   Navigator.of(context).push(MaterialPageRoute(
@@ -603,11 +619,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                             ),
                                                           ),
                                                           //  SizedBox(height: 10,),
+                                                          FirebaseAuth.instance.currentUser != null ?
                                                           Text('${LocalStorageService.instance.user.role == 1? modelListSnapShot[i]['wholesale price'].toString():modelListSnapShot[i]['retail price'].toString()}\$',
+                                                            style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),):
+                                                          Text('${modelListSnapShot[i]['retail price'].toString()}\$',
                                                             style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                           SizedBox(height: 10,),
+                                                          FirebaseAuth.instance.currentUser != null ?
                                                           Text( modelListSnapShot[i]['old price'].toString()=='0'?'':'${modelListSnapShot[i]['old price'].toString()}\$',style:
-                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
+                                                          TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),):
+                                                              SizedBox()
                                                         ],
                                                       )
                                                     ],
@@ -782,16 +803,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   width: 50,
                                   // color: Colors.red,
                                   child: isfav? InkWell(
+
                                     onTap: (){
                                      setState(() {
-                                       User user = _auth.currentUser;
-                                       userCollection
-                                           .doc(user.uid)
-                                           .collection('favorite')
-                                           .doc(widget.productID).delete();
-                                      // //print('added to fav');
-                                       isfav= !isfav;
-                                       Scaffold.of(context).showSnackBar(_snackBarRemoveFromFav);
+                                       if(   FirebaseAuth.instance.currentUser != null){
+                                         User user = _auth.currentUser;
+                                         userCollection
+                                             .doc(user.uid)
+                                             .collection('favorite')
+                                             .doc(widget.productID).delete();
+                                         // //print('added to fav');
+                                         isfav= !isfav;
+                                         Scaffold.of(context).showSnackBar(_snackBarRemoveFromFav);
+
+                                       }else{
+                                         print('no user');
+                                       }
 
                                      });
                                     },
@@ -805,17 +832,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   InkWell(
                                     onTap: (){
                                      setState(() {
-                                       User user = _auth.currentUser;
-                                       userCollection
-                                           .doc(user.uid)
-                                           .collection('favorite')
-                                           .doc(widget.productID)
-                                           .set({
-                                         "productID":widget.productID
-                                       });
-                                       isfav= !isfav;
-                                      // //print('added to fav');
-                                       Scaffold.of(context).showSnackBar(_snackBarAddToFav);
+                                       if(   FirebaseAuth.instance.currentUser != null){
+                                         User user = _auth.currentUser;
+                                         userCollection
+                                             .doc(user.uid)
+                                             .collection('favorite')
+                                             .doc(widget.productID)
+                                             .set({
+                                           "productID":widget.productID
+                                         });
+                                         isfav= !isfav;
+                                         // //print('added to fav');
+                                         Scaffold.of(context).showSnackBar(_snackBarAddToFav);
+
+                                       }else{
+                                         Navigator.of(context).push(MaterialPageRoute(
+                                           builder: (context) => MainLoginPage(),
+                                         ));
+                                       }
 
                                      });
                                     },
@@ -930,32 +964,41 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               BorderRadius.circular(10)),
                                           child: InkWell(
                                             onTap: () {
-                                              //Addtocart
-                                              User user = _auth.currentUser;
-                                              userCollection
-                                                  .doc(user.uid)
-                                                  .collection('cart')
-                                                  .doc(widget.productID)
-                                                  .set({
-                                                "productID": widget.productID,
-                                                "quantity": quantity,
-                                                "price":
-                                                LocalStorageService.instance.user.role == 1?
-                                                productSnapshot['wholesale price']
-                                                    :productSnapshot['retail price'],
-                                                "name": productSnapshot.data()['name'],
-                                                "nameA": productSnapshot.data()['nameA'],
-                                                "nameK": productSnapshot.data()['nameK'],
-                                                "supPrice":
-                                                ( LocalStorageService.instance.user.role == 1?
-                                                productSnapshot['wholesale price']
-                                                    :productSnapshot['retail price']) * quantity,
+
+ if(   FirebaseAuth.instance.currentUser != null){
+  User user = _auth.currentUser;
+  userCollection
+      .doc(user.uid)
+      .collection('cart')
+      .doc(widget.productID)
+      .set({
+    "productID": widget.productID,
+    "quantity": quantity,
+    "price":
+    LocalStorageService.instance.user.role == 1?
+    productSnapshot['wholesale price']
+        :productSnapshot['retail price'],
+    "name": productSnapshot.data()['name'],
+    "nameA": productSnapshot.data()['nameA'],
+    "nameK": productSnapshot.data()['nameK'],
+    "supPrice":
+    ( LocalStorageService.instance.user.role == 1?
+    productSnapshot['wholesale price']
+        :productSnapshot['retail price']) * quantity,
 
 
-                                                "img": productSnapshot.data()['images'][0],
-                                              });
-                                              //print('added');
-                                              Scaffold.of(context).showSnackBar(_snackBar);
+    "img": productSnapshot.data()['images'][0],
+  });
+  //print('added');
+  Scaffold.of(context).showSnackBar(_snackBar);
+
+}else{
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => MainLoginPage(),
+  ));
+}
+
+//Addtocart
 
                                             },
                                             child: Padding(
@@ -1033,7 +1076,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(makeName.toString(),
+                  child: Text( makeName.isEmpty?'': makeName.toString(),
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
@@ -1050,7 +1093,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(modelName,
+                  child: Text(modelName.isEmpty?'': modelName,
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),

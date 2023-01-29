@@ -104,6 +104,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
             title:  Text(AppLocalizations.of(context).trans("CartScreen"),),
             elevation: 0,
@@ -121,14 +122,13 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 15,),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
-
                           SizedBox(height: 10,),
                           Row(children: [
-                            Text(AppLocalizations.of(context).trans("DeliveryFee"),
+                            Text(AppLocalizations.of(context).trans("Address"),
                               style: TextStyle(fontSize: 16),
                             ),
+                            SizedBox(width: 10,),
                             Expanded(
                               child: Text(address.toString(),
                                 style: TextStyle(color: Colors.indigo,fontSize: 16),
@@ -466,7 +466,7 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(  AppLocalizations.of(context).trans("total"),
+                              Text(  AppLocalizations.of(context).trans("subtotal"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
                               Text('${subTotal.floor().toString()}\$',
@@ -482,7 +482,7 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(fontSize: 16,),
 
                               ),
-                              Text('${deliveryFee.floor()} \$',
+                              Text( subTotal<= 100?'${deliveryFee.floor()} \$': "${0}",
                                 style: TextStyle(fontSize: 16,),
                               ),
                             ],
@@ -491,10 +491,13 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(  AppLocalizations.of(context).trans("subtotal"),
+                              Text(  AppLocalizations.of(context).trans("total"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
-                              Text('${((subTotal+deliveryFee)*dinnar).floor().toString()} IQD',
+                              Text(
+                                subTotal <=100 ?
+                                '${((subTotal+deliveryFee)*dinnar).floor().toString()} IQD' :
+                                '${((subTotal)*dinnar).floor().toString()} IQD',
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -533,8 +536,8 @@ class _CartScreenState extends State<CartScreen> {
                                     FirebaseFirestore.instance.collection('Admin').doc('admindoc').collection('orders').add({
                                       "productList":cartList,
                                       "subTotal": subTotal,
-                                      "totalPrice":(subTotal+deliveryFee)*dinnar,
-                                      "deliveryFee":deliveryFee,
+                                      "totalPrice": subTotal <=100 ? (subTotal+deliveryFee)*dinnar :(subTotal)*dinnar ,
+                                      "deliveryFee":subTotal <=100 ?  deliveryFee : 0,
                                       "userID": user.uid,
                                       "userName": name,
                                       "userAddress": address,
@@ -548,8 +551,8 @@ class _CartScreenState extends State<CartScreen> {
                                     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').doc(rundomNumber).set({
                                       "productList":cartList,
                                       "subTotal": subTotal,
-                                      "totalPrice":(subTotal+deliveryFee)*dinnar,
-                                      "deliveryFee":deliveryFee,
+                                      "totalPrice": subTotal <=100 ? (subTotal+deliveryFee)*dinnar :(subTotal)*dinnar ,
+                                      "deliveryFee":subTotal <=100 ?  deliveryFee : 0,
                                       "userID": user.uid,
                                       "userName": name,
                                       "userAddress": address,
