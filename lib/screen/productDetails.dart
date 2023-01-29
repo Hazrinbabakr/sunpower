@@ -13,6 +13,7 @@ import 'package:onlineshopping/Widgets/empty.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetailPDF.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'auth/normal_user_login/login_main_page.dart';
 
@@ -1213,11 +1214,17 @@ class _ProductDetailsState extends State<ProductDetails> {
             SizedBox(height: 35,),
             Container(
               height: 65,
-              width: 200,
-              child: BarcodeWidget(
-                data: productSnapshot.data()['barCode'].toString(),
-                barcode: Barcode.code128(escapes: true),
+              width: 250,
+              child:
+              SfBarcodeGenerator(
+                value: productSnapshot.data()['barCode'].toString(),
+                symbology: EAN13(),
+                showValue: true,
               ),
+              // BarcodeWidget(
+              //   data: productSnapshot.data()['barCode'].toString(),
+              //   barcode: Barcode.code128(escapes: true),
+              // ),
             ),
 
 
