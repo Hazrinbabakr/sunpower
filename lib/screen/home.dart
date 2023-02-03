@@ -11,7 +11,6 @@ import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
 import 'package:onlineshopping/Widgets/new_arrival.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -23,55 +22,62 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-         // mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Delivery address widget
             HomeAppBar(),
-            SizedBox(height: 10,),
-
+            SizedBox(
+              height: 10,
+            ),
 
             //
             // LocalStorageService.instance.user.role == 1?
             // Text('wholesale'):
             // Text('normal'),
 
-           // Text(FirebaseAuth.instance.currentUser.uid.toString()),
-
+            // Text(FirebaseAuth.instance.currentUser.uid.toString()),
 
             Offers(),
-SizedBox(height: 20,),
-Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 20),
-  child:
-  Text('Categories'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Categories'.toUpperCase(),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
             CategoriesWidget(),
             //SizedBox(height: 120,),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('New Arrival'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 10,),
+                  Text(
+                    'New Arrival'.toUpperCase(),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   NewArrival(),
                 ],
               ),
             ),
 
             SocialMediaWidget(),
-            SizedBox(height: 20,),
-
-
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
-
 
   // Future sendEmail() async {
   //   final smptServer = gmailSaslXoauth2(email, accessToken)
@@ -101,35 +107,28 @@ Padding(
 
     await FlutterEmailSender.send(email);
   }
-  //
-  // Future sendEmail({
-  //   required String name,
-  //   required String email,
-  //   required String subject,
-  //   required String message,
-  // }) async {
-  //   final serviceld= 'service_85hjoxm';
-  //   final templateId=  'template_tiadhge';
-  //   final userId=  '';
-  //
-  //   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-  //       final response = await http.post(
-  //       url,
-  //       body: {
-  //       'service_id': serviceld,
-  //       'template_id'; templateld,
-  //       'user id': userId,
-  //       },
-  //       );
+//
+// Future sendEmail({
+//   required String name,
+//   required String email,
+//   required String subject,
+//   required String message,
+// }) async {
+//   final serviceld= 'service_85hjoxm';
+//   final templateId=  'template_tiadhge';
+//   final userId=  '';
+//
+//   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+//       final response = await http.post(
+//       url,
+//       body: {
+//       'service_id': serviceld,
+//       'template_id'; templateld,
+//       'user id': userId,
+//       },
+//       );
 
 }
-
-
-
-
-
-
-
 
 // StreamBuilder<QuerySnapshot>(
 // stream: FirebaseFirestore.instance.collection('test').snapshots(),

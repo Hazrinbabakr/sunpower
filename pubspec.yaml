@@ -56,19 +56,7 @@ dependencies:
   url_launcher:
   mailer:
   flutter_email_sender:
-
-
-
-
-
-
-
-
-
-
-
-
-
+  flutter_barcode_scanner:
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +80,7 @@ flutter:
   assets:
     - images/category/
     - assets/lang/
+    - images/barcode.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
