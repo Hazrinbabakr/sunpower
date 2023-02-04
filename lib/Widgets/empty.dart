@@ -46,19 +46,7 @@ class _EmptyWidgetState extends State<EmptyWidget> {
                   )),
             ],
           )
-              : Column(
-            children: [
-              SizedBox(
-                height: screenHeight / 3,
-              ),
-              Center(
-                child: Text(
-                  AppLocalizations.of(context).trans("Empty"),
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
-                ),
-              ),
-            ],
-          )
+              :  Center(child: Text(AppLocalizations.of(context).trans("Empty"),))
         ],
       ),
     );

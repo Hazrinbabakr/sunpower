@@ -35,9 +35,9 @@ launch("https://instagram.com/sunpower_iraq?igshid=MWI4MTIyMDE=");
 
           InkWell(
               onTap: (){
-                launch("https://wa.link/1eanyc");
+                launch("https://maps.app.goo.gl/bk4zZ9d7de3bZji76?g_st=iw");
               },
-              child: Image.asset('images/category/snap.png',width: 30,)),
+              child: Image.asset('images/category/location.png',width: 30,)),
       //
       // InkWell(
       // onTap: (){

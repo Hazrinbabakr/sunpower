@@ -82,10 +82,10 @@ int length=0;
             elevation: 0,
         ),
         body:
+       ((currentOrderList == null) & (orderHistoryList == null))?
+       EmptyWidget():
        SingleChildScrollView(
-         child:((currentOrderList == null) & (orderHistoryList == null))?
-         EmptyWidget():
-         Column(
+         child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
            children: [
 
@@ -112,7 +112,7 @@ int length=0;
                          child: Container(
                            // height: 175,
                              decoration: BoxDecoration(
-                                 color: Colors.white,
+                                color: Colors.white,
                                  boxShadow: [
                                    BoxShadow(
                                        color: Colors.grey[200],
@@ -124,7 +124,11 @@ int length=0;
                                child: Column(
                                  crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
-                                   Text(currentOrderList[i]['OrderStatus'],style: TextStyle(color: Colors.deepOrange[600],fontSize: 18),),
+                                   Text(
+
+
+                                   AppLocalizations.of(context).trans(currentOrderList[i]['OrderStatus']),
+                                     style: TextStyle(color: Colors.deepOrange[600],fontSize: 18),),
                                    Padding(
                                      padding: const EdgeInsets.symmetric(vertical:7 ),
                                      child: Text(currentOrderList[i]['date'],style: TextStyle(fontSize: 12),),
@@ -158,41 +162,39 @@ int length=0;
                                       .length,
                                   itemBuilder:
                                       (context, index) {
-                                    return SingleChildScrollView(
-                                      child: Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text('${currentOrderList[i]["productList"][index]['quantity'].toString()}x'),
-                                                SizedBox(width: 10,),
-                                                Text(
+                                    return Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text('${currentOrderList[i]["productList"][index]['quantity'].toString()}x'),
+                                              SizedBox(width: 10,),
+                                              Text(
 
-                                                  currentOrderList[i]["productList"][index]['name'],
-
-
-                                                  //
-                                                  // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                                  // currentOrderList[i]["productList"][index]['nameK'].toString().toUpperCase():
-                                                  // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                                  // currentOrderList[i]["productList"][index]['namA'].toString().toUpperCase():
-                                                  // currentOrderList[i]["productList"][index]['name'].toString().toUpperCase(),
+                                                currentOrderList[i]["productList"][index]['name'],
 
 
-                                                  style:
-                                                  TextStyle(fontSize: 14
-                                                  ),
+                                                //
+                                                // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                                // currentOrderList[i]["productList"][index]['nameK'].toString().toUpperCase():
+                                                // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                                // currentOrderList[i]["productList"][index]['namA'].toString().toUpperCase():
+                                                // currentOrderList[i]["productList"][index]['name'].toString().toUpperCase(),
+
+
+                                                style:
+                                                TextStyle(fontSize: 14
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 5,),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 5,),
 
-                                          ],
-                                        ),
+                                        ],
                                       ),
                                     );
                                   }),
@@ -280,7 +282,9 @@ int length=0;
                                  child: Column(
                                    crossAxisAlignment: CrossAxisAlignment.start,
                                    children: [
-                                     Text(orderHistoryList[i]['OrderStatus'],
+                                     Text(
+                                       AppLocalizations.of(context).trans(orderHistoryList[i]['OrderStatus'].toString()),
+
                                        style: TextStyle(color:
                                        orderHistoryList[i]['OrderStatus']==   AppLocalizations.of(context).trans("rejected")?
                                        Colors.red[700]:  Colors.green[700]
@@ -292,7 +296,7 @@ int length=0;
                                      ),
                                      Row(
                                        children: [
-                                         Text('Deliver to: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                         Text(  AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold),),
                                          Expanded(child: Text(orderHistoryList[i]['userAddress'].toString())),
                                        ],
                                      ),
@@ -319,30 +323,28 @@ int length=0;
                                            .length,
                                        itemBuilder:
                                            (context, index) {
-                                         return SingleChildScrollView(
-                                           child: Container(
-                                             child: Column(
-                                               crossAxisAlignment:
-                                               CrossAxisAlignment
-                                                   .start,
-                                               children: [
-                                                 Row(
-                                                   //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                   children: [
-                                                     Text('${orderHistoryList[i]["productList"][index]['quantity'].toString()}x'),
-                                                     SizedBox(width: 10,),
-                                                     Text(
-                                                       orderHistoryList[i]["productList"][index]['name'],
-                                                       style:
-                                                       TextStyle(fontSize: 14
-                                                       ),
+                                         return Container(
+                                           child: Column(
+                                             crossAxisAlignment:
+                                             CrossAxisAlignment
+                                                 .start,
+                                             children: [
+                                               Row(
+                                                 //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                 children: [
+                                                   Text('${orderHistoryList[i]["productList"][index]['quantity'].toString()}x'),
+                                                   SizedBox(width: 10,),
+                                                   Text(
+                                                     orderHistoryList[i]["productList"][index]['name'],
+                                                     style:
+                                                     TextStyle(fontSize: 14
                                                      ),
-                                                   ],
-                                                 ),
-                                                 SizedBox(height: 5,),
+                                                   ),
+                                                 ],
+                                               ),
+                                               SizedBox(height: 5,),
 
-                                               ],
-                                             ),
+                                             ],
                                            ),
                                          );
                                        }),

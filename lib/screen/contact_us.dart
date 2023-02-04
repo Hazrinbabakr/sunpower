@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -42,7 +43,8 @@ class _ContactUSState extends State<ContactUS> {
                   top: 80,
                   left: 130,
                   child: Text(
-                    'CONTACT SUNPOWER',
+                    AppLocalizations.of(context).trans("CONTACTSUNPOWER"),
+
                     style: Theme.of(context).textTheme.headline6.merge(TextStyle(
                         letterSpacing: 0, color: Theme.of(context).accentColor,fontSize: 20,fontWeight: FontWeight.bold)),
                   ),

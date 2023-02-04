@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -43,14 +44,15 @@ class _AboutUsState extends State<AboutUs> {
             ),
             SizedBox(height: 30,),
             Text(
-              'The ability can make things \n             different',
+              AppLocalizations.of(context).trans("aboutUsTitle"),
+
               style: Theme.of(context).textTheme.headline6.merge(TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
             ),
            // SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 20),
               child: Text(
-                'Sun Power company is a general trading company which deals with truck\'s electrical spare partsFounded in 2012 in Erbil Capital city of Kurdistan region, Iraq.',
+                AppLocalizations.of(context).trans("aboutUsBody"),
                 style: Theme.of(context).textTheme.headline6.merge(TextStyle(fontSize: 20)),
               ),
             ),

@@ -87,7 +87,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
 
         body:
-        (allProductListSnapShot == null)
+        (allProductListSnapShot == null || allProductListSnapShot.isEmpty)
             ? EmptyWidget()
             : Padding(
             padding: const EdgeInsets.only(top: 30),
@@ -169,16 +169,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               bottom: 20,
                               child: InkWell(
                                   onTap: (){
+                                    User user = _auth.currentUser;
+                                    userCollection
+                                        .doc(user.uid)
+                                        .collection('favorite')
+                                        .doc(allProductListSnapShot[i].id).delete();
+                                    getFavProduct();
                                     setState(() {
-                                      User user = _auth.currentUser;
-                                      userCollection
-                                          .doc(user.uid)
-                                          .collection('favorite')
-                                          .doc(allProductListSnapShot[i].id).delete();
-                                      getFavProduct();
-
-                                      // getAllProduct();
-                                      print('${allProductListSnapShot[i]['name']}  deleted');
                                     });
                                   },
                                   child: Icon(Icons.favorite,size: 30,color: Colors.red[900],)))

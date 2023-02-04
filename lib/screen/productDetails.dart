@@ -339,6 +339,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                         color:Colors.black
                                                     )),
                                                   ),
+                                                  SizedBox(height: 5,),
+                                                  Row(
+                                                    //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                    children: [
+                                                      Text( AppLocalizations.of(context).trans("ItemCode"),
+                                                        maxLines: 3,
+                                                        style: TextStyle(fontSize: 14),
+                                                      ),
+                                                      SizedBox(width: 10,),
+                                                      Text(productSnapshot.data()['itemCode'].toString(),
+                                                        maxLines: 5,
+                                                        style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
+                                                      )
+                                                    ],),
                                                   SizedBox(
                                                     height: 30,
                                                   ),
@@ -382,14 +396,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       child:  Row(
                                                         children: [
                                                           FirebaseAuth.instance.currentUser != null ?
-                                                          Text('${LocalStorageService.instance.user.role == 1? productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
+                                                          Text('${LocalStorageService.instance.user.role == 1?
+                                                          productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
                                                             style:
-                                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 18),):
+                                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.blue[800]),):
                                                           Text('${productSnapshot['retail price'].toString()}',
                                                             style:
-                                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                                                            TextStyle(fontWeight: FontWeight.bold,fontSize:22,color: Colors.blue[800]),),
                                                           Text('\$',style:
-                                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.blue[800]),),
                                                         ],
                                                       )
                                                   ),
@@ -400,9 +415,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       child:  Row(
                                                         children: [
                                                           Text( productSnapshot['old price'].toString()=='0'?'':'${productSnapshot['old price'].toString()}',style:
-                                                          TextStyle(fontSize: 16,decoration: TextDecoration.lineThrough),),
-                                                          Text( productSnapshot['old price'].toString()=='0'?'':'\$',style:
-                                                          TextStyle(fontSize: 10,decoration: TextDecoration.lineThrough),),
+                                                          TextStyle(fontSize: 16,decoration: TextDecoration.lineThrough,color: Colors.red),),
+                                                          Text(  productSnapshot['old price'].toString()=='0'?'':'\$',style:
+                                                          TextStyle(fontSize: 14,decoration: TextDecoration.lineThrough,color: Colors.red),),
                                                         ],
                                                       )
                                                   ),
@@ -1116,23 +1131,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 )
               ],),
-            SizedBox(height: 15,),
-            Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: Text( AppLocalizations.of(context).trans("ItemCode"),
-                    maxLines: 3,
-                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(productSnapshot.data()['itemCode'].toString(),
-                    maxLines: 5,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                )
-              ],),
+           // SizedBox(height: 15,),
+
             SizedBox(height: 15,),
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1213,15 +1213,15 @@ class _ProductDetailsState extends State<ProductDetails> {
               height: 65,
               width: 250,
               child:
-              SfBarcodeGenerator(
-                value: productSnapshot.data()['barCode'].toString(),
-                symbology: EAN13(),
-                showValue: true,
-              ),
-              // BarcodeWidget(
-              //   data: productSnapshot.data()['barCode'].toString(),
-              //   barcode: Barcode.code128(escapes: true),
+              // SfBarcodeGenerator(
+              //   value: productSnapshot.data()['barCode'].toString(),
+              //   symbology: EAN13(),
+              //   showValue: true,
               // ),
+              BarcodeWidget(
+                data: productSnapshot.data()['barCode'].toString(),
+                barcode: Barcode.code128(escapes: true),
+              ),
             ),
 
 
@@ -1249,7 +1249,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   final _snackBarAddToFav = SnackBar(
     content:
-    Text('Added To Favorite',
+    Text(
+      'Added To Favorite',
       //AppLocalizations.of(context).trans("Addedtofavorite"),
       textAlign: TextAlign.center,
       style: TextStyle(

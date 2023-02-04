@@ -4,6 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/all_category.dart';
 import 'package:onlineshopping/screen/productList.dart';
 
 
@@ -15,87 +16,150 @@ class CategoriesWidget extends StatefulWidget {
 }
 
 class _CategoriesWidgetState extends State<CategoriesWidget> {
+  List<DocumentSnapshot> categorySnapshot;
+  getCategry() {
+    int i = 0;
+    FirebaseFirestore.instance
+        .collection('categories')
+        .get()
+        .then((value) {
+      categorySnapshot = new List<DocumentSnapshot>(value.docs.length);
+      value.docs.forEach((element) async {
+        setState(() {
+          categorySnapshot[i] = element;
+        });
+        i++;
+      });
+    });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCategry();
+  }
   @override
   Widget build(BuildContext context) {
     return
-StreamBuilder<QuerySnapshot>(
-stream: FirebaseFirestore.instance.collection('categories').snapshots(),
-builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-if (snapshot.hasError) {
-print('Errorrrrr ${snapshot.error}');
-return const Text('Something went wrong');
-}
-if (snapshot.connectionState == ConnectionState.waiting) {
-return const CircularProgressIndicator();
-}
-
-return  GridView.count(
-  scrollDirection: Axis.vertical,
-  shrinkWrap: true,
-  primary: false,
-  // crossAxisSpacing: 1,
-  // mainAxisSpacing: 1,
-  //childAspectRatio: 0.8,
-  //childAspectRatio: 0.60, // (itemWidth/itemHeight),
-  padding: EdgeInsets.symmetric(
-      horizontal: 20, vertical: 10),
-  // Create a grid with 2 columns. If you change the scrollDirection to
-  // horizontal, this produces 2 rows.
-  crossAxisCount: MediaQuery.of(context).orientation ==
-      Orientation.portrait
-      ? 3
-      : 4,
-  children:
-  List.generate(snapshot.data.docs.length, (index) {
-    DocumentSnapshot data= snapshot.data.docs.elementAt(index);
-    return  InkWell(
-      onTap: (){
-       // print('Main Category ID  ${data.id.toString()}');
-
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ProductsList(
-                data.id.toString(),
-                AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                data['nameK'].toString():
-                AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                data['nameA'].toString():
-                data['name'].toString(),
 
 
-            ),
-          ));
-
-      },
-      child: Column(
+      (categorySnapshot == null || categorySnapshot.isEmpty)
+          ? SizedBox()
+          : Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(15)
-                  //                 <--- border radius here
-                ),
-                border: Border.all(color: Colors.black12,width: 0.6),
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        data['img'].toString()))),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+    //AppLocalizations.of(context).trans("Deliverto"),
+    AppLocalizations.of(context).trans("categories").toUpperCase(),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),              InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AllCategory(categorySnapshot)),
+                    );
+                  },
+                  child: Text( AppLocalizations.of(context).trans("ShowAll"),style: TextStyle(fontSize: 12,color: Theme.of(context).accentColor),)),
+
+            ],
           ),
-          SizedBox(height: 7,),
-          Text(
-              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-            data['nameK'].toString():
-              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-            data['nameA'].toString():
-            data['name'].toString(),
-            style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12),)
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Container(
+              // color: Colors.red,
+              // width: 200,
+              height: 120,
+              child: ListView.builder(
+
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: categorySnapshot.length,
+                  itemBuilder: (context, i) {
+                    DocumentSnapshot data= categorySnapshot.elementAt(i);
+                    return (categorySnapshot[i] != null)
+
+                        ? Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Container(
+                            width: 110,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(15)
+                                  //                 <--- border radius here
+                                ),
+                                border: Border.all(color: Colors.black12,width: 0.6),
+                               ),
+                            child: InkWell(
+                      onTap: (){
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //   builder: (context) => ProductDetails( modelListSnapShot[i].id.toString()),
+                            // ));
+
+
+
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProductsList(
+                                data.id.toString(),
+                                AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                data['nameK'].toString():
+                                AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                data['nameA'].toString():
+                                data['name'].toString(),
+
+
+                              ),
+                            ));
+
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 0),
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                // color: Colors.green,
+                                // borderRadius: BorderRadius.all(
+                                //     Radius.circular(1)
+                                //   //                 <--- border radius here
+                                // ),
+                               // border: Border.all(color: Colors.black12,width: 0.6),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        categorySnapshot[i]['img'].toString()))),
+                          ),
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Text(
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'? categorySnapshot[i]['nameK']:
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                              categorySnapshot[i]['nameA']:
+                              categorySnapshot[i]['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontWeight: FontWeight.w600,),),
+                          )
+                        ],
+                      ),),
+                          ),
+                        )
+                        : SizedBox();
+                  }),
+            ),
+          ),
         ],
-      ),
-    );
-  }),
-);
-},
-);
+      );
+
+
+
   }
 }

@@ -151,11 +151,19 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     onTap: () {
                       SearchByBarcode.openCamera(context);
                     },
-                    child: Image.asset(
-                      "images/barcode.png",
-                      color: Colors.white,
-                      width: 25,
-                      height: 25,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(6)),
+                      ),
+                      child: Image.asset(
+                        "images/category/barcode.png",
+                        color: Colors.grey[800],
+                        width: 45,
+                        height: 40,
+                      ),
                     )
                 )
               ],

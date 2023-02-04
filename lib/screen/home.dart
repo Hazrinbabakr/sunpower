@@ -10,6 +10,7 @@ import 'package:onlineshopping/Widgets/Offers.dart';
 import 'package:onlineshopping/Widgets/homeAppBar.dart';
 import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
 import 'package:onlineshopping/Widgets/new_arrival.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -44,12 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Categories'.toUpperCase(),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              child:  CategoriesWidget(),
             ),
-            CategoriesWidget(),
+
             //SizedBox(height: 120,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -57,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'New Arrival'.toUpperCase(),
+                  AppLocalizations.of(context).trans("NewArrivals").toUpperCase(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -68,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            SocialMediaWidget(),
+            //SocialMediaWidget(),
             SizedBox(
               height: 20,
             ),

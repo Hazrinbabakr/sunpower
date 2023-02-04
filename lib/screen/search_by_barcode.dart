@@ -30,12 +30,12 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
 
   @override
   void initState() {
-    print("barCode");
-    print(widget.barcode);
-    print(int.parse(widget.barcode));
+    // print("barCode");
+    // print(widget.barcode);
+    // print(int.parse(widget.barcode));
     FirebaseFirestore.instance
         .collection('products')
-        .where("barCode", isEqualTo: int.parse(widget.barcode))
+        .where("barCode", isEqualTo: widget.barcode)
         .get()
         .then((value) {
 

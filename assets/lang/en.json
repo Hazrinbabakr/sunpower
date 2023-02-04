@@ -27,7 +27,7 @@
   "Model": "Model",
   "Make": "Make",
   "Brand": "Brand",
-  "ItemCode": "Item Code",
+  "ItemCode": "Item Code:",
   "OEMCode": "OEM Code",
   "PiecesInBox": "Pieces In Box",
   "volt": "volt",
@@ -50,9 +50,9 @@
   "otp": "Please enter the code that has been sent to your phone",
   "Previousorder": "Previous order",
   "Accepted": "Accepted",
-  "rejected": "rejected",
+  "Rejected": "rejected",
   "Pending": "Pending",
-  "Deliverto": "Deliver to ",
+  "Deliverto": "Deliver to: ",
   "Exchangedrate": "Exchanged rate",
   "Favorite": "Favorite",
   "Empty": "Empty",
@@ -62,8 +62,14 @@
   "Sendorder": "Send order",
   "subtotal": "Subtotal",
   "CartScreen": "Cart Screen",
-
-  "orderHistory": "Order History"
+  "orderHistory": "Order History",
+  "Cart": "Cart",
+  "CONTACTSUNPOWER": "CONTACT SUNPOWER",
+  "categories": "Categories",
+  "ShowAll": "Show all",
+  "NewArrivals": "New Arrivals",
+  "aboutUsTitle": "The ability can make things different",
+  "aboutUsBody": "Sun Power company is a general trading company which deals with truck's electrical spare partsFounded in 2012 in Erbil Capital city of Kurdistan region, Iraq."
 
 
 }

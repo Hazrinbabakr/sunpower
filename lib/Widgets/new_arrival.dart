@@ -4,6 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:onlineshopping/screen/productDetails.dart';
 
 
 class NewArrival extends StatefulWidget {
@@ -66,19 +67,9 @@ class _NewArrivalState extends State<NewArrival> {
                         child: InkWell(
                     onTap: (){
 
-                        //
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => BrandItems(
-                        //     data.id.toString(),
-                        //     AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                        //     data['nameK'].toString():
-                        //     AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                        //     data['nameA'].toString():
-                        //     data['name'].toString(),
-                        //
-                        //
-                        //   ),
-                        // ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductDetails( NewArrivalSnapshot[i].id.toString()),
+                      ));
 
                     },
                     child: Padding(
