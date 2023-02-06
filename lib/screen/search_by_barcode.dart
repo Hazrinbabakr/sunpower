@@ -70,7 +70,7 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
           elevation: 0,
         ),
         body: Center(
-          child: Text("no result")
+          child: Text("No result")
         ),
       );
     }
