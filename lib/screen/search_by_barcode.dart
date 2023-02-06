@@ -19,7 +19,7 @@ class SearchByBarcode extends StatefulWidget {
     if(res == null || res.isEmpty) return;
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return SearchByBarcode(
-        barcode: res,
+        barcode: res.trim().replaceAll(" ", ""),
       );
     }));
   }
@@ -43,12 +43,19 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
           print(value.size);
       if (value.size > 0) {
         productId = value.docs.first.id;
+        setState(() {
+
+        });
+        return;
       }
-      noResult = false;
+      noResult = true;
       setState(() {});
     }).catchError((error) {
       print(error);
       noResult = true;
+      setState(() {
+
+      });
     });
     super.initState();
   }
@@ -63,9 +70,7 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
           elevation: 0,
         ),
         body: Center(
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.black,
-          ),
+          child: Text("no result")
         ),
       );
     }
