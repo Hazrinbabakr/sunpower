@@ -469,7 +469,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(  AppLocalizations.of(context).trans("subtotal"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
-                              Text('${subTotal.floor().toString()}\$',
+                              Text('${subTotal.toString()}\$',
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
                             ],
