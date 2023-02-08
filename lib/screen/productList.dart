@@ -32,6 +32,7 @@ class _ProductsListState extends State<ProductsList> {
         .where('makeId',isEqualTo: makeID)
         .get()
         .then((value) {
+      productListSnapShot.clear();
       productListSnapShot.addAll(value.docs);
       if(mounted){
         setState(() {
@@ -50,6 +51,7 @@ class _ProductsListState extends State<ProductsList> {
           .where("makeId", isEqualTo: productListSnapShot[i]["makeId"].toString())
           .get()
           .then((value) {
+        makeList.clear();
             for(int j=0 ; j<value.docs.length ; j++){
               var element = value.docs[j];
               if(makeList.where((oldList) => oldList["makeId"] == element["makeId"]).isEmpty){
