@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onlineshopping/Widgets/CustomAppButton.dart';
+import 'package:onlineshopping/localization/AppLocal.dart';
 
 import 'auth/normal_user_login/login_main_page.dart';
 import 'homepage.dart';
@@ -14,48 +16,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool activeConnection = false;
-String text = '';
+  bool activeConnection = true;
+  String text = '';
   // ignore: non_constant_identifier_names
   Future CheckUserConnection() async {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        setState(() {
-          activeConnection = true;
-          print('true');
-        });
+        Navigator.push(context, MaterialPageRoute(builder: (crl) =>
+        FirebaseAuth.instance.currentUser != null ?
+        HomePage():
+        MainLoginPage()
+        ));
       }
       else {
         activeConnection = false;
-        print('false');
+        if(mounted)
+        setState(() {
+
+        });
       }
 
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    CheckUserConnection();
-
-      Future.delayed(Duration(seconds: 2), () {
-        if(activeConnection==true){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (crl) =>
-          FirebaseAuth.instance.currentUser != null ?
-          HomePage():
-          MainLoginPage()
-          ));
-        }
-        else{
-          setState(() {
-            text= 'Check Your Internet Connection';
-          });
-        }
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration(seconds: 2),(){
+        CheckUserConnection();
       });
-
-
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -93,7 +83,21 @@ String text = '';
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                   ),
                   SizedBox(height: 150,),
-                  Text(text)
+                  Text(text),
+                  if(activeConnection == false)
+                    CustomAppButton(
+                      onTap: (){
+                        CheckUserConnection();
+                      },
+                      color: Theme.of(context).accentColor,
+                      elevation: 0,
+                      borderRadius: 5,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8
+                      ),
+                      child: Text(AppLocalizations.of(context).trans("tryAgain"),style: TextStyle(color: Colors.white,fontSize: 16),),
+                    )
                 ],
               )),
         ),

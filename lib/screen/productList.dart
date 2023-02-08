@@ -21,69 +21,47 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
-  List<DocumentSnapshot> productListSnapShot;
-  List<DocumentSnapshot> makeListSnapShot;
+  List<DocumentSnapshot> productListSnapShot = [];
   List<QueryDocumentSnapshot> makeList = [];
   int makeLength;
   String makeID;
-  int favLength;
-  List<QueryDocumentSnapshot>  productList=[];
   getProducts() {
-    int i = 0;
     FirebaseFirestore.instance
         .collection('products')
         .where('categoryID',isEqualTo: widget.categoryID)
         .where('makeId',isEqualTo: makeID)
         .get()
         .then((value) {
-      productListSnapShot = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
+      productListSnapShot.addAll(value.docs);
+      if(mounted){
         setState(() {
-          productListSnapShot[i] = element;
-          productList.add(element);
-          favLength=productListSnapShot.length;
-        });
-        i++;
 
-      });
+        });
+      }
+      getMakes();
+
     });
   }
 
-  getMakes() {
-
-    //int i = 0;
-    // FirebaseFirestore.instance
-    //     .collection('make')
-    //     .get()
-    //     .then((value) {
-    //   makeListSnapShot = new List<DocumentSnapshot>(value.docs.length);
-    //   value.docs.forEach((element) async {
-    //     setState(() {
-    //       makeListSnapShot[i] = element;
-    //       makeList.add(element);
-    //     });
-    //     i++;
-    //     makeLength=makeListSnapShot.length;
-    //   });
-    // }).whenComplete(() {
-    //   print(makeListSnapShot.length);
-    // });
-
-    makeListSnapShot = new List<DocumentSnapshot>(favLength);
-    for(int i=0; i<favLength;i++) {
-      FirebaseFirestore.instance
+  getMakes() async {
+    for(int i=0; i<productListSnapShot.length;i++) {
+      await FirebaseFirestore.instance
           .collection('make')
-          .where("makeId", isEqualTo: productList[i]["makeId"].toString())
+          .where("makeId", isEqualTo: productListSnapShot[i]["makeId"].toString())
           .get()
           .then((value) {
-        value.docs.forEach((element) async {
-          setState(() {
-            makeList.add(element);
-           // makeListSnapShot[i] =  element;
-            makeLength=makeList.length;
-          });
-          i++;
-        });
+            for(int j=0 ; j<value.docs.length ; j++){
+              var element = value.docs[j];
+              if(makeList.where((oldList) => oldList["makeId"] == element["makeId"]).isEmpty){
+                makeList.add(element);
+                makeLength=makeList.length;
+              }
+            }
+      });
+    }
+    if(mounted){
+      setState(() {
+
       });
     }
   }
@@ -91,12 +69,12 @@ class _ProductsListState extends State<ProductsList> {
   @override
   void initState() {
     getProducts();
-   Future.delayed(Duration(milliseconds: 500),(){
-    if(productList.length !=0){
-      getMakes();
-    }
-   });
-    // TODO: implement initState
+   // Future.delayed(Duration(milliseconds: 500),(){
+   //  if(productList.length !=0){
+   //    getMakes();
+   //  }
+   // });
+   //  // TODO: implement initState
     super.initState();
   }
 
@@ -113,7 +91,7 @@ class _ProductsListState extends State<ProductsList> {
           actions:[
             Builder(
             builder: (BuildContext context) {
-              return productList.length==0?SizedBox():
+              return productListSnapShot.length==0?SizedBox():
               IconButton(
                 icon: const Icon(Icons.filter_list),
                 onPressed: () {
@@ -231,8 +209,12 @@ class _ProductsListState extends State<ProductsList> {
                   fontSize: 25, fontWeight: FontWeight.bold),),
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: makeLength,
+                  itemCount: makeList.length,
                   itemBuilder: (context, i) {
+                    if(makeList.length <= i){
+                      print(makeList.length);
+                      return const SizedBox();
+                    }
                     return (makeList[i] == null)
                         ? EmptyWidget() :
 
