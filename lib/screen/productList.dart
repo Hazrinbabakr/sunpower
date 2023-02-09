@@ -45,16 +45,18 @@ class _ProductsListState extends State<ProductsList> {
   }
 
   getMakes() async {
+    makeList.clear();
     for(int i=0; i<productListSnapShot.length;i++) {
       await FirebaseFirestore.instance
           .collection('make')
           .where("makeId", isEqualTo: productListSnapShot[i]["makeId"].toString())
           .get()
           .then((value) {
-        makeList.clear();
             for(int j=0 ; j<value.docs.length ; j++){
               var element = value.docs[j];
-              if(makeList.where((oldList) => oldList["makeId"] == element["makeId"]).isEmpty){
+              if(makeList.where((oldList) {
+                return oldList["makeId"] == element["makeId"];
+              }).isEmpty){
                 makeList.add(element);
                 makeLength=makeList.length;
               }
