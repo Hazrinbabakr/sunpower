@@ -292,12 +292,12 @@ int length=0;
                                            ,fontSize: 18,fontWeight: FontWeight.bold),),
                                      Padding(
                                        padding: const EdgeInsets.symmetric(vertical:7 ),
-                                       child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12),),
+                                       child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
                                      ),
                                      Row(
                                        children: [
-                                         Text(  AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                         Expanded(child: Text(orderHistoryList[i]['userAddress'].toString())),
+                                         Text(  AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+                                         Expanded(child: Text(orderHistoryList[i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
                                        ],
                                      ),
 

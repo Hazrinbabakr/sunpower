@@ -131,7 +131,7 @@ class _ProductsListState extends State<ProductsList> {
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: Container(
-                                  height: 175,
+                                  height: 140,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       boxShadow: [
@@ -143,8 +143,10 @@ class _ProductsListState extends State<ProductsList> {
                                   child: Row(
                                     children: [
                                       Container(
+                                        height: 140,
                                         width: 150,
                                         decoration: BoxDecoration(
+                                          //color: Colors.red,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(20)
                                               //                 <--- border radius here
@@ -164,7 +166,7 @@ class _ProductsListState extends State<ProductsList> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              //color: Colors.red,
+                                              // color: Colors.red,
                                                 width: 170,
                                                 child: Text(
                                                   AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
@@ -174,11 +176,9 @@ class _ProductsListState extends State<ProductsList> {
                                                   productListSnapShot[i]['name'].toString().toUpperCase(),
                                                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),
                                                   overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-
-
+                                                  maxLines: 1,
                                                 )),
-                                            SizedBox(height: 10,),
+                                            SizedBox(height: 5,),
                                             //LocalStorageService.instance.user.role == 1?
                                         FirebaseAuth.instance.currentUser != null ?
 
@@ -186,12 +186,26 @@ class _ProductsListState extends State<ProductsList> {
                                               style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
                                         Text('${productListSnapShot[i]['retail price'].toString()}\$',
                                           style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
-                                            SizedBox(height: 10,),
-                                            FirebaseAuth.instance.currentUser != null ?
-                                            Text( productListSnapShot[i]['old price'].toString()=='0'?'':'${productListSnapShot[i]['old price'].toString()}\$',style:
-                                            TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),)
-                                            : SizedBox()
 
+                                            SizedBox(height: 15,),
+
+                                            Row(
+                                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text( AppLocalizations.of(context).trans("ItemCode"),
+                                                  maxLines: 3,
+                                                  style: TextStyle(fontSize: 14),
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Container(
+                                                  width: 100,
+                                                  child: Text(productListSnapShot[i]['itemCode'].toString(),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
+                                                  ),
+                                                )
+                                              ],),
                                           ],
                                         ),
                                       ),
@@ -268,7 +282,7 @@ SizedBox(height: 100,),
                   setState(() {
                     makeID=null;
                     getProducts();
-                    Navigator.of(context).pop();
+                   // Navigator.of(context).pop();
                   });
                 },
                 child: Container(

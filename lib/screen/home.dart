@@ -43,10 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child:  CategoriesWidget(),
-            ),
+            CategoriesWidget(),
 
             //SizedBox(height: 120,),
             Padding(
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            //SocialMediaWidget(),
+            SocialMediaWidget(),
             SizedBox(
               height: 20,
             ),

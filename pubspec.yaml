@@ -58,6 +58,7 @@ dependencies:
   flutter_email_sender:
   flutter_barcode_scanner:
   syncfusion_flutter_barcodes:
+  photo_view: ^0.9.2
 
 
 

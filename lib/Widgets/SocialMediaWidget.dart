@@ -35,7 +35,7 @@ launch("https://instagram.com/sunpower_iraq?igshid=MWI4MTIyMDE=");
 
           InkWell(
               onTap: (){
-                launch("https://maps.app.goo.gl/bk4zZ9d7de3bZji76?g_st=iw");
+                launch("https://maps.google.com?q=Sun%20Power%20Company,%20North%20Industrial%20Area%20G33,%20Erbil%2044001&ftid=0x400721bde5c36167:0x3da92b465a7893c&hl=en-US&gl=us&entry=gps&coh=166245&lucs=47057720&g_st=ic");
               },
               child: Image.asset('images/category/location.png',width: 30,)),
       //

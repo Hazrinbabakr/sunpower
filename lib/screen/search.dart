@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetails.dart';
+import 'package:onlineshopping/services/local_storage_service.dart';
 
 
 class Search extends StatefulWidget {
@@ -71,7 +73,9 @@ class _SearchState extends State<Search> {
                     // },
                     onChanged: (val) {
                       setState(() {
-                        searchInput = val[0].toUpperCase() + val.substring(1);
+                        searchInput = val
+                        //[0].toUpperCase() + val.substring(1)
+                        ;
                        // print(searchInput);
                       });
                     },
@@ -114,21 +118,25 @@ class _SearchState extends State<Search> {
                             itemBuilder: (_, index) {
                               String searchWord;
                               searchWord =
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                              snapshot.data.docs[index].data()['nameK']:
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                              // ignore: unnecessary_statements
-                              snapshot.data.docs[index].data()['makeA']:
-                              // ignore: unnecessary_statements
-                              snapshot.data.docs[index].data()['name'];
+                              snapshot.data.docs[index].data()['itemCode'].toString();
+                              // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                              // snapshot.data.docs[index].data()['nameK']:
+                              // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                              // // ignore: unnecessary_statements
+                              // snapshot.data.docs[index].data()['makeA']:
+                              // // ignore: unnecessary_statements
+                              // snapshot.data.docs[index].data()['name'];
+
+
                               if (snapshot.hasData &&
                                   searchWord.contains(searchInput)) {
-                                DocumentSnapshot shops =
+                                // ignore: non_constant_identifier_names
+                                DocumentSnapshot ProductList =
                                 snapshot.data.docs[index];
                                 return InkWell(
                                   onTap: (){
                                     Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ProductDetails( shops.id),
+                                      builder: (context) => ProductDetails( ProductList.id),
                                     ));
                                   },
                                   child: Card(
@@ -136,16 +144,38 @@ class _SearchState extends State<Search> {
 
                                       title: Text(
                                         AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                        shops.data()['nameK'].toString():
+                                        ProductList.data()['nameK'].toString():
                                         AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
                                         // ignore: unnecessary_statements
-                                        shops.data()['nameA'].toString():
+                                        ProductList.data()['nameA'].toString():
                                         // ignore: unnecessary_statements
-                                        shops.data()['name'].toString(),
+                                        ProductList.data()['name'].toString(),
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      subtitle:    Row(
+                                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text( AppLocalizations.of(context).trans("ItemCode"),
+                                            maxLines: 3,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(width: 10,),
+                                          Text(ProductList.data()['itemCode'].toString(),
+                                            maxLines: 5,
+                                            style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
+                                          )
+                                        ],),
+                                      trailing:
+                                      FirebaseAuth.instance.currentUser != null ?
+
+                                      Text('${LocalStorageService.instance.user.role == 1? ProductList.data()['wholesale price'].toString()
+                                          :ProductList.data()['retail price'].toString()}\$',
+                                        style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
+                                      Text('${ProductList.data()['retail price'].toString()}\$',
+                                        style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+
 
                                     ),
                                   ),

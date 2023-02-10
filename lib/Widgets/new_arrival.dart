@@ -57,7 +57,7 @@ class _NewArrivalState extends State<NewArrival> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: NewArrivalSnapshot.length,
+                itemCount: NewArrivalSnapshot.length<10? NewArrivalSnapshot.length:10,
                 itemBuilder: (context, i) {
                   DocumentSnapshot data= NewArrivalSnapshot.elementAt(i);
                   return (NewArrivalSnapshot[i] != null)

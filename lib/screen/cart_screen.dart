@@ -52,6 +52,7 @@ class _CartScreenState extends State<CartScreen> {
             'productID':  cart[i]['productID'],
             'quantity':  cart[i]['quantity'],
             'img':  cart[i]['img'],
+            'itemCode':  cart[i]['itemCode'],
           });
           setState(() {
             subTotal += cart[i]['price']*cart[i]['quantity'];
@@ -546,6 +547,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "orderID":rundomNumber,
                                       "OrderStatus": 'Pending',
                                       "date": orderDate,
+                                      "itemCode": orderDate,
                                     });
 
                                     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').doc(rundomNumber).set({
@@ -559,7 +561,6 @@ class _CartScreenState extends State<CartScreen> {
                                       "userPhone": phone,
                                       "dinnar": dinnar,
                                       "OrderStatus": 'Pending',
-                                      "date": orderDate,
                                     });
 
                                   }).whenComplete(() {

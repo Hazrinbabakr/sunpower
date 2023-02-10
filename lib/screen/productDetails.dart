@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
 import 'package:onlineshopping/Widgets/empty.dart';
+import 'package:onlineshopping/Widgets/photo_gellary.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/productDetailPDF.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
@@ -202,94 +203,98 @@ class _ProductDetailsState extends State<ProductDetails> {
                             automaticallyImplyLeading: false,
                             flexibleSpace:
                             FlexibleSpaceBar(
-                              //collapseMode: CollapseMode.pin,
                               background: GestureDetector(
-                                onTap: () {
-
-                                },
+                                onTap: () {},
                                 child: Hero(
                                   tag: 'testt',
-                                  child: imgList==null
-                                      ? Container(
-
-                                    child:
-                                    Center(child:CircularProgressIndicator()),
-                                  )
-                                      :  Column(
-                                        children: [
-                                          SizedBox(height: 20,),
-                                          Container(
-                                    //color: Colors.red,
-                                            child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
-                                            child:Stack(
-                                              children: [
-                                                CarouselSlider(
-                                                  options: CarouselOptions(
-                                                      //height: 300,
-                                                      viewportFraction: 1,
-                                                      autoPlay: false,
-                                                      onPageChanged: (index, reason) {
-                                                        setState(() {
-                                                          _current = index;
-                                                        });
-                                                      }),
-
-                                                  items: imgList.map((i) {
-                                                    return Builder(
-
-                                                      builder: (BuildContext context) {
-
-                                                        return
-                                                          // Text('ssss ${i['test1'].toString()}');
-                                                          Container(
-                                                            // height: heightt-450,
-                                                            //width: 700,
-                                                            decoration: BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  fit: BoxFit.cover,
-                                                                  image: NetworkImage(i.toString())),),
-
-                                                            //child: Text(i.toString()),
-                                                          );
-                                                      },
-                                                    );
-                                                  }).toList(),
-                                                ),
-
-                                              ],
-                                            )
-
-
-                                  ),
-                                          ),
-                                          SizedBox(height: 20,),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                  child: imgList == null
+                                      ? Center(
+                                      child: CircularProgressIndicator())
+                                      : Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          child: Stack(
                                             children: [
-                                              for (int i = 0; i < imgList.length; i++)
-                                                Center(
-                                                  child: Container(
-                                                    height: 8,
-                                                    width: 8,
-                                                    margin: EdgeInsets.all(5),
-                                                    decoration: BoxDecoration(
-                                                        color: _current == i ? Colors.red[900] : Colors.red.withOpacity(0.2),
-                                                        shape: BoxShape.circle,
-                                                        // boxShadow: [
-                                                        //   BoxShadow(
-                                                        //       color: Colors.grey,
-                                                        //       spreadRadius: 1,
-                                                        //       blurRadius: 3,
-                                                        //       offset: Offset(2, 2))
-                                                        // ]
-                                                    ),
-                                                  ),
-                                                )
+                                              CarouselSlider(
+                                                options: CarouselOptions(
+                                                    viewportFraction: 1,
+                                                    autoPlay: false,
+                                                    onPageChanged:
+                                                        (index, reason) {
+                                                      setState(() {
+                                                        _current = index;
+                                                      });
+                                                    }),
+                                                items: imgList.map((i) {
+                                                  return GestureDetector(
+                                                    onTap: (){
+                                                      int ind = 0;
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PhotosGalleryPage(
+                                                                    initialPage: 0,
+                                                                    galleryItems: [
+                                                                      GalleryItem(
+                                                                          id: widget.productID
+                                                                              +
+                                                                              "_" +
+                                                                              (ind++)
+                                                                                  .toString(),
+                                                                          image: i)
+                                                                    ],
+                                                                  )
+                                                          )
+                                                      );
+                                                    },
+                                                    child: SizedBox(
+                                                        width: double.infinity,
+                                                        child:
+                                                        Image.network(
+                                                          i.toString(),
+                                                          fit: BoxFit.cover,
+                                                        )),
+                                                  );
+                                                }).toList(),
+                                              ),
                                             ],
-                                          ),
+                                          )),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          for (int i = 0;
+                                          i < imgList.length;
+                                          i++)
+                                            Center(
+                                              child: Container(
+                                                height: 8,
+                                                width: 8,
+                                                margin: EdgeInsets.all(5),
+                                                decoration: BoxDecoration(
+                                                  color: _current == i
+                                                      ? Theme.of(context)
+                                                      .accentColor
+                                                      : Theme.of(context)
+                                                      .accentColor
+                                                      .withOpacity(
+                                                      0.2),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            )
                                         ],
                                       ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -375,7 +380,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       SizedBox(
                                                         width: 5,
                                                       ),
-                                                      productSnapshot.data()['quantity']==0?
+                                                      productSnapshot.data()['quantity']==0 ||productSnapshot.data()['quantity']<0 ||productSnapshot.data()['quantity']< quantity?
                                                       Text(  AppLocalizations.of(context).trans("OutofStock"),
 
                                                         style: TextStyle(
@@ -396,7 +401,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             ),
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.only(left: 20),
+                                                padding: const EdgeInsets.only(left: 20,top: 7),
                                                 child: Column(
                                                   children: [
                                                     Container(
@@ -775,7 +780,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             keyboardType: TextInputType.numberWithOptions(signed: true),
                                             inputFormatters: [
                                               FilteringTextInputFormatter.digitsOnly,
-                                              LengthLimitingTextInputFormatter(2),
+                                              LengthLimitingTextInputFormatter(3),
                                               //FilteringTextInputFormatter.deny(r"0"),
                                               ArabicToEnglishNumbers(),
                                             ],
@@ -929,7 +934,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 // addtocart
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width - 40,
-                                    child:  productSnapshot.data()['quantity']==0?
+                                    child:  productSnapshot.data()['quantity']==0 ||productSnapshot.data()['quantity']<0  ||productSnapshot.data()['quantity']< quantity?
                                     Center(
                                       child: Stack(
                                         fit: StackFit.loose,
@@ -1052,6 +1057,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
 
       "img": productSnapshot.data()['images'][0],
+    "itemCode": productSnapshot.data()['itemCode'],
   });
   //print('added');
   Scaffold.of(context).showSnackBar(_snackBar);
@@ -1124,7 +1130,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   int selectedIndex = 0;
   getCurrentPage(){
     if(selectedIndex == 1){
-      return Text(productSnapshot.data()['desc'],style: TextStyle(fontSize: 16,height: 1.3),);
+      return Text(
+
+
+        AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+        productSnapshot.data()['descK'] ?? '':
+        AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+        productSnapshot.data()['descA'] ?? '':
+        productSnapshot.data()['desc'] ?? '',
+
+       style: TextStyle(fontSize: 16,height: 1.3),);
 
     }else if (selectedIndex == 0){
       return
