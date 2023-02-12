@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20,
             ),
-            CategoriesWidget(),
+            // CategoriesWidget(),
 
             //SizedBox(height: 120,),
             Padding(

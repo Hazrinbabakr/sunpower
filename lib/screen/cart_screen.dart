@@ -561,6 +561,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "userPhone": phone,
                                       "dinnar": dinnar,
                                       "OrderStatus": 'Pending',
+                                      "date": orderDate,
                                     });
 
                                   }).whenComplete(() {

@@ -60,7 +60,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                 child: Text(
                             "${ snapshot.data['username'].toUpperCase().toString()??''}",
                             style: Theme.of(context).textTheme.subtitle1.merge(
-                                  TextStyle(fontSize: 22)),
+                                  TextStyle(fontSize: 22,color: Colors.black)),
                           ),
                               ),
                           SizedBox(height: 10,),
@@ -112,8 +112,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                             child: Center(
                               child: Text(snapshot.data['address'].toString()??'',
-                                style: Theme.of(context).textTheme.subtitle1.merge(
-                                    TextStyle(color: Theme.of(context).hintColor)),
+                                style: Theme.of(context).textTheme.subtitle1
                               ),
                             ),
                           ),
