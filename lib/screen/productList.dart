@@ -45,6 +45,9 @@ class _ProductsListState extends State<ProductsList> {
   }
 
   getMakes() async {
+    if(makeList.isNotEmpty){
+      return;
+    }
     makeList.clear();
     for(int i=0; i<productListSnapShot.length;i++) {
       await FirebaseFirestore.instance
