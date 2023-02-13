@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Text(FirebaseAuth.instance.currentUser.uid.toString()),
 
-            Offers(),
+            Offers('sliderImages'),
             SizedBox(
               height: 20,
             ),
-            // CategoriesWidget(),
+            CategoriesWidget(),
 
             //SizedBox(height: 120,),
             Padding(
@@ -62,10 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-
+            Offers('offerImages'),
+            SizedBox(
+              height: 30,
+            ),
             SocialMediaWidget(),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
           ],
         ),

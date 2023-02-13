@@ -65,7 +65,7 @@ Padding(
 
     InkWell(
       onTap: (){
-        launch("tel:0${7500777000}");
+        launch("tel:0${7722777000}");
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,16 +76,16 @@ Padding(
               child: Image.asset( 'images/category/phone.png',fit: BoxFit.cover,)),
           Padding(
             padding: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
-            child: Text('+9640750-077-7000',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text('+9640772-277-7000',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
           )
         ],),
+
     ),
     Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: InkWell(
         onTap: (){
-          // print('whatsapp');
-           launch("https://wa.link/5ilhu5");
+           launch("https://wa.link/nu7nyt");
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +96,7 @@ Padding(
                 child: Image.asset( 'images/category/whatsapp.png',fit: BoxFit.cover,)),
             Padding(
               padding: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
-              child: Text('info@sunpowerc.com',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+              child: Text('+9640772-277-7000',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
             )
           ],),
       ),

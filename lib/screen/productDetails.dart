@@ -36,6 +36,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   FirebaseAuth _auth;
   User user;
   List<String> imgList=[];
+
   int _current = 0;
   TextEditingController quantityController = TextEditingController(text: "1");
 

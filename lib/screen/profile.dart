@@ -9,6 +9,7 @@ import 'package:onlineshopping/app/Application.dart';
 import 'package:onlineshopping/localization/AppLocal.dart';
 import 'package:onlineshopping/screen/contact_us.dart';
 import 'package:onlineshopping/services/local_storage_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'about_us.dart';
 
@@ -66,12 +67,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               userID: user.uid,
               //isGuest: true,
             ),
-            //:
-            // ProfileAvatarWidget(
-            //   name:'User Name',
-            //   phoneNumber: 'USer Phone Number',
-            //  // isGuest: false,
-            // ),
           SizedBox(height: 120,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
@@ -178,8 +173,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
               ),
-            )
-
+            ),
+            SizedBox(height: 100,),
+            InkWell(
+                onTap: (){
+                  launch("https://www.facebook.com/vinforitsolution?mibextid=LQQJ4d");
+                },
+                child: Text('Powered by Vin Agency'))
           ],
         ),
       ),
