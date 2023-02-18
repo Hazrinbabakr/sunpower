@@ -99,6 +99,14 @@
           }
         },
         {
+          "client_id": "816179177968-u90pur0rh7mv9arq8n8lt4puek8rmngt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sunpower.guideware",
+            "certificate_hash": "83f2ea3e576f2da09f720f34b559d18bd2a20054"
+          }
+        },
+        {
           "client_id": "816179177968-767srij6fk8qfa7q1ptegdb8vlo7dsr8.apps.googleusercontent.com",
           "client_type": 3
         }

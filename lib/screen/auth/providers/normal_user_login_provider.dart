@@ -69,6 +69,7 @@ class NormalUserLoginProvider extends ChangeNotifier {
       loading = true;
       notifyListeners();
       this.request = request;
+
       _firebaseAuth.verifyPhoneNumber(
           phoneNumber: "+964${request.phone}",
           //autoRetrievedSmsCodeForTesting: "111111",

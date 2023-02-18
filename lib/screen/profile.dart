@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: <Widget>[
             //guest?
             ProfileAvatarWidget(
-              userID: user.uid,
+              userID: user?.uid??"",
               //isGuest: true,
             ),
           SizedBox(height: 120,),
