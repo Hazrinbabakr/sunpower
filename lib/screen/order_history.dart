@@ -317,7 +317,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                   shrinkWrap: true,
                   itemCount: orderHistoryList.length,
                   itemBuilder: (context, i) {
-                    return (orderHistoryList[i] != null  && orderHistoryList[i]['OrderStatus'] == "Accepted")
+                    return (orderHistoryList[i] != null  && orderHistoryList[i]['OrderStatus'] == "Accepted" || orderHistoryList[i]['OrderStatus'] == "Rejected")
                         ? ExpansionTile(title: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
@@ -339,7 +339,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                                   AppLocalizations.of(context).trans(orderHistoryList[i]['OrderStatus'].toString()),
 
                                   style: TextStyle(color:
-                                  orderHistoryList[i]['OrderStatus']==   AppLocalizations.of(context).trans("rejected")?
+                                  orderHistoryList[i]['OrderStatus']== "Rejected"?
                                   Colors.red[700]:  Colors.green[700]
 
                                       ,fontSize: 18,fontWeight: FontWeight.bold),),
