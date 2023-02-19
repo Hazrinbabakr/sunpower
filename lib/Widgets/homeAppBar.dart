@@ -3,10 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/cart_screen.dart';
-import 'package:onlineshopping/screen/search.dart';
-import 'package:onlineshopping/screen/search_by_barcode.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/cart_screen.dart';
+import 'package:sunpower/screen/search.dart';
+import 'package:sunpower/screen/search_by_barcode.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({key}) : super(key: key);

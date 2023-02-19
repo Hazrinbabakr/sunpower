@@ -3,10 +3,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/screen/profile.dart';
+import 'package:sunpower/screen/profile.dart';
 import 'Favorites.dart';
 import 'auth/normal_user_login/login_main_page.dart';
-import 'cart_screen.dart';
 import 'home.dart';
 import 'order_history.dart';
 class HomePage extends StatefulWidget {

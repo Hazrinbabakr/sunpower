@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:onlineshopping/models/user.dart';
+import 'package:sunpower/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

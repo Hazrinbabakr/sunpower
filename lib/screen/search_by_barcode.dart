@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:onlineshopping/screen/productDetails.dart';
+import 'package:sunpower/screen/productDetails.dart';
 
 class SearchByBarcode extends StatefulWidget {
   final String barcode;
@@ -14,8 +14,7 @@ class SearchByBarcode extends StatefulWidget {
   static openCamera(BuildContext context) async {
     var res = await FlutterBarcodeScanner.scanBarcode(
         "#00BCD4", "Cancel", false, ScanMode.DEFAULT);
-    print("FlutterBarcodeScanner");
-    print(res);
+    //print(res);
     if(res == null || res.isEmpty) return;
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return SearchByBarcode(
@@ -30,17 +29,13 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
 
   @override
   void initState() {
-    // print("barCode");
-    // print(widget.barcode);
-    // print(int.parse(widget.barcode));
+
     FirebaseFirestore.instance
         .collection('products')
         .where("barCode", isEqualTo: widget.barcode)
         .get()
         .then((value) {
 
-          print(value);
-          print(value.size);
       if (value.size > 0) {
         productId = value.docs.first.id;
         setState(() {
@@ -51,7 +46,7 @@ class _SearchByBarcodeState extends State<SearchByBarcode> {
       noResult = true;
       setState(() {});
     }).catchError((error) {
-      print(error);
+     // print(error);
       noResult = true;
       setState(() {
 

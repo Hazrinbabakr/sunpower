@@ -5,11 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/Widgets/empty.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/productDetails.dart';
-import 'package:onlineshopping/services/local_storage_service.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/Widgets/empty.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/productDetails.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 
 class ProductsList extends StatefulWidget {
    final String categoryID;

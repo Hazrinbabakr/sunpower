@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/CustomAppButton.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:sunpower/Widgets/CustomAppButton.dart';
+import 'package:sunpower/localization/AppLocal.dart';
 
 import 'auth/normal_user_login/login_main_page.dart';
 import 'homepage.dart';

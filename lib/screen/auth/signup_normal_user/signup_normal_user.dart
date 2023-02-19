@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/Widgets/CustomAppButton.dart';
-import 'package:onlineshopping/Widgets/phone_input_widget.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/auth/providers/normal_user_login_provider.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/Widgets/CustomAppButton.dart';
+import 'package:sunpower/Widgets/phone_input_widget.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/auth/providers/normal_user_login_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {

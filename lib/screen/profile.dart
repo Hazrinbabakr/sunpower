@@ -3,13 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/language_bottom_sheet.dart';
-import 'package:onlineshopping/Widgets/profileavatarWidget.dart';
-import 'package:onlineshopping/app/Application.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/contact_us.dart';
-import 'package:onlineshopping/services/local_storage_service.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sunpower/Widgets/language_bottom_sheet.dart';
+import 'package:sunpower/Widgets/profileavatarWidget.dart';
+import 'package:sunpower/app/Application.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/contact_us.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 
 import 'about_us.dart';
 

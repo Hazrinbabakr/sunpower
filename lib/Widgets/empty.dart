@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:sunpower/localization/AppLocal.dart';
 
 class EmptyWidget extends StatefulWidget {
   EmptyWidget({

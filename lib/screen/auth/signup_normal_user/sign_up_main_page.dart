@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/auth/signup_normal_user/signup_normal_user.dart';
-import 'package:onlineshopping/screen/homepage.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/auth/signup_normal_user/signup_normal_user.dart';
+import 'package:sunpower/screen/homepage.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/normal_user_login_provider.dart';

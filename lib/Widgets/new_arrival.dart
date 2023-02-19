@@ -3,8 +3,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/productDetails.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/productDetails.dart';
 
 
 class NewArrival extends StatefulWidget {

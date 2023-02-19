@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/models/user.dart';
+import 'package:sunpower/models/user.dart';
 import 'package:provider/provider.dart';
 
 import 'local_storage_service.dart';

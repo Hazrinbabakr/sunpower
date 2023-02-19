@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:sunpower/localization/AppLocal.dart';
 
 class BackArrowWidget extends StatelessWidget {
   const BackArrowWidget({key}) : super(key: key);

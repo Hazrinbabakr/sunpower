@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/models/user.dart';
-import 'package:onlineshopping/services/local_storage_service.dart';
+import 'package:sunpower/models/user.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 import 'package:provider/provider.dart';
 
 class UserRegisterRequest {

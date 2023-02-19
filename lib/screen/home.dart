@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:onlineshopping/Widgets/Categories.dart';
-import 'package:onlineshopping/Widgets/Offers.dart';
-import 'package:onlineshopping/Widgets/homeAppBar.dart';
-import 'package:onlineshopping/Widgets/SocialMediaWidget.dart';
-import 'package:onlineshopping/Widgets/new_arrival.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:sunpower/Widgets/Categories.dart';
+import 'package:sunpower/Widgets/Offers.dart';
+import 'package:sunpower/Widgets/homeAppBar.dart';
+import 'package:sunpower/Widgets/SocialMediaWidget.dart';
+import 'package:sunpower/Widgets/new_arrival.dart';
+import 'package:sunpower/localization/AppLocal.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

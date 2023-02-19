@@ -2,10 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/Widgets/empty.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/productList.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/Widgets/empty.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/productList.dart';
 
 
 

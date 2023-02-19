@@ -6,12 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/Widgets/empty.dart';
-import 'package:onlineshopping/Widgets/photo_gellary.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/productDetailPDF.dart';
-import 'package:onlineshopping/services/local_storage_service.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/Widgets/empty.dart';
+import 'package:sunpower/Widgets/photo_gellary.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/productDetailPDF.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'auth/normal_user_login/login_main_page.dart';

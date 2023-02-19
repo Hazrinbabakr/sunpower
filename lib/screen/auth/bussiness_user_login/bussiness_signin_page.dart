@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:onlineshopping/Widgets/CustomAppButton.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/auth/providers/business_user_login.dart';
-import 'package:onlineshopping/screen/homepage.dart';
+import 'package:sunpower/Widgets/CustomAppButton.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/auth/providers/business_user_login.dart';
+import 'package:sunpower/screen/homepage.dart';
 import 'package:provider/provider.dart';
 
 class BusinessSignInPage extends StatefulWidget {

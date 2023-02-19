@@ -1,20 +1,15 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:onlineshopping/app/Application.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/auth/signup_normal_user/sign_up_main_page.dart';
-import 'package:onlineshopping/screen/homepage.dart';
-import 'package:onlineshopping/screen/suplashScreen.dart';
+import 'package:sunpower/app/Application.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/suplashScreen.dart';
 import 'package:provider/provider.dart';
 
 import 'localization/kurdish_material_localization.dart';
-import 'screen/auth/normal_user_login/login_main_page.dart';
 import 'services/local_storage_service.dart';
 import 'services/settings_service_provider.dart';
 

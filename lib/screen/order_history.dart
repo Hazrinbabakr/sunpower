@@ -7,10 +7,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/Widgets/empty.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/productDetails.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/Widgets/empty.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/productDetails.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   OrderHistoryScreen({Key key}) : super(key: key);

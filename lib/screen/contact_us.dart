@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/Widgets/BackArrowWidget.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
+import 'package:sunpower/Widgets/BackArrowWidget.dart';
+import 'package:sunpower/localization/AppLocal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

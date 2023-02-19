@@ -2,9 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:onlineshopping/localization/AppLocal.dart';
-import 'package:onlineshopping/screen/all_category.dart';
-import 'package:onlineshopping/screen/productList.dart';
+import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/all_category.dart';
+import 'package:sunpower/screen/productList.dart';
 
 
 class CategoriesWidget extends StatefulWidget {
