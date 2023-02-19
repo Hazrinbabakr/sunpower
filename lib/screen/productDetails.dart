@@ -699,15 +699,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                               padding: const EdgeInsets.only(top:15,left: 100,bottom: 15),
                               child: Row(
                                 children: [
-
                                   InkWell(
                                     onTap: (){
                                       setState(() {
-                                        quantity= quantity+1;
-                                        quantityController.text = quantity.toString();
+                                        if(quantity>1){
+                                          quantity= quantity-1;
+                                          quantityController.text = quantity.toString();
+                                        }
+
 
                                       });
                                     },
+
                                     child: Container(
                                         decoration: BoxDecoration(
                                           color: Theme.of(context)
@@ -731,7 +734,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         width: 40,
                                         // color: Colors.red,
                                         child:  Icon(
-                                          Icons.add,
+                                          Icons.remove,
                                           size: 25,
                                           color: Theme.of(context).accentColor,
                                         )
@@ -805,15 +808,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   InkWell(
                                     onTap: (){
                                       setState(() {
-                                        if(quantity>1){
-                                          quantity= quantity-1;
-                                          quantityController.text = quantity.toString();
-                                        }
-
+                                        quantity= quantity+1;
+                                        quantityController.text = quantity.toString();
 
                                       });
                                     },
-
                                     child: Container(
                                         decoration: BoxDecoration(
                                           color: Theme.of(context)
@@ -837,7 +836,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         width: 40,
                                         // color: Colors.red,
                                         child:  Icon(
-                                          Icons.remove,
+                                          Icons.add,
                                           size: 25,
                                           color: Theme.of(context).accentColor,
                                         )
@@ -846,7 +845,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ],
                               ),
                             ),
-
                             Row(
                               children: [
                                 // addtofav

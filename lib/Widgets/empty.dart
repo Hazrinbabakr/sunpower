@@ -30,24 +30,26 @@ class _EmptyWidgetState extends State<EmptyWidget> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          loading
-              ? Column(
-            children: [
-              SizedBox(
-                height: screenHeight / 3,
-              ),
-              Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.black,
-                  )),
-            ],
-          )
-              :  Center(child: Text(AppLocalizations.of(context).trans("Empty"),))
-        ],
+    return Center(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            loading
+                ? Column(
+              children: [
+                // SizedBox(
+                //   height: screenHeight / 5,
+                // ),
+                Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.black,
+                    )),
+              ],
+            )
+                :  Center(child: Text(AppLocalizations.of(context).trans("Empty"),))
+          ],
+        ),
       ),
     );
   }

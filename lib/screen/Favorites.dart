@@ -88,7 +88,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
         body:
         (allProductListSnapShot == null || allProductListSnapShot.isEmpty)
-            ? EmptyWidget()
+            ? Padding(
+          padding: const EdgeInsets.only(top: 200),
+              child: EmptyWidget(),
+            )
             : Padding(
             padding: const EdgeInsets.only(top: 30),
             child: ListView.builder(

@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
   String phone='';
   var uuid = Uuid();
   String rundomNumber;
-
+  var formatter = NumberFormat('#,##,000');
   getCart() {
     cartList=[];
     subTotal=0.0;
@@ -114,7 +114,12 @@ class _CartScreenState extends State<CartScreen> {
         body:
         Builder(
             builder: (BuildContext context){
-              return cartList.isEmpty? EmptyWidget(): Padding(
+              return cartList.isEmpty?
+              Padding(
+                padding: const EdgeInsets.only(top: 250),
+                child: Center(child: EmptyWidget()),
+              ):
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +230,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                   Text(
                                                                     '${   ( cartInfo
                                                                         .data()["price"]* cartInfo.data()['quantity'])
-                                                                        .toString()}\$',
+                                                                        .toStringAsFixed(2)}\$',
                                                                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.green[900]),
 
 
@@ -240,85 +245,25 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                               Positioned(
                                                 bottom: 15,
-                                                right: 15,
+                                                  left:
+
+                                                AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                                0:
+                                                AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                                0:
+                                                240,
+
+
+
+                                                right:
+                                                AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                                240:
+                                                AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                                240:
+                                                0,
+
                                                 child: Row(
                                                   children: [
-
-                                                    InkWell(
-                                                      onTap: (){
-                                                        setState(() {
-                                                          subTotal += cartInfo.data()['price'];
-                                                          User user = _auth.currentUser;
-                                                          userCollection
-                                                              .doc(user.uid)
-                                                              .collection('cart')
-                                                              .doc(cartInfo.id).update({
-                                                            "quantity":  cartInfo.data()['quantity']+1,
-                                                            // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
-                                                          });
-                                                          //calculatingTotalPrice(cartInfo.data()['price'], cartInfo.data()['quantity']);
-                                                          print('added');
-                                                        });
-
-
-                                                      },
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                            color: Theme.of(context)
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.grey
-                                                                    .withOpacity(0.4),
-                                                                spreadRadius: 1,
-                                                                blurRadius: 7,
-                                                                //offset: Offset(1, 0),
-                                                              ),
-                                                            ],
-                                                          ),
-
-                                                          height: 30,
-                                                          width: 30,
-                                                          // color: Colors.red,
-                                                          child:  Icon(
-                                                            Icons.add,
-                                                            size: 23,
-                                                            color: Theme.of(context).accentColor,
-                                                          )
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                            border: Border.all(width: 2, color: Colors.red[900].withOpacity(0.5),),
-                                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                            color: Colors.white,
-
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Colors.grey
-                                                                    .withOpacity(0.4),
-                                                                spreadRadius: 1,
-                                                                blurRadius: 7,
-                                                                //offset: Offset(1, 0),
-                                                              ),
-                                                            ],
-                                                          ),
-
-                                                          height: 32,
-                                                          width: 32,
-                                                          // color: Colors.red,
-                                                          child:  Center(child:
-                                                          Text(cartInfo
-                                                              .data()["quantity"]
-                                                              .toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),))
-                                                      ),
-                                                    ),
-
                                                     cartInfo
                                                         .data()["quantity"]
                                                         .toString()=="1"?
@@ -392,8 +337,6 @@ class _CartScreenState extends State<CartScreen> {
                                                           )
                                                       ),
                                                     ):
-
-
                                                     InkWell(
                                                       onTap:  () {
                                                         //Addtocart
@@ -444,6 +387,83 @@ class _CartScreenState extends State<CartScreen> {
                                                           )
                                                       ),
                                                     ),
+
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(width: 2, color: Colors.red[900].withOpacity(0.5),),
+                                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                            color: Colors.white,
+
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.4),
+                                                                spreadRadius: 1,
+                                                                blurRadius: 7,
+                                                                //offset: Offset(1, 0),
+                                                              ),
+                                                            ],
+                                                          ),
+
+                                                          height: 32,
+                                                          width: 32,
+                                                          // color: Colors.red,
+                                                          child:  Center(child:
+                                                          Text(cartInfo
+                                                              .data()["quantity"]
+                                                              .toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),))
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: (){
+                                                        setState(() {
+                                                          subTotal += cartInfo.data()['price'];
+                                                          User user = _auth.currentUser;
+                                                          userCollection
+                                                              .doc(user.uid)
+                                                              .collection('cart')
+                                                              .doc(cartInfo.id).update({
+                                                            "quantity":  cartInfo.data()['quantity']+1,
+                                                            // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
+                                                          });
+                                                          //calculatingTotalPrice(cartInfo.data()['price'], cartInfo.data()['quantity']);
+                                                          print('added');
+                                                        });
+
+
+                                                      },
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                            color: Theme.of(context)
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.4),
+                                                                spreadRadius: 1,
+                                                                blurRadius: 7,
+                                                                //offset: Offset(1, 0),
+                                                              ),
+                                                            ],
+                                                          ),
+
+                                                          height: 30,
+                                                          width: 30,
+                                                          // color: Colors.red,
+                                                          child:  Icon(
+                                                            Icons.add,
+                                                            size: 23,
+                                                            color: Theme.of(context).accentColor,
+                                                          )
+                                                      ),
+                                                    ),
+
                                                   ],
                                                 ),
                                               ),
@@ -470,7 +490,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(  AppLocalizations.of(context).trans("subtotal"),
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
-                              Text('${subTotal.toString()}\$',
+                              Text('${subTotal.toStringAsFixed(2)}\$',
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
                               ),
                             ],
@@ -483,7 +503,8 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(fontSize: 16,),
 
                               ),
-                              Text( subTotal<= 100?'${deliveryFee.floor()} \$': "${0}",
+                              Text( subTotal==0 ?
+                              '0': subTotal<= 100?'${deliveryFee.floor()} \$': "${0}",
                                 style: TextStyle(fontSize: 16,),
                               ),
                             ],
@@ -496,9 +517,12 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                subTotal <=100 ?
-                                '${((subTotal+deliveryFee)*dinnar).floor().toString()} IQD' :
-                                '${((subTotal)*dinnar).floor().toString()} IQD',
+              subTotal==0 ?
+                  '0':
+              subTotal <=100 ?
+                                '${formatter.format(((subTotal+deliveryFee)*dinnar)).toString()} IQD' :
+
+                                '${ formatter.format(((subTotal)*dinnar)).toString()} IQD',
                                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -511,7 +535,7 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(fontSize: 13,),
 
                               ),
-                              Text('${(dinnar*100).floor().toString()} IQD',
+                              Text('${  formatter.format(dinnar*100).toString()} IQD',
                                 style: TextStyle(fontSize: 13,),
                               ),
                             ],
@@ -520,6 +544,24 @@ class _CartScreenState extends State<CartScreen> {
 
 
                           SizedBox(height: 25,),
+                          subTotal==0 ?
+              InkWell(
+             onTap: (){
+
+             },
+              child: Container(
+              decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(
+              Radius.circular(8)
+              //                 <--- border radius here
+              ),),
+              width: double.infinity,
+
+              padding: EdgeInsets.all(15),
+              child: Center(child:
+              Text(  AppLocalizations.of(context).trans("Sendorder"),style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)),))
+                              :
                           InkWell(
                               onTap: (){
                                 setState(() {
@@ -534,7 +576,7 @@ class _CartScreenState extends State<CartScreen> {
 
                                   getCart();
                                   Future.delayed(Duration(milliseconds: 100),(){
-                                    FirebaseFirestore.instance.collection('Admin').doc('admindoc').collection('orders').add({
+                                    FirebaseFirestore.instance.collection('Admin').doc('admindoc').collection('orders').doc(rundomNumber).set({
                                       "productList":cartList,
                                       "subTotal": subTotal,
                                       "totalPrice": subTotal <=100 ? (subTotal+deliveryFee)*dinnar :(subTotal)*dinnar ,
@@ -562,6 +604,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "dinnar": dinnar,
                                       "OrderStatus": 'Pending',
                                       "date": orderDate,
+                                      "orderID":rundomNumber,
                                     });
 
                                   }).whenComplete(() {

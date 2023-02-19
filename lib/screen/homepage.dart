@@ -41,35 +41,38 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: currentPage[currentTabIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTapped,
-        selectedItemColor: Colors.red[900],
-        currentIndex: currentTabIndex,
-        unselectedItemColor: Colors.black54,
-        iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text(""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            title: Text(''),
-            // backgroundColor: Colors.purple[600]
-          ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: currentPage[currentTabIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTapped,
+          selectedItemColor: Colors.red[900],
+          currentIndex: currentTabIndex,
+          unselectedItemColor: Colors.black54,
+          iconSize: 30,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border),
+              title: Text(''),
+              // backgroundColor: Colors.purple[600]
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket),
-            title: Text(""),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text(""),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_basket),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text(""),
+            ),
 
-        ],
+          ],
+        ),
       ),
     );
   }

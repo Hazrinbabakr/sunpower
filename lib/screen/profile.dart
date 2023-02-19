@@ -174,12 +174,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
               ),
             ),
-            SizedBox(height: 100,),
+            SizedBox(height:  MediaQuery.of(context).size.height - 710,),
             InkWell(
                 onTap: (){
-                  launch("https://www.facebook.com/vinforitsolution?mibextid=LQQJ4d");
+                //  launch("https://www.facebook.com/vinforitsolution?mibextid=LQQJ4d");
                 },
-                child: Text('Powered by Vin Agency'))
+                child: Text('Powered by Vin Agency',style: TextStyle(fontSize: 12),))
           ],
         ),
       ),
