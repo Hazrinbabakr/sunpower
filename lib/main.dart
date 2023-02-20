@@ -11,16 +11,14 @@ import 'package:provider/provider.dart';
 
 import 'localization/kurdish_material_localization.dart';
 import 'services/local_storage_service.dart';
+import 'services/notification_helper.dart';
 import 'services/settings_service_provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await LocalStorageService.instance.init();
-  var res = FirebaseMessaging();
-  res.getToken().then((value) {
-    print("value ${value}");
-  });
+  notificationHelper.firebaseCloudMessagingListeners();
   if(LocalStorageService.instance.languageCode == null){
     LocalStorageService.instance.languageCode = "en";
   }
