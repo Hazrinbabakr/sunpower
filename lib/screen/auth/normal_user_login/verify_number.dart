@@ -114,7 +114,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                       elevation: 0,
                       color: Theme.of(context).colorScheme.secondary,
                       onTap: () {
-                        if (code.length == 4) {
+                        if (code.length == 6) {
                           //if (widget.register) {
                           NormalUserLoginProvider.of(context)
                               .manualVerification(code: code);
