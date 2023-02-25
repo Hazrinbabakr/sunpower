@@ -13,9 +13,15 @@
   "contact_us": "Contact Us",
   "about_us": "About Us",
   "feedback": "Feedback",
+  "deleteAccount": "Delete My Account",
   "logout": "Logout",
   "guest": "Guest",
   "search": "Search",
+
+  "areYouSure": "Are You Sure?",
+  "areYouSureDeleteAccount": "Be careful by clicking YES your account will be deleted permanently",
+  "yes": "Yes",
+  "no": "No",
 
   "Specification": "Specification",
   "Description": "Description",

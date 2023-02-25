@@ -168,7 +168,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               )),
 
                           Positioned(
-                              right: 10,
+                              left:
+
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                              0:
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                              0:
+                              290,
+                              right:
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                              290:
+                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                              290:
+                              0,
+
                               bottom: 20,
                               child: InkWell(
                                   onTap: (){
