@@ -131,19 +131,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),
+
+
                   // ListTile(
-                  //     onTap: () {
+                  //     onTap: ()  {
+                  //       showDialog(context:context,
+                  //         builder: (_)=>  AlertDialog(
+                  //           title: Column(
+                  //             children: [
+                  //               Text(AppLocalizations.of(context).trans('areYouSure'),style: TextStyle(color: Colors.red,fontSize: 20),),
+                  //              SizedBox(height: 10,),
+                  //               Text(AppLocalizations.of(context).trans('areYouSureDeleteAccount')),
+                  //             ],
+                  //           ),
+                  //
+                  //           // shape: CircleBorder(),
+                  //           shape: BeveledRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(5.0),
+                  //           ),
+                  //           elevation: 30,
+                  //           backgroundColor: Colors.white,
+                  //           actions: <Widget>[
+                  //
+                  //             InkWell(
+                  //                 onTap:(){
+                  //                   Navigator.of(context).pop();
+                  //                 },
+                  //
+                  //                 child: Padding(
+                  //                   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //                   child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Colors.green[900]),),
+                  //                 )),
+                  //             SizedBox(height: 30,),
+                  //             InkWell(
+                  //               onTap: (){
+                  //
+                  //
+                  //                   // user.delete().whenComplete(() {
+                  //                   //   FirebaseFirestore.instance.collection("users").doc(user.uid).delete();
+                  //                   //   Application.restartApp(context);
+                  //                   //
+                  //                   // });
+                  //
+                  //
+                  //               },
+                  //               child: Padding(
+                  //                 padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //                 child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Colors.red[900])),
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       );
+                  //       //Addtocart
                   //     },
                   //     dense: true,
                   //     leading: Icon(
-                  //       Icons.feedback_outlined,
+                  //       Icons.perm_device_info,
                   //       size: 22,
                   //       color: Theme.of(context).focusColor,
                   //     ),
-                  //     title: Text(AppLocalizations.of(context).trans('feedback'),
-                  //       style: Theme.of(context).textTheme.subtitle1,
+                  //     title: Text(AppLocalizations.of(context).trans('deleteAccount'),
+                  //       style: TextStyle(color: Colors.red[900],fontSize: 16),
                   //     ),
                   //     trailing: Icon(Icons.arrow_forward_ios)),
+                  //
 
                 ],
               ),

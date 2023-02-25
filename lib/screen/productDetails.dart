@@ -1251,6 +1251,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                 )
               ],),
             SizedBox(height: 15,),
+
+
+            productSnapshot.data()['pdfUrl'].toString()==""?
+                SizedBox():
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -1300,45 +1304,97 @@ class _ProductDetailsState extends State<ProductDetails> {
   int quantity = 1;
 
   final _snackBar = SnackBar(
+   // behavior: SnackBarBehavior.floating,
+    // margin: EdgeInsets.only(bottom: 400,left: 20,right: 20),
+
     content:
-    Text('Added Successfully',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
+    Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+            borderRadius: BorderRadius.all(
+                Radius.circular(15)
+              //                 <--- border radius here
+            ),
+           // border: Border.all(color: Colors.black12,width: 0.6),
+         ),
+        height:130,
+        width: 300,
+        child: Center(
+          child: Text('Added Successfully',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     ),
-    backgroundColor: Colors.green,
+   backgroundColor: Colors.transparent,
     duration: Duration(seconds: 2),
   );
 
   final _snackBarAddToFav = SnackBar(
+
     content:
-    Text(
-      'Added To Favorite',
-      //AppLocalizations.of(context).trans("Addedtofavorite"),
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
+    Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+              Radius.circular(15)
+            //                 <--- border radius here
+          ),
+          // border: Border.all(color: Colors.black12,width: 0.6),
+        ),
+        height:130,
+        width: 300,
+        child: Center(
+          child: Text(
+            'Added To Favorite',
+            //AppLocalizations.of(context).trans("Addedtofavorite"),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     ),
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.transparent,
     duration: Duration(seconds: 1),
   );
   final _snackBarRemoveFromFav = SnackBar(
     content:
-    Text('Removed From Favorite',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
+    Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+              Radius.circular(15)
+            //                 <--- border radius here
+          ),
+          // border: Border.all(color: Colors.black12,width: 0.6),
+        ),
+        height:130,
+        width: 300,
+        child: Center(
+          child: Text('Removed From Favorite',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     ),
-    backgroundColor: Colors.red,
+    backgroundColor: Colors.transparent,
     duration: Duration(seconds: 1),
   );
   bool isfav=false;

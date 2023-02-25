@@ -251,15 +251,15 @@ class _CartScreenState extends State<CartScreen> {
                                                 0:
                                                 AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
                                                 0:
-                                                240,
+                                                250,
 
 
 
                                                 right:
                                                 AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                                240:
+                                                250:
                                                 AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                                240:
+                                                250:
                                                 0,
 
                                                 child: Row(
@@ -270,7 +270,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     InkWell(
                                                       onTap:  () {
                                                         showDialog(context:context,
-                                                          builder: (_)=>  AlertDialog(title: Text('Are You Sure?'),
+                                                          builder: (_)=>  AlertDialog(title: Text(AppLocalizations.of(context).trans('areYouSure')),
                                                             // shape: CircleBorder(),
                                                             shape: BeveledRectangleBorder(
                                                               borderRadius: BorderRadius.circular(5.0),
@@ -284,7 +284,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                     Navigator.of(context).pop();
                                                                   },
 
-                                                                  child: Text('No',style: TextStyle(fontSize: 20,color: Colors.red[900]),)),
+                                                                  child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Colors.red[900]),)),
                                                               SizedBox(height: 30,),
                                                               InkWell(
                                                                 onTap: (){
@@ -301,7 +301,7 @@ class _CartScreenState extends State<CartScreen> {
 
                                                                   });
                                                                 },
-                                                                child: Text('Yes',style: TextStyle(fontSize: 20,color: Colors.green[900])),
+                                                                child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Colors.green[900])),
                                                               )
                                                             ],
                                                           ),
@@ -656,16 +656,33 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
   final _snackBar = SnackBar(
-    content: Text(
-      'You order has been placed',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 17,
+    content: Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+              Radius.circular(15)
+            //                 <--- border radius here
+          ),
+          // border: Border.all(color: Colors.black12,width: 0.6),
+        ),
+        height:130,
+        width: 300,
+        child: Center(
+
+          child: Text(
+            'You order has been placed',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+          ),
+        ),
       ),
     ),
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.transparent,
     duration: Duration(seconds: 2),
   );
 

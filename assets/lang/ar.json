@@ -16,6 +16,12 @@
   "logout": "تسجيل خروج",
   "guest": "ضيف",
   "search": "بحث",
+  "deleteAccount": "احذف حسابي",
+
+  "areYouSure": "هل أنت متأكد؟",
+  "areYouSureDeleteAccount": "كن حذرًا بالنقر فوق نعم ، سيتم حذف حسابك نهائيًا",
+  "yes": "نعم",
+  "no": "لا",
 
 
 
