@@ -21,8 +21,8 @@ class ProfileAvatarWidget extends StatefulWidget {
 }
 
 class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
+  TextEditingController _textFieldController = TextEditingController();
 
-  final _textFieldController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,6 +74,8 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                           InkWell(
                             onTap: (){
+                              _textFieldController = TextEditingController(text:  snapshot.data['address'].toString());
+
                               showDialog(
                                   context: context,
                                   builder: (context) {
@@ -87,8 +89,24 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                         ElevatedButton(
                                           child: const Text("Cancel"),
                                           onPressed: () => Navigator.pop(context),
+                                            style: ButtonStyle(
+                                                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(10.0),
+                                                    )
+                                                )
+                                            )
                                         ),
                                         ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    )
+                                    )
+                                    ),
                                           child: const Text('Edit'),
                                           onPressed: () {
                                            // widget.address=_textFieldController.text;
@@ -110,9 +128,22 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                             },
 
-                            child: Center(
-                              child: Text(snapshot.data['address'].toString()??'',
-                                style: Theme.of(context).textTheme.subtitle1
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 25),                              child: Row(
+
+                                 //crossAxisAlignment: CrossAxisAlignment.center,
+                                 mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Expanded(
+                                    child: Text(snapshot.data['address'].toString()??'',
+                                      style: Theme.of(context).textTheme.subtitle1,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Icon(Icons.edit)
+                                ],
                               ),
                             ),
                           ),
