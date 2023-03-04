@@ -109,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                           );
                         return Text(
-                          "continue",
-                          //AppLocalizations.of(context).trans("continue"),
+                          AppLocalizations.of(context).trans("continue"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22,
@@ -135,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Register",style: TextStyle(
+                    child: Text( AppLocalizations.of(context).trans("Register"),style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500
                     ),),

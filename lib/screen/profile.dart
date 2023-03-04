@@ -41,8 +41,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _auth= FirebaseAuth.instance;
-    user=_auth.currentUser;
+
+    user=FirebaseAuth.instance.currentUser;
    // getUserInfo();
   }
 
@@ -59,9 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //  scrollDirection: Axis.vertical,
 //              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
-         
           children: <Widget>[
-            //guest?
             ProfileAvatarWidget(
               userID: user?.uid??"",
               //isGuest: true,
@@ -133,69 +131,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       trailing: Icon(Icons.arrow_forward_ios)),
 
 
-                  // ListTile(
-                  //     onTap: ()  {
-                  //       showDialog(context:context,
-                  //         builder: (_)=>  AlertDialog(
-                  //           title: Column(
-                  //             children: [
-                  //               Text(AppLocalizations.of(context).trans('areYouSure'),style: TextStyle(color: Colors.red,fontSize: 20),),
-                  //              SizedBox(height: 10,),
-                  //               Text(AppLocalizations.of(context).trans('areYouSureDeleteAccount')),
-                  //             ],
-                  //           ),
-                  //
-                  //           // shape: CircleBorder(),
-                  //           shape: BeveledRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(5.0),
-                  //           ),
-                  //           elevation: 30,
-                  //           backgroundColor: Colors.white,
-                  //           actions: <Widget>[
-                  //
-                  //             InkWell(
-                  //                 onTap:(){
-                  //                   Navigator.of(context).pop();
-                  //                 },
-                  //
-                  //                 child: Padding(
-                  //                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //                   child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Colors.green[900]),),
-                  //                 )),
-                  //             SizedBox(height: 30,),
-                  //             InkWell(
-                  //               onTap: (){
-                  //
-                  //
-                  //                   // user.delete().whenComplete(() {
-                  //                   //   FirebaseFirestore.instance.collection("users").doc(user.uid).delete();
-                  //                   //   Application.restartApp(context);
-                  //                   //
-                  //                   // });
-                  //
-                  //
-                  //               },
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //                 child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Colors.red[900])),
-                  //               ),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       );
-                  //       //Addtocart
-                  //     },
-                  //     dense: true,
-                  //     leading: Icon(
-                  //       Icons.perm_device_info,
-                  //       size: 22,
-                  //       color: Theme.of(context).focusColor,
-                  //     ),
-                  //     title: Text(AppLocalizations.of(context).trans('deleteAccount'),
-                  //       style: TextStyle(color: Colors.red[900],fontSize: 16),
-                  //     ),
-                  //     trailing: Icon(Icons.arrow_forward_ios)),
-                  //
+                  ListTile(
+                      onTap: ()  {
+                        showDialog(context:context,
+                          builder: (_)=>  AlertDialog(
+                            title: Column(
+                              children: [
+                                Text(AppLocalizations.of(context).trans('areYouSure'),style: TextStyle(color: Colors.red,fontSize: 20),),
+                               SizedBox(height: 10,),
+                                Text(AppLocalizations.of(context).trans('areYouSureDeleteAccount')),
+                              ],
+                            ),
+
+                            // shape: CircleBorder(),
+                            shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            elevation: 30,
+                            backgroundColor: Colors.white,
+                            actions: <Widget>[
+
+                              InkWell(
+                                  onTap:(){
+                                    Navigator.of(context).pop();
+                                  },
+
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Colors.green[900]),),
+                                  )),
+                              SizedBox(height: 30,),
+                              InkWell(
+                                onTap: ()async{
+
+                                  try {
+                                    User user2 = FirebaseAuth.instance.currentUser;
+                                    await user2.delete();
+                                  } on FirebaseAuthException catch (e) {
+                                    print(e.message.toString());
+                                    if (e.code == 'requires-recent-login') {
+                                      print(e.message.toString());
+                                    }
+                                  }
+                                   // user.delete();
+                                   FirebaseFirestore.instance.collection("users").doc(user.uid).delete();
+                                    Application.restartApp(context);
+
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Colors.red[900])),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                        //Addtocart
+                      },
+                      dense: true,
+                      leading: Icon(
+                        Icons.perm_device_info,
+                        size: 22,
+                        color: Theme.of(context).focusColor,
+                      ),
+                      title: Text(AppLocalizations.of(context).trans('deleteAccount'),
+                        style: TextStyle(color: Colors.red[900],fontSize: 16),
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios)),
+
 
                 ],
               ),

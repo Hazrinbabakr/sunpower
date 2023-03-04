@@ -91,7 +91,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                 SizedBox(   height:  MediaQuery.of(context).size.height - 750,),
+                 SizedBox(   height:  MediaQuery.of(context).size.height - 770,),
                   Container(
             // color: Colors.red,
             height: 30,
@@ -275,7 +275,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                             ),
                             Row(
                               children: [
-                                Text('Total Price: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                                Text(AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
                                 Expanded(child: Text('${orderHistoryList[i]['totalPrice'].toString()}\S')),
                               ],
                             ),
