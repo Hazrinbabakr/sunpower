@@ -196,7 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 .primaryColor
                                 .withOpacity(0.9),
                             //size
-                            expandedHeight: 270,
+                            expandedHeight: 280,
                             floating: false,
                             pinned: true,
                             snap: false,
@@ -214,7 +214,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Column(
                                     children: [
                                       SizedBox(
-                                        height: 20,
+                                        height: 0,
                                       ),
                                       ClipRRect(
                                           borderRadius:
@@ -1376,9 +1376,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           color: Colors.white,
           borderRadius: BorderRadius.all(
               Radius.circular(15)
-            //                 <--- border radius here
           ),
-          // border: Border.all(color: Colors.black12,width: 0.6),
         ),
         height:130,
         width: 300,
