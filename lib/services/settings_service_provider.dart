@@ -11,7 +11,7 @@ class SettingsServiceProvider extends ChangeNotifier {
       Provider.of<SettingsServiceProvider>(context, listen: listen);
 
 
-  String locale;
+  String? locale;
 
   setLocale(String lang){
     locale = lang;

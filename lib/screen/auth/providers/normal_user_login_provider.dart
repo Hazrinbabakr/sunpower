@@ -11,7 +11,7 @@ class UserRegisterRequest {
   String phone;
 
   UserRegisterRequest(
-      {@required this.name, @required this.address, @required this.phone});
+      {required this.name, required this.address, required this.phone});
 
   Map<String, dynamic> toJson() {
     return {"address": address, "username": name, "phone": phone, "role": 0,"email":""};
@@ -30,15 +30,15 @@ class NormalUserLoginProvider extends ChangeNotifier {
   bool moveToSignUp = false;
   bool waitingForConfirmation = false;
   bool done = false;
-  String _verificationId;
-  UserRegisterRequest request;
+  String? _verificationId;
+  UserRegisterRequest? request;
   dynamic error;
 
 
 
   //ConfirmationResult confirmationResult;
 
-  loginWithPhone({@required String phone}) async {
+  loginWithPhone({required String phone}) async {
     try {
       error = null;
       loading = true;
@@ -58,7 +58,7 @@ class NormalUserLoginProvider extends ChangeNotifier {
   }
 
   verifyPhoneNumber({
-    @required UserRegisterRequest request,
+    required UserRegisterRequest request,
    // @required String code,
   }) async {
     try {
@@ -109,7 +109,7 @@ class NormalUserLoginProvider extends ChangeNotifier {
     }
   }
 
-  manualVerification({@required String code}) async {
+  manualVerification({required String code}) async {
     try {
       loading = true;
       error = null;
@@ -117,18 +117,18 @@ class NormalUserLoginProvider extends ChangeNotifier {
       try{
         var res = await _firebaseAuth.signInWithCredential(
             PhoneAuthProvider.credential(
-                verificationId: _verificationId, smsCode: code)
+                verificationId: _verificationId!, smsCode: code)
         );
         var doc = await _firebaseFirestore
             .collection("users")
-            .doc(_firebaseAuth.currentUser.uid).get();
+            .doc(_firebaseAuth.currentUser!.uid).get();
         if(!doc.exists){
           _firebaseFirestore
               .collection("users")
-              .doc(_firebaseAuth.currentUser.uid).set(request.toJson());
+              .doc(_firebaseAuth.currentUser!.uid).set(request!.toJson());
         }
         done= true;
-        LocalStorageService.instance.user = AppUser.fromJson(request.toJson());
+        LocalStorageService.instance.user = AppUser.fromJson(request!.toJson());
         notifyListeners();
       }catch(error){
         loading = false;
@@ -158,22 +158,14 @@ class NormalUserLoginProvider extends ChangeNotifier {
   //   }
   // }
 
-  _getUserData() async {
-    var res = await _firebaseFirestore
-        .collection("users")
-        .doc(_firebaseAuth.currentUser.uid).get();
-    if(res.exists){
-      LocalStorageService.instance.user = AppUser.fromJson(res.data());
-    }
-  }
-  Future<bool> checkIfPhoneExist({String phone}) async {
+  Future<bool> checkIfPhoneExist({String? phone}) async {
     var res = await _firebaseFirestore
         .collection("users")
         .where("phone", isEqualTo: phone)
         .get();
     return res.size > 0;
   }
-  Future<dynamic> signUp({UserRegisterRequest request}) async {
+  Future<dynamic> signUp({required UserRegisterRequest request}) async {
     loading = true;
     error = null;
     moveToSignUp = false;

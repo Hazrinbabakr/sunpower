@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       onTap: (){
                         CheckUserConnection();
                       },
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       elevation: 0,
                       borderRadius: 5,
                       padding: EdgeInsets.symmetric(

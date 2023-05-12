@@ -4,7 +4,7 @@ import 'package:sunpower/localization/AppLocal.dart';
 
 class EmptyWidget extends StatefulWidget {
   EmptyWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

@@ -19,7 +19,7 @@ class BusinessUserLoginProvider extends ChangeNotifier {
   dynamic error;
   bool loading = false;
   bool done = false;
-  login({@required String email , @required String password}) async {
+  login({required String email , required String password}) async {
     try{
       error = null;
       loading = true;
@@ -43,7 +43,7 @@ class BusinessUserLoginProvider extends ChangeNotifier {
 
     var res = users.size == 0 ? null : users.docs.first;
 
-    if(res.exists){
+    if(res!.exists){
       LocalStorageService.instance.user = AppUser.fromJson(res.data());
     }
   }

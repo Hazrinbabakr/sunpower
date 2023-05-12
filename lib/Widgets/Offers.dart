@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 class Offers extends StatefulWidget {
   final String offerName;
-  const Offers(this.offerName, {Key key}) : super(key: key);
+  const Offers(this.offerName, {Key? key}) : super(key: key);
 
   @override
   _OffersState createState() => _OffersState();
@@ -14,13 +14,13 @@ class Offers extends StatefulWidget {
 
 class _OffersState extends State<Offers> {
   List<String> imgList=[];
-  DocumentSnapshot offerSnapShot;
+  DocumentSnapshot? offerSnapShot;
   Future getProducts() async{
     offerSnapShot = await FirebaseFirestore.instance
         .collection('Admin').doc('admindoc')
         .get();
     setState(() {
-      offerSnapShot.data()[widget.offerName].forEach((element){
+      offerSnapShot![widget.offerName].forEach((element){
         imgList.add(element);
       });
     });
@@ -38,9 +38,6 @@ class _OffersState extends State<Offers> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Container(
         child:
-
-
-
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: ClipRRect(

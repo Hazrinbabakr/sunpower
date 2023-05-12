@@ -11,7 +11,7 @@ class LocalStorageService {
 //  static const
 
   static LocalStorageService _instance = LocalStorageService._internal();
-  static SharedPreferences _preferences;
+  static late SharedPreferences _preferences;
 
   static LocalStorageService get instance => _instance;
 
@@ -25,23 +25,23 @@ class LocalStorageService {
   }
 
   // Language Code
-  String _languageCode;
-  String get languageCode => _languageCode ?? _getFromDisk(AppLanguageKey);
+  String? _languageCode;
+  String? get languageCode => _languageCode ?? _getFromDisk(AppLanguageKey);
 
-  set languageCode(String value) {
+  set languageCode(String? value) {
     _languageCode = value;
     _saveToDisk(AppLanguageKey, value);
   }
 
-  AppUser _user;
-  AppUser get user {
+  AppUser? _user;
+  AppUser? get user {
     if (_user != null) return _user;
-    String res = _getFromDisk(UserKey);
+    String? res = _getFromDisk(UserKey);
     if (res == null) return null;
     return AppUser.fromJson(json.decode(res));
   }
 
-  set user(AppUser value) {
+  set user(AppUser? value) {
     _user = value;
     _saveToDisk(UserKey, value == null ? null : json.encode(value.toJson()));
   }

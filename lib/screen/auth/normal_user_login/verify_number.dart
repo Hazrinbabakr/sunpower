@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pinput/pinput.dart';
 import 'package:sunpower/Widgets/CustomAppButton.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/auth/providers/normal_user_login_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:pinput/pin_put/pin_put.dart';
 
 class VerifyNumberPage extends StatefulWidget {
   final bool register;
-  final UserRegisterRequest request;
+  final UserRegisterRequest? request;
 
-  const VerifyNumberPage({Key key, this.register = false, this.request})
+  const VerifyNumberPage({Key? key, this.register = false,this.request})
       : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class VerifyNumberPage extends StatefulWidget {
 class _VerifyNumberPageState extends State<VerifyNumberPage> {
   String code = "";
 
-  DateTime countDownEnd;
+  late DateTime countDownEnd;
 
   @override
   void initState() {
@@ -58,44 +58,64 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                     Expanded(
                       child: Directionality(
                         textDirection: TextDirection.ltr,
-                        child: PinPut(
-                          fieldsCount: 6,
-                          keyboardType: TextInputType.number,
-                          onSubmit: (pin) {
-                            //if(widget.register){
-                            NormalUserLoginProvider.of(context)
-                                .manualVerification(code: pin);
-                            // } else {
-                            //   NormalUserLoginProvider.of(context).confirmLoginResult(
-                            //       code: pin
-                            //   );
-                            // }
-                          },
-                          onChanged: (value) {
-                            code = value;
-                          },
-                          eachFieldHeight:
-                              (MediaQuery.of(context).size.width - 40) / 6,
-                          eachFieldWidth: 20,
-
-                          selectedFieldDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                  color: Theme.of(context).accentColor, width: 0.7
+                        child:  Pinput(
+                            length: 6,
+                            keyboardType: TextInputType.number,
+                            onSubmitted: (pin) {
+                              print("pin");
+                              //if(widget.register){
+                              NormalUserLoginProvider.of(context)
+                                  .manualVerification(code: pin);
+                              // } else {
+                              //   NormalUserLoginProvider.of(context).confirmLoginResult(
+                              //       code: pin
+                              //   );
+                              // }
+                            },
+                            onChanged: (value) {
+                              code = value;
+                            },
+                            defaultPinTheme: PinTheme(
+                              height: (MediaQuery.of(context).size.width - 40) / 6,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                ),
                               ),
-                          ),
-                          followingFieldDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                                color: Colors.grey, width: 0.7
                             ),
-                          ),
-                          submittedFieldDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                                color: Theme.of(context).accentColor, width: 0.7
+                            focusedPinTheme: PinTheme(
+                              height: (MediaQuery.of(context).size.width - 40) / 6,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                ),
+                              ),
                             ),
-                          ),
+                            followingPinTheme: PinTheme(
+                                height: (MediaQuery.of(context).size.width - 40) / 6,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.7
+                                  ),
+                                )
+                            ),
+                            submittedPinTheme: PinTheme(
+                              height: (MediaQuery.of(context).size.width - 40) / 6,
+                              width: 40,
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                ),
+                              ),
+                            )
 
                         ),
                       ),

@@ -10,53 +10,54 @@ import 'package:sunpower/services/local_storage_service.dart';
 
 
 class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({Key key}) : super(key: key);
+  const FavoriteScreen({Key? key}) : super(key: key);
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   final userCollection = FirebaseFirestore.instance.collection('users');
-  List<DocumentSnapshot> allProductListSnapShot;
-  List<DocumentSnapshot> favListSnapShot;
-  User user;
-  FirebaseAuth _auth;
-  int favLength;
+  List<DocumentSnapshot>? allProductListSnapShot;
+  List<DocumentSnapshot>? favListSnapShot;
+  User user = FirebaseAuth.instance.currentUser!;
+  FirebaseAuth _auth = FirebaseAuth.instance;
   List<String> favList=[];
   getFavProduct() {
-    int i = 0;
     FirebaseFirestore.instance
         .collection('users').doc(user.uid).collection('favorite')
         .get()
         .then((value) {
-      value.docs.forEach((element) async {
-        favListSnapShot = new List<DocumentSnapshot>(value.docs.length);
+      favListSnapShot = [];
+      favList = [];
+      allProductListSnapShot = [];
+      favListSnapShot!.addAll(value.docs);
+      favList.addAll(value.docs.map((e) => e.id));
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         setState(() {
-          favListSnapShot[i] =  element;
-          favLength=favListSnapShot.length;
-          favList.add(favListSnapShot[i].id);
+
         });
-        i++;
       });
+
     }).whenComplete((){
-      if(favLength !=null){
+      if(favListSnapShot!.isNotEmpty){
         getAllProduct();
       }
+      setState(() {
+
+      });
     });
   }
   getAllProduct() {
-    allProductListSnapShot = new List<DocumentSnapshot>(favLength);
-    // allProductList = new List<Map>(productListSnapShot.length);
-    for(int i=0; i<favLength;i++) {
+    allProductListSnapShot = [];
+    for(int i=0; i<favListSnapShot!.length;i++) {
       FirebaseFirestore.instance
-          .collection('products').where("productID", isEqualTo: favList[i])
+          .collection('products')
+          .where("productID", isEqualTo: favList[i])
           .get()
           .then((value) {
-        value.docs.forEach((element) async {
-          setState(() {
-            allProductListSnapShot[i] =  element;
-          });
-          i++;
+        allProductListSnapShot!.addAll(value.docs);
+        setState(() {
+
         });
       });
     }
@@ -65,14 +66,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _auth= FirebaseAuth.instance;
-    user=_auth.currentUser;
     getFavProduct();
-// Future.delayed(Duration(seconds: 2),(){
-//   getAllProduct();
-// });
   }
 
 
@@ -87,7 +82,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
 
         body:
-        (allProductListSnapShot == null || allProductListSnapShot.isEmpty)
+        (allProductListSnapShot == null || allProductListSnapShot!.isEmpty)
             ? Padding(
           padding: const EdgeInsets.only(top: 200),
               child: EmptyWidget(),
@@ -96,13 +91,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             padding: const EdgeInsets.only(top: 30),
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: allProductListSnapShot.length,
+                itemCount: allProductListSnapShot!.length,
                 itemBuilder: (context, i) {
-                  return (allProductListSnapShot[i] != null)
+                  return (allProductListSnapShot![i] != null)
                       ? InkWell(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetails( allProductListSnapShot[i].id.toString()),
+                        builder: (context) => ProductDetails( allProductListSnapShot![i].id.toString()),
                       ));
                     },
                     child: Padding(
@@ -115,7 +110,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.grey[200],
+                                        color: Colors.grey[200]!,
                                         spreadRadius: 1,
                                         blurRadius: 10)
                                   ]),
@@ -133,7 +128,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         image: DecorationImage(
                                           // fit: BoxFit.cover,
                                             image: NetworkImage(
-                                                allProductListSnapShot[i]['images'][0].toString()
+                                                allProductListSnapShot![i]['images'][0].toString()
                                             )
                                         )),
                                   ),
@@ -148,18 +143,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                             width: 170,
                                             child: Text(
                                               AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                              allProductListSnapShot[i]['nameK'].toString().toUpperCase():
+                                              allProductListSnapShot![i]['nameK'].toString().toUpperCase():
                                               AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                              allProductListSnapShot[i]['nameA'].toString().toUpperCase():
-                                              allProductListSnapShot[i]['name'].toString().toUpperCase(),
+                                              allProductListSnapShot![i]['nameA'].toString().toUpperCase():
+                                              allProductListSnapShot![i]['name'].toString().toUpperCase(),
 
                                               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,), overflow: TextOverflow.visible,maxLines: 3,)),
                                         SizedBox(height: 5,),
                                         //LocalStorageService.instance.user.role == 1?
-                                        Text('${LocalStorageService.instance.user.role == 1? allProductListSnapShot[i]['wholesale price'].toString():
-                                        allProductListSnapShot[i]['retail price'].toString()}\$',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                                        Text('${LocalStorageService.instance.user!.role == 1? allProductListSnapShot![i]['wholesale price'].toString():
+                                        allProductListSnapShot![i]['retail price'].toString()}\$',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                                         SizedBox(height: 5,),
-                                        Text( allProductListSnapShot[i]['old price'].toString()=='0'?'':'${allProductListSnapShot[i]['old price'].toString()}\$',style:
+                                        Text( allProductListSnapShot![i]['old price'].toString()=='0'?'':'${allProductListSnapShot![i]['old price'].toString()}\$',style:
                                         TextStyle(fontSize: 15,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
                                       ],
                                     ),
@@ -185,11 +180,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               bottom: 20,
                               child: InkWell(
                                   onTap: (){
-                                    User user = _auth.currentUser;
+                                    User user = _auth.currentUser!;
                                     userCollection
                                         .doc(user.uid)
                                         .collection('favorite')
-                                        .doc(allProductListSnapShot[i].id).delete();
+                                        .doc(allProductListSnapShot![i].id).delete();
                                     getFavProduct();
                                     setState(() {
                                     });

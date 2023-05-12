@@ -13,33 +13,26 @@ import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/productDetails.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  OrderHistoryScreen({Key key}) : super(key: key);
+  OrderHistoryScreen({Key? key}) : super(key: key);
 
   @override
   _OrderHistoryScreenState createState() => _OrderHistoryScreenState();
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  List<DocumentSnapshot> orderHistoryList;
+  List<DocumentSnapshot>? orderHistoryList;
   // List<DocumentSnapshot> currentOrderList;
-  FirebaseAuth _auth;
-  User user;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  User user = FirebaseAuth.instance.currentUser!;
 
   getProducts() {
-    int i = 0;
     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').
     orderBy('date', descending: true)
-  //  where("OrderStatus",isNotEqualTo: "Pending")
         .get()
         .then((value) {
-      orderHistoryList = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
-        setState(() {
-          orderHistoryList[i] = element;
-          length= orderHistoryList.length;
-        });
-        i++;
-      });
+      orderHistoryList = [];
+      orderHistoryList!.addAll(value.docs);
+      setState(() {});
     }).whenComplete(() {
       // print(orderHistoryList.length);
     });
@@ -63,15 +56,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   //     // print(currentOrderList.length);
   //   });
   // }
-  int length=0;
 
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _auth= FirebaseAuth.instance;
-    user=_auth.currentUser;
     getProducts();
     //getCurrentProducts();
   }
@@ -106,11 +95,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 // indicatorSize: TabBarIndicatorSize.tab,
                 // indicator: BoxDecoration(
                 //   borderRadius: BorderRadius.circular(50),
-                //  // color: Theme.of(context).accentColor,
+                //  // color: Theme.of(context).colorScheme.secondary,
                 // ),
                 // indicatorPadding: EdgeInsets.all(90),
 indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Theme.of(context).accentColor,
+                indicatorColor: Theme.of(context).colorScheme.secondary,
                 indicatorPadding: EdgeInsets.all(0),
                 labelPadding: EdgeInsets.symmetric(horizontal: 50),
 
@@ -161,7 +150,7 @@ indicatorSize: TabBarIndicatorSize.tab,
   getCurrentPage(){
     if(selectedIndex == 0){
       return
-        (length==0)
+        ((orderHistoryList?.length??0)==0)
             ? Padding(
               padding: const EdgeInsets.only(top: 200),
               child: Center(child: EmptyWidget()),
@@ -172,9 +161,9 @@ indicatorSize: TabBarIndicatorSize.tab,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: orderHistoryList.length,
+                  itemCount: orderHistoryList!.length,
                   itemBuilder: (context, i) {
-                    return (orderHistoryList[i] != null && orderHistoryList[i]['OrderStatus'] == "Pending")
+                    return (orderHistoryList![i] != null && orderHistoryList![i]['OrderStatus'] == "Pending")
                         ? ExpansionTile(title: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
@@ -183,7 +172,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Colors.grey[200],
+                                    color: Colors.grey[200]!,
                                     spreadRadius: 1,
                                     blurRadius: 10)
                               ]),
@@ -195,16 +184,16 @@ indicatorSize: TabBarIndicatorSize.tab,
                                 Text(
 
 
-                                  AppLocalizations.of(context).trans(orderHistoryList[i]['OrderStatus']),
+                                  AppLocalizations.of(context).trans(orderHistoryList![i]['OrderStatus']),
                                   style: TextStyle(color: Colors.deepOrange[600],fontSize: 18),),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical:7 ),
-                                  child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12),),
+                                  child: Text(orderHistoryList![i]['date'],style: TextStyle(fontSize: 12),),
                                 ),
                                 Row(
                                   children: [
                                     Text(AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                    Expanded(child: Text(orderHistoryList[i]['userAddress'].toString())),
+                                    Expanded(child: Text(orderHistoryList![i]['userAddress'].toString())),
                                   ],
                                 ),
 
@@ -225,7 +214,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                               // margin: EdgeInsets.only(
                               //     left: 15.0),
                               child: ListView.builder(
-                                  itemCount: orderHistoryList[i][
+                                  itemCount: orderHistoryList![i][
                                   "productList"]
                                       .length,
                                   itemBuilder:
@@ -239,11 +228,11 @@ indicatorSize: TabBarIndicatorSize.tab,
                                           Row(
                                             //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('${orderHistoryList[i]["productList"][index]['quantity'].toString()}x'),
+                                              Text('${orderHistoryList![i]["productList"][index]['quantity'].toString()}x'),
                                               SizedBox(width: 10,),
                                               Text(
 
-                                                orderHistoryList[i]["productList"][index]['name'],
+                                                orderHistoryList![i]["productList"][index]['name'],
 
 
                                                 //
@@ -270,13 +259,13 @@ indicatorSize: TabBarIndicatorSize.tab,
                             Row(
                               children: [
                                 Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList[i]['deliveryFee'].toString()}\$')),
+                                Expanded(child: Text('${orderHistoryList![i]['deliveryFee'].toString()}\$')),
                               ],
                             ),
                             Row(
                               children: [
                                 Text(AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList[i]['totalPrice'].toString()}\S')),
+                                Expanded(child: Text('${orderHistoryList![i]['totalPrice'].toString()}\S')),
                               ],
                             ),
                             Row(
@@ -287,7 +276,7 @@ indicatorSize: TabBarIndicatorSize.tab,
 
                                 ),
                                 SizedBox(width: 10,),
-                                Text('${(orderHistoryList[i]['dinnar']*100).floor().toString()} IQD',
+                                Text('${(orderHistoryList![i]['dinnar']*100).floor().toString()} IQD',
                                   style: TextStyle(fontSize: 13,),
                                 ),
                               ],
@@ -308,16 +297,16 @@ indicatorSize: TabBarIndicatorSize.tab,
 
     else {
       return
-        (orderHistoryList.length==0)
+        ((orderHistoryList?.length??0)==0)
             ? EmptyWidget()
             : Container(
               color: Colors.white,
               height:  MediaQuery.of(context).size.height - 200,
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: orderHistoryList.length,
+                  itemCount: orderHistoryList!.length,
                   itemBuilder: (context, i) {
-                    return (orderHistoryList[i] != null  && orderHistoryList[i]['OrderStatus'] == "Accepted" || orderHistoryList[i]['OrderStatus'] == "Rejected")
+                    return (orderHistoryList![i] != null  && orderHistoryList![i]['OrderStatus'] == "Accepted" || orderHistoryList![i]['OrderStatus'] == "Rejected")
                         ? ExpansionTile(title: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Container(
@@ -326,7 +315,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Colors.grey[200],
+                                    color: Colors.grey[200]!,
                                     spreadRadius: 1,
                                     blurRadius: 10)
                               ]),
@@ -336,21 +325,21 @@ indicatorSize: TabBarIndicatorSize.tab,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context).trans(orderHistoryList[i]['OrderStatus'].toString()),
+                                  AppLocalizations.of(context).trans(orderHistoryList![i]['OrderStatus'].toString()),
 
                                   style: TextStyle(color:
-                                  orderHistoryList[i]['OrderStatus']== "Rejected"?
+                                  orderHistoryList![i]['OrderStatus']== "Rejected"?
                                   Colors.red[700]:  Colors.green[700]
 
                                       ,fontSize: 18,fontWeight: FontWeight.bold),),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical:7 ),
-                                  child: Text(orderHistoryList[i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
+                                  child: Text(orderHistoryList![i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
                                 ),
                                 Row(
                                   children: [
                                     Text(  AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
-                                    Expanded(child: Text(orderHistoryList[i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
+                                    Expanded(child: Text(orderHistoryList![i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
                                   ],
                                 ),
 
@@ -371,7 +360,7 @@ indicatorSize: TabBarIndicatorSize.tab,
                               // margin: EdgeInsets.only(
                               //     left: 15.0),
                               child: ListView.builder(
-                                  itemCount: orderHistoryList[i][
+                                  itemCount: orderHistoryList![i][
                                   "productList"]
                                       .length,
                                   itemBuilder:
@@ -385,10 +374,10 @@ indicatorSize: TabBarIndicatorSize.tab,
                                           Row(
                                             //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('${orderHistoryList[i]["productList"][index]['quantity'].toString()}x'),
+                                              Text('${orderHistoryList![i]["productList"][index]['quantity'].toString()}x'),
                                               SizedBox(width: 10,),
                                               Text(
-                                                orderHistoryList[i]["productList"][index]['name'],
+                                                orderHistoryList![i]["productList"][index]['name'],
                                                 style:
                                                 TextStyle(fontSize: 14
                                                 ),
@@ -405,13 +394,13 @@ indicatorSize: TabBarIndicatorSize.tab,
                             Row(
                               children: [
                                 Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList[i]['deliveryFee'].toString()}\$')),
+                                Expanded(child: Text('${orderHistoryList![i]['deliveryFee'].toString()}\$')),
                               ],
                             ),
                             Row(
                               children: [
                                 Text( AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList[i]['totalPrice'].toString()}\S')),
+                                Expanded(child: Text('${orderHistoryList![i]['totalPrice'].toString()}\S')),
                               ],
                             ),
                             Row(
@@ -422,7 +411,7 @@ indicatorSize: TabBarIndicatorSize.tab,
 
                                 ),
                                 SizedBox(width: 10,),
-                                Text('${(orderHistoryList[i]['dinnar']*100).floor().toString()} IQD',
+                                Text('${(orderHistoryList![i]['dinnar']*100).floor().toString()} IQD',
                                   style: TextStyle(fontSize: 13,),
                                 ),
                               ],

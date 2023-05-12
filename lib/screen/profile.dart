@@ -14,16 +14,16 @@ import 'about_us.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool guest =true;
-  User user;
-  FirebaseAuth _auth;
-  DocumentSnapshot userInfo;
+  User user = FirebaseAuth.instance.currentUser!;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  DocumentSnapshot? userInfo;
   // Future getUserInfo()async{
   //   userInfo= await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
   //
@@ -41,8 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    user=FirebaseAuth.instance.currentUser;
    // getUserInfo();
   }
 
@@ -165,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onTap: ()async{
 
                                   try {
-                                    User user2 = FirebaseAuth.instance.currentUser;
+                                    User user2 = FirebaseAuth.instance.currentUser!;
                                     await user2.delete();
                                   } on FirebaseAuthException catch (e) {
                                     print(e.message.toString());
@@ -217,13 +215,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                 Icon(
                     Icons.exit_to_app_sharp,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   size: 25,
                   //  color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 SizedBox(width: 10,),
                 Text(AppLocalizations.of(context).trans('logout'),
-                    style: TextStyle(color: Theme.of(context).accentColor,fontSize: 18)
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary,fontSize: 18)
                 ),
               ],
               ),

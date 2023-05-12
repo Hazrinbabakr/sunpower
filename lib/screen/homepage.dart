@@ -7,7 +7,7 @@ import 'auth/normal_user_login/login_main_page.dart';
 import 'home.dart';
 import 'order_history.dart';
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -51,21 +51,21 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              title: Text(""),
+              label: "",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),
-              title: Text(''),
+              label: "",
               // backgroundColor: Colors.purple[600]
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_basket),
-              title: Text(""),
+              label: "",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              title: Text(""),
+              label: "",
             ),
           ],
         ),

@@ -10,7 +10,7 @@ import 'package:sunpower/screen/homepage.dart';
 import 'package:provider/provider.dart';
 
 class BusinessSignInPage extends StatefulWidget {
-  const BusinessSignInPage({Key key}) : super(key: key);
+  const BusinessSignInPage({Key? key}) : super(key: key);
 
   @override
   State<BusinessSignInPage> createState() => _BusinessSignInPageState();
@@ -36,7 +36,7 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
       }
       if(_loginProvider.error != null){
         if(_loginProvider.error is FirebaseAuthException){
-          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message);
+          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message??"");
         }
         else{
           Fluttertoast.showToast(msg: "Fail");
@@ -102,7 +102,7 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
                             color: Theme.of(context).colorScheme.secondary,
                             elevation: 0,
                             onTap: () {
-                              if(_form.currentState.validate()){
+                              if(_form.currentState!.validate()){
                                 BusinessUserLoginProvider.of(context).login(email: email.text, password: password.text);
                               }
                             },
@@ -140,19 +140,19 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
 
 
   textFieldWidget(
-      {@required String label,
-        @required TextEditingController controller,
-        String hint,
+      {required String label,
+        required TextEditingController controller,
+        String? hint,
         bool password = false,
         bool email = false,
-        FocusNode focusNode,
-        FocusNode next}) {
+        FocusNode? focusNode,
+        FocusNode? next}) {
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
       obscureText: password,
       validator: (text) {
-        if (text.trim().isEmpty) {
+        if (text!.trim().isEmpty) {
           return AppLocalizations.of(context).trans("fieldIsRequired");
         }
         if(email){
@@ -184,7 +184,7 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
           border: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).accentColor)),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary)),
           hintStyle: TextStyle(color: Colors.grey)),
     );
   }

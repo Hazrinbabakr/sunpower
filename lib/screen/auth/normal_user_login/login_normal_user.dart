@@ -12,7 +12,7 @@ import '../../homepage.dart';
 import 'login_main_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     elevation: 0,
                     onTap: () {
-                      if (_form.currentState.validate())
+                      if (_form.currentState!.validate())
                       {
                         NormalUserLoginProvider.of(context).loginWithPhone(phone: phoneNumberController.text.trim().replaceAll(" ", ""));
                       }

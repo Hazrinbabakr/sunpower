@@ -14,7 +14,7 @@ import 'package:sunpower/services/local_storage_service.dart';
 class ProductsList extends StatefulWidget {
    final String categoryID;
    final categoryName;
-   ProductsList(this.categoryID, this.categoryName, {Key key}) : super(key: key);
+   ProductsList(this.categoryID, this.categoryName, {Key? key}) : super(key: key);
 
   @override
   _ProductsListState createState() => _ProductsListState();
@@ -23,8 +23,8 @@ class ProductsList extends StatefulWidget {
 class _ProductsListState extends State<ProductsList> {
   List<DocumentSnapshot> productListSnapShot = [];
   List<QueryDocumentSnapshot> makeList = [];
-  int makeLength;
-  String makeID;
+  int? makeLength;
+  String? makeID;
   getProducts() {
     FirebaseFirestore.instance
         .collection('products')
@@ -138,7 +138,7 @@ class _ProductsListState extends State<ProductsList> {
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Colors.grey[200],
+                                            color: Colors.grey[200]!,
                                             spreadRadius: 1,
                                             blurRadius: 10)
                                       ]),
@@ -193,7 +193,7 @@ class _ProductsListState extends State<ProductsList> {
                                             //LocalStorageService.instance.user.role == 1?
                                         FirebaseAuth.instance.currentUser != null ?
 
-                                            Text('${LocalStorageService.instance.user.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
+                                            Text('${LocalStorageService.instance.user!.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
                                               style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
                                         Text('${productListSnapShot[i]['retail price'].toString()}\$',
                                           style: TextStyle(fontSize: 18,color: Colors.blue[800],fontWeight: FontWeight.w500),),
@@ -269,7 +269,7 @@ class _ProductsListState extends State<ProductsList> {
                             color: Colors.white,
                             boxShadow:  [
                               BoxShadow(
-                                color: Colors.grey[300],
+                                color: Colors.grey[300]!,
                                 spreadRadius: 1,
                                 blurRadius: 7,
                                 offset: Offset(-4, 4),
@@ -311,7 +311,7 @@ SizedBox(height: 100,),
                     color: Colors.red[900],
                     boxShadow:  [
                       BoxShadow(
-                        color: Colors.grey[300],
+                        color: Colors.grey[300]!,
                         spreadRadius: 1,
                         blurRadius: 7,
                         offset: Offset(-4, 4),

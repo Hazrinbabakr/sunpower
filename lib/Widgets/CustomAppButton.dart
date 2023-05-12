@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomAppButton extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double borderRadius;
-  final GestureTapCallback onTap;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
+  final GestureTapCallback? onTap;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final BorderSide border;
-  final Color color;
+  final Color? color;
   final double elevation;
 
   const CustomAppButton({
-    Key key,
+    Key? key,
     this.child,
     this.borderRadius = 0,
     this.onTap,
@@ -45,7 +45,7 @@ class CustomAppButton extends StatelessWidget {
       padding: margin ?? EdgeInsets.zero,
       child: Material(
         elevation: elevation,
-        color: color,//??Theme.of(context).accentColor,
+        color: color,//??Theme.of(context).colorScheme.secondary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           side: border,
@@ -67,19 +67,19 @@ class CustomAppButtonPrimary extends StatelessWidget {
   final String text;
   final GestureTapCallback onTap;
 
-  const CustomAppButtonPrimary({Key key,@required this.text,@required this.onTap}) : super(key: key);
+  const CustomAppButtonPrimary({Key? key,required this.text,required this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomAppButton(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).colorScheme.secondary,
       onTap: onTap,
       child: Center(
         child: Text(text,
           textAlign: TextAlign.center,
           style: TextStyle(
-          color: Colors.white,
-          fontSize: 14
-        ),),
+              color: Colors.white,
+              fontSize: 14
+          ),),
       ),
       borderRadius: 18,
       elevation: 0,

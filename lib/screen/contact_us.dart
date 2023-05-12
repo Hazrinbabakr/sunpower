@@ -45,8 +45,8 @@ class _ContactUSState extends State<ContactUS> {
                   child: Text(
                     AppLocalizations.of(context).trans("CONTACTSUNPOWER"),
 
-                    style: Theme.of(context).textTheme.headline6.merge(TextStyle(
-                        letterSpacing: 0, color: Theme.of(context).accentColor,fontSize: 20,fontWeight: FontWeight.bold)),
+                    style: Theme.of(context).textTheme.headline6!.merge(TextStyle(
+                        letterSpacing: 0, color: Theme.of(context).colorScheme.secondary,fontSize: 20,fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -131,7 +131,7 @@ Padding(
             // Container(
             //   margin: EdgeInsets.only(left: 10,right: 10),
             //   decoration: BoxDecoration(
-            //     //color: Theme.of(context).accentColor,
+            //     //color: Theme.of(context).colorScheme.secondary,
             //     borderRadius: BorderRadius.all(Radius.circular(5)),
             //     border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //     // boxShadow: [
@@ -180,7 +180,7 @@ Padding(
             //           child: Container(
             //             margin: EdgeInsets.only(left: 10,right: 10),
             //             decoration: BoxDecoration(
-            //               //color: Theme.of(context).accentColor,
+            //               //color: Theme.of(context).colorScheme.secondary,
             //               borderRadius: BorderRadius.all(Radius.circular(5)),
             //               border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //               // boxShadow: [
@@ -217,7 +217,7 @@ Padding(
             //           child: Container(
             //             margin: EdgeInsets.only(left: 10,right: 10),
             //             decoration: BoxDecoration(
-            //               //color: Theme.of(context).accentColor,
+            //               //color: Theme.of(context).colorScheme.secondary,
             //               borderRadius: BorderRadius.all(Radius.circular(5)),
             //               border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //               // boxShadow: [
@@ -253,7 +253,7 @@ Padding(
             //           child: Container(
             //             margin: EdgeInsets.only(left: 10,right: 10),
             //             decoration: BoxDecoration(
-            //               //color: Theme.of(context).accentColor,
+            //               //color: Theme.of(context).colorScheme.secondary,
             //               borderRadius: BorderRadius.all(Radius.circular(5)),
             //               border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //             ),
@@ -278,7 +278,7 @@ Padding(
             //         child: Container(
             //           margin: EdgeInsets.only(left: 10,right: 10),
             //           decoration: BoxDecoration(
-            //             //color: Theme.of(context).accentColor,
+            //             //color: Theme.of(context).colorScheme.secondary,
             //             borderRadius: BorderRadius.all(Radius.circular(5)),
             //             border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //             // boxShadow: [
@@ -318,7 +318,7 @@ Padding(
             //         child: Container(
             //           margin: EdgeInsets.only(left: 10,right: 10),
             //           decoration: BoxDecoration(
-            //             //color: Theme.of(context).accentColor,
+            //             //color: Theme.of(context).colorScheme.secondary,
             //             borderRadius: BorderRadius.all(Radius.circular(5)),
             //             border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //             // boxShadow: [
@@ -353,7 +353,7 @@ Padding(
             //           child: Container(
             //             margin: EdgeInsets.only(left: 10,right: 10),
             //             decoration: BoxDecoration(
-            //               //color: Theme.of(context).accentColor,
+            //               //color: Theme.of(context).colorScheme.secondary,
             //               borderRadius: BorderRadius.all(Radius.circular(5)),
             //               border: Border.all( color: Theme.of(context).hintColor.withOpacity(0.2)),
             //             ),

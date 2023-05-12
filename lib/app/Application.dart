@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 class Application extends StatefulWidget {
   final Widget child;
 
-  Application({@required this.child});
+  Application({required this.child});
 
   static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<_ApplicationState>().restartApp();
+    context.findAncestorStateOfType<_ApplicationState>()!.restartApp();
   }
 
   @override

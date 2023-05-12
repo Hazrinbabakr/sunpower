@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
 
-  const PhoneNumberInput({Key key, @required this.controller})
+  const PhoneNumberInput({Key? key, required this.controller})
       : super(key: key);
 
 
@@ -36,7 +36,7 @@ class PhoneNumberInput extends StatelessWidget {
 
               controller: controller,
               validator: (val) {
-                String text = val.trim().replaceAll(" ", "");
+                String text = val!.trim().replaceAll(" ", "");
                 if (text.trim().isEmpty) {
                   return "phoneNumberEmpty";//AppLocalizations.of(context).trans("phoneNumberEmpty");
                 }
@@ -74,9 +74,9 @@ class PhoneNumberInput extends StatelessWidget {
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
                 ),
-                focusColor: Theme.of(context).accentColor,
+                focusColor: Theme.of(context).colorScheme.secondary,
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
                 ),
               ),
             ),
@@ -92,6 +92,12 @@ class NumberTextInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     String text = newValue.text.replaceAll(" ", "");
+    if(text.isEmpty){
+      return TextEditingValue(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    }
     bool startWithZero = text[0] =='0';
     if(text.length >= 4 && text.length <= (startWithZero ? 7 : 6) ){
       String temp = "";

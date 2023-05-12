@@ -7,14 +7,14 @@ class ShopDetail extends StatefulWidget {
   final String shopEmail;
   final String shopDocID;
 
-  ShopDetail(this.shopEmail,this.shopDocID, {Key key}) : super(key: key);
+  ShopDetail(this.shopEmail,this.shopDocID, {Key? key}) : super(key: key);
   @override
   _ShopDetailState createState() => _ShopDetailState();
 }
 
 class _ShopDetailState extends State<ShopDetail> {
   List<QueryDocumentSnapshot> shopCategorySnapshots =[];
-  QuerySnapshot shopInfo;
+  //QuerySnapshot? shopInfo;
  //late List<QueryDocumentSnapshot> categoryProductSnapshots;
  String selectedCategory='';
  //DocumentSnapshot data;
@@ -55,9 +55,9 @@ String name='';
     DocumentSnapshot snapshot =
     await FirebaseFirestore.instance.collection('shops').doc('Cm5JHbaj1rdaayxUeTdFBVRGkJZ2').get();
     setState(() {
-      name= snapshot.data()['shopName'];
-      phone= snapshot.data()['phoneNum'];
-      email= snapshot.data()['shopEmail'];
+      name= snapshot['shopName'];
+      phone= snapshot['phoneNum'];
+      email= snapshot['shopEmail'];
 print(name+'nmeeeee');
     });
   }
@@ -118,14 +118,14 @@ print(name+'nmeeeee');
               child: shopCategorySnapshots.isEmpty
                   ? Text('Empty category')
                   : TabBar(
-                  labelColor: Theme.of(context).accentColor,
+                  labelColor: Theme.of(context).colorScheme.secondary,
                   unselectedLabelColor: Theme.of(context).hintColor,
                   labelStyle: Theme.of(context).textTheme.subtitle2,
                   isScrollable: false,
                   indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
                   indicatorSize: TabBarIndicatorSize.tab,
                   onTap: (i) {
-                    DocumentSnapshot data= shopCategorySnapshots?.elementAt(i);
+                    DocumentSnapshot data= shopCategorySnapshots.elementAt(i);
                     selectedCategory=data.id;
                     setState(() {});
                   },
@@ -159,8 +159,8 @@ print(name+'nmeeeee');
                   height: 300,
 
                   child: ListView(
-                    children: snapshot.data.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data = document.data();
+                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                       return ListTile(
                         title: Text('Product Name:  ${data['name'].toString()}'),
                       );

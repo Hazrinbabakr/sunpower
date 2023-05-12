@@ -13,39 +13,39 @@ import 'package:uuid/uuid.dart';
 
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key key}) : super(key: key);
+  const CartScreen({Key? key}) : super(key: key);
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-  FirebaseAuth _auth;
-  User user;
+  FirebaseAuth? _auth;
+  User? user;
   final userCollection = FirebaseFirestore.instance.collection('users');
-  List<DocumentSnapshot> cart;
+  List<DocumentSnapshot> cart = [];
   List<Map> cartList = [];
   double subTotal=0.0;
-  DocumentSnapshot adminInfo;
-  DocumentSnapshot adminInfoCollection;
-  DocumentSnapshot userInfo;
-  DocumentSnapshot userInfoCollection;
+  DocumentSnapshot? adminInfo;
+  DocumentSnapshot? adminInfoCollection;
+  DocumentSnapshot? userInfo;
+  DocumentSnapshot? userInfoCollection;
   double deliveryFee=0.0;
   double dinnar =00;
   String name='';
   String address='';
   String phone='';
   var uuid = Uuid();
-  String rundomNumber;
+  String? rundomNumber;
   var formatter = NumberFormat('#,##,000');
   getCart() {
     cartList=[];
     subTotal=0.0;
     int i = 0;
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('cart').get().then((value) {
-      cart = new List<DocumentSnapshot>(value.docs.length);
+    FirebaseFirestore.instance.collection('users')
+        .doc(user?.uid??null).collection('cart').get().then((value) {
       value.docs.forEach((element) async {
         setState(() {
-          cart[i] = element;
+          cart.add(element);
           cartList.add({
             'name':  cart[i]['name'],
             'price':  cart[i]['price'],
@@ -54,9 +54,9 @@ class _CartScreenState extends State<CartScreen> {
             'img':  cart[i]['img'],
             'itemCode':  cart[i]['itemCode'],
           });
-          setState(() {
+          //setState(() {
             subTotal += cart[i]['price']*cart[i]['quantity'];
-          });
+          //});
         });
         i++;
       });
@@ -71,19 +71,19 @@ class _CartScreenState extends State<CartScreen> {
         .get();
     setState(() {
       adminInfo=adminInfoCollection;
-      deliveryFee =  double.parse('${adminInfo.data()['deliveryfee']}');
-      dinnar =  double.parse('${adminInfo.data()['dinnar']}');
+      deliveryFee =  double.parse('${adminInfo!['deliveryfee']}');
+      dinnar =  double.parse('${adminInfo!['dinnar']}');
     });
   }
   getUserInfo() async{
     userInfoCollection = await FirebaseFirestore.instance
-        .collection('users').doc(user.uid)
+        .collection('users').doc(user?.uid??null)
         .get();
     setState(() {
       userInfo=userInfoCollection;
-      name =  userInfo.data()['username'];
-      address =  userInfo.data()['address'];
-      phone =  userInfo.data()['phone'];
+      name =  userInfo!['username'];
+      address =  userInfo!['address'];
+      phone =  userInfo!['phone'];
     });
   }
 
@@ -93,7 +93,7 @@ class _CartScreenState extends State<CartScreen> {
     // TODO: implement initState
     super.initState();
     _auth = FirebaseAuth.instance;
-    user = _auth.currentUser;
+    user = _auth!.currentUser!;
     getCart();
     getAdminInfo();
     getUserInfo();
@@ -150,16 +150,16 @@ class _CartScreenState extends State<CartScreen> {
                     Expanded(
 
                       child: StreamBuilder(
-                          stream: FirebaseFirestore.instance.collection('users').doc(user.uid).collection('cart').snapshots(),
+                          stream: FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('cart').snapshots(),
                           builder: ( _, snapshot) {
                             return Container(
                               // color: Colors.red,
                               child: ListView.builder(
-                                itemCount: snapshot.data?.docs?.length ?? 0,
+                                itemCount: snapshot.data?.docs.length ?? 0,
                                 itemBuilder: (_, index) {
 
                                   if (snapshot.hasData) {
-                                    DocumentSnapshot cartInfo = snapshot.data.docs[index];
+                                    DocumentSnapshot cartInfo = snapshot.data!.docs[index];
 
 
                                     return  InkWell(
@@ -178,7 +178,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       // color: Colors.red,
                                                       boxShadow: [
                                                         BoxShadow(
-                                                            color: Colors.grey[200],
+                                                            color: Colors.grey[200]!,
                                                             spreadRadius: 1,
                                                             blurRadius: 10)
                                                       ]),
@@ -200,8 +200,7 @@ class _CartScreenState extends State<CartScreen> {
                                                               image: DecorationImage(
                                                                   fit: BoxFit.cover,
                                                                   image: NetworkImage(
-                                                                    cartInfo
-                                                                        .data()["img"]
+                                                                    cartInfo["img"]
                                                                         .toString(),))),
                                                         ),
 
@@ -215,8 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                 children: [
 
                                                                   Text(
-                                                                    cartInfo
-                                                                        .data()["name"]
+                                                                    cartInfo["name"]
                                                                         .toString(),
                                                                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
                                                                   ),
@@ -229,7 +227,7 @@ class _CartScreenState extends State<CartScreen> {
 
                                                                   Text(
                                                                     '${   ( cartInfo
-                                                                        .data()["price"]* cartInfo.data()['quantity'])
+                                                                        ["price"]* cartInfo['quantity'])
                                                                         .toStringAsFixed(2)}\$',
                                                                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.green[900]),
 
@@ -265,7 +263,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 child: Row(
                                                   children: [
                                                     cartInfo
-                                                        .data()["quantity"]
+                                                        ["quantity"]
                                                         .toString()=="1"?
                                                     InkWell(
                                                       onTap:  () {
@@ -290,8 +288,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                 onTap: (){
                                                                   setState(() {
                                                                     //productListSnapShot[i]['quantity']-1;
-                                                                    subTotal -= cartInfo.data()['price'];
-                                                                    User user = _auth.currentUser;
+                                                                    subTotal -= cartInfo['price'];
+                                                                    User user = _auth!.currentUser!;
                                                                     userCollection
                                                                         .doc(user.uid)
                                                                         .collection('cart')
@@ -333,7 +331,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.delete,
                                                             size: 25,
-                                                            color: Theme.of(context).accentColor,
+                                                            color: Theme.of(context).colorScheme.secondary,
                                                           )
                                                       ),
                                                     ):
@@ -341,20 +339,19 @@ class _CartScreenState extends State<CartScreen> {
                                                       onTap:  () {
                                                         //Addtocart
                                                         setState(() {
-                                                          if(  cartInfo.data()['quantity']>1){
+                                                          if(  cartInfo['quantity']>1){
                                                             //productListSnapShot[i]['quantity']-1;
-                                                            subTotal -= cartInfo.data()['price'];
-                                                            User user = _auth.currentUser;
+                                                            subTotal -= cartInfo['price'];
+                                                            User user = _auth!.currentUser!;
                                                             userCollection
                                                                 .doc(user.uid)
                                                                 .collection('cart')
                                                                 .doc(cartInfo.id).update({
-                                                              "quantity":  cartInfo.data()['quantity']-1,
+                                                              "quantity":  cartInfo['quantity']-1,
                                                               // "subPrice": (cartInfo.data()['quantity'] -1) * cartInfo.data()['price']
 
                                                             });
 
-                                                            print('removed');
                                                           }
                                                         });
                                                       },
@@ -383,7 +380,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.remove,
                                                             size: 25,
-                                                            color: Theme.of(context).accentColor,
+                                                            color: Theme.of(context).colorScheme.secondary,
                                                           )
                                                       ),
                                                     ),
@@ -393,7 +390,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       padding: const EdgeInsets.symmetric(horizontal: 10),
                                                       child: Container(
                                                           decoration: BoxDecoration(
-                                                            border: Border.all(width: 2, color: Colors.red[900].withOpacity(0.5),),
+                                                            border: Border.all(width: 2, color: Colors.red[900]!.withOpacity(0.5),),
                                                             borderRadius: BorderRadius.all(Radius.circular(10)),
                                                             color: Colors.white,
 
@@ -413,23 +410,23 @@ class _CartScreenState extends State<CartScreen> {
                                                           // color: Colors.red,
                                                           child:  Center(child:
                                                           Text(cartInfo
-                                                              .data()["quantity"]
+                                                              ["quantity"]
                                                               .toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),))
                                                       ),
                                                     ),
                                                     InkWell(
                                                       onTap: (){
                                                         setState(() {
-                                                          subTotal += cartInfo.data()['price'];
-                                                          User user = _auth.currentUser;
+                                                          subTotal += cartInfo['price'];
+                                                          User user = _auth!.currentUser!;
                                                           userCollection
                                                               .doc(user.uid)
                                                               .collection('cart')
                                                               .doc(cartInfo.id).update({
-                                                            "quantity":  cartInfo.data()['quantity']+1,
-                                                            // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
+                                                            "quantity":  cartInfo['quantity']+1,
+                                                            // "subPrice": (cartInfo['quantity'] +1) * cartInfo['price']
                                                           });
-                                                          //calculatingTotalPrice(cartInfo.data()['price'], cartInfo.data()['quantity']);
+                                                          //calculatingTotalPrice(cartInfo['price'], cartInfo['quantity']);
                                                           print('added');
                                                         });
 
@@ -459,7 +456,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.add,
                                                             size: 23,
-                                                            color: Theme.of(context).accentColor,
+                                                            color: Theme.of(context).colorScheme.secondary,
                                                           )
                                                       ),
                                                     ),
@@ -581,7 +578,7 @@ class _CartScreenState extends State<CartScreen> {
                                       "subTotal": subTotal,
                                       "totalPrice": subTotal <=100 ? (subTotal+deliveryFee)*dinnar :(subTotal)*dinnar ,
                                       "deliveryFee":subTotal <=100 ?  deliveryFee : 0,
-                                      "userID": user.uid,
+                                      "userID": user!.uid,
                                       "userName": name,
                                       "userAddress": address,
                                       "userPhone": phone,
@@ -592,12 +589,12 @@ class _CartScreenState extends State<CartScreen> {
                                       "itemCode": orderDate,
                                     });
 
-                                    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').doc(rundomNumber).set({
+                                    FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('orders').doc(rundomNumber).set({
                                       "productList":cartList,
                                       "subTotal": subTotal,
                                       "totalPrice": subTotal <=100 ? (subTotal+deliveryFee)*dinnar :(subTotal)*dinnar ,
                                       "deliveryFee":subTotal <=100 ?  deliveryFee : 0,
-                                      "userID": user.uid,
+                                      "userID": user!.uid,
                                       "userName": name,
                                       "userAddress": address,
                                       "userPhone": phone,
@@ -608,14 +605,15 @@ class _CartScreenState extends State<CartScreen> {
                                     });
 
                                   }).whenComplete(() {
-                                    Scaffold.of(context).showSnackBar(_snackBar);
+                                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
 
                                     Future.delayed(Duration(seconds: 2),(){
                                       Navigator.of(context).push(MaterialPageRoute(
                                         builder: (context) => HomePage(),
                                       ));
 
-                                      FirebaseFirestore.instance.collection('users').doc(user.uid).collection('cart').getDocuments().then((snapshot) {
+                                      FirebaseFirestore.instance.collection('users').doc(user!.uid).collection('cart')
+                                          .get().then((snapshot) {
                                         for (DocumentSnapshot doc in snapshot.docs) {
                                           doc.reference.delete();
                                         };

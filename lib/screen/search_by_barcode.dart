@@ -6,7 +6,7 @@ import 'package:sunpower/screen/productDetails.dart';
 class SearchByBarcode extends StatefulWidget {
   final String barcode;
 
-  const SearchByBarcode({Key key, this.barcode}) : super(key: key);
+  const SearchByBarcode({Key? key,required this.barcode}) : super(key: key);
 
   @override
   State<SearchByBarcode> createState() => _SearchByBarcodeState();

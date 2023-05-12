@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CheckOrder extends StatefulWidget {
-  const CheckOrder({Key key}) : super(key: key);
+  const CheckOrder({Key? key}) : super(key: key);
 
   @override
   _CheckOrderState createState() => _CheckOrderState();

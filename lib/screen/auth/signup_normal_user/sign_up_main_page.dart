@@ -10,7 +10,7 @@ import '../providers/normal_user_login_provider.dart';
 import '../normal_user_login/verify_number.dart';
 
 class SignUpMainPage extends StatefulWidget {
-  const SignUpMainPage({Key key}) : super(key: key);
+  const SignUpMainPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpMainPage> createState() => _SignUpMainPageState();
@@ -36,7 +36,7 @@ class _SignUpMainPageState extends State<SignUpMainPage> {
       }
       if(_loginProvider.error != null){
         if(_loginProvider.error is FirebaseAuthException){
-          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message);
+          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message??"");
         }
         else if (_loginProvider.error is String){
           Fluttertoast.showToast(msg: AppLocalizations.of(context).trans(_loginProvider.error));

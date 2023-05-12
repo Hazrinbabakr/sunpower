@@ -6,7 +6,7 @@ class AppUser{
   final String address;
 
 
-  AppUser({this.name, this.email, this.phone, this.role, this.address});
+  AppUser({required this.name,required this.email,required this.phone,required this.role,required this.address});
 
   factory AppUser.fromJson(Map<String,dynamic> json) {
     return AppUser(

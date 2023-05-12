@@ -48,10 +48,10 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                     ),              InkWell(
                         onTap: (){
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AllCategory(snapshot.data.docs)),
+                              builder: (context) => AllCategory(snapshot.data!.docs)),
                           );
                         },
-                        child: Text( AppLocalizations.of(context).trans("ShowAll"),style: TextStyle(fontSize: 12,color: Theme.of(context).accentColor),)),
+                        child: Text( AppLocalizations.of(context).trans("ShowAll"),style: TextStyle(fontSize: 12,color: Theme.of(context).colorScheme.secondary),)),
 
                   ],
                 ),
@@ -75,8 +75,8 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                     ? 3
                     : 4,
                 children:
-                List.generate(snapshot.data.docs.length<10? snapshot.data.docs.length:9, (index) {
-                  DocumentSnapshot data= snapshot.data.docs.elementAt(index);
+                List.generate(snapshot.data!.docs.length<10? snapshot.data!.docs.length:9, (index) {
+                  DocumentSnapshot data= snapshot.data!.docs.elementAt(index);
                   return  InkWell(
                     onTap: (){
                       // print('Main Category ID  ${data.id.toString()}');

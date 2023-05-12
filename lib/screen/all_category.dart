@@ -11,7 +11,7 @@ import 'package:sunpower/screen/productList.dart';
 
 class AllCategory extends StatefulWidget {
   final List<DocumentSnapshot> categoryList;
-  const AllCategory(this.categoryList, {Key key}) : super(key: key);
+  const AllCategory(this.categoryList, {Key? key}) : super(key: key);
   @override
   _AllCategoryState createState() => _AllCategoryState();
 }

@@ -15,27 +15,22 @@ class NewArrival extends StatefulWidget {
 }
 
 class _NewArrivalState extends State<NewArrival> {
-  // ignore: non_constant_identifier_names
-  List<DocumentSnapshot> NewArrivalSnapshot;
+  List<DocumentSnapshot>? NewArrivalSnapshot;
   getNewArrival() {
-    int i = 0;
     FirebaseFirestore.instance
         .collection('products').where("newArrival",isEqualTo: true)
         .get()
         .then((value) {
-      NewArrivalSnapshot = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
-        setState(() {
-          NewArrivalSnapshot[i] = element;
-        });
-        i++;
+      NewArrivalSnapshot = [];
+      NewArrivalSnapshot!.addAll(value.docs);
+      setState(() {
+
       });
     });
 
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getNewArrival();
   }
@@ -44,7 +39,7 @@ class _NewArrivalState extends State<NewArrival> {
     return
 
 
-      (NewArrivalSnapshot == null || NewArrivalSnapshot.isEmpty)
+      (NewArrivalSnapshot == null || NewArrivalSnapshot!.isEmpty)
           ? SizedBox()
           : Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,10 +52,10 @@ class _NewArrivalState extends State<NewArrival> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: NewArrivalSnapshot.length<10? NewArrivalSnapshot.length:10,
+                itemCount: NewArrivalSnapshot!.length<10? NewArrivalSnapshot!.length:10,
                 itemBuilder: (context, i) {
-                  DocumentSnapshot data= NewArrivalSnapshot.elementAt(i);
-                  return (NewArrivalSnapshot[i] != null)
+                  DocumentSnapshot data= NewArrivalSnapshot!.elementAt(i);
+                  return (NewArrivalSnapshot![i] != null)
 
                       ? Padding(
                         padding: const EdgeInsets.only(right: 15),
@@ -68,7 +63,7 @@ class _NewArrivalState extends State<NewArrival> {
                     onTap: (){
 
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetails( NewArrivalSnapshot[i].id.toString()),
+                        builder: (context) => ProductDetails( NewArrivalSnapshot![i].id.toString()),
                       ));
 
                     },
@@ -90,7 +85,7 @@ class _NewArrivalState extends State<NewArrival> {
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                          NewArrivalSnapshot[i]['images'][0].toString()))),
+                                          NewArrivalSnapshot![i]['images'][0].toString()))),
                             ),
                             SizedBox(height: 7,),
                             Container(
@@ -98,10 +93,10 @@ class _NewArrivalState extends State<NewArrival> {
                               child: Center(
                                 child: Text(
                                   AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                  NewArrivalSnapshot[i]['nameK']:
+                                  NewArrivalSnapshot![i]['nameK']:
                                   AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                  NewArrivalSnapshot[i]['nameA']:
-                                  NewArrivalSnapshot[i]['name'],
+                                  NewArrivalSnapshot![i]['nameA']:
+                                  NewArrivalSnapshot![i]['name'],
                                   style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

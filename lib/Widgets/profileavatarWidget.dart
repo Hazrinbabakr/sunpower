@@ -7,11 +7,11 @@ import 'package:sunpower/localization/AppLocal.dart';
 
 class ProfileAvatarWidget extends StatefulWidget {
 
-  final String userID;
+  final String? userID;
   //bool isGuest;
 
   ProfileAvatarWidget({
-    Key key,
+    Key? key,
     this.userID
     //this.isGuest,
   }) : super(key: key);
@@ -58,15 +58,15 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                         children: <Widget>[
                           Center(
                                 child: Text(
-                            "${ snapshot.data['username'].toUpperCase().toString()??''}",
-                            style: Theme.of(context).textTheme.subtitle1.merge(
+                            "${ snapshot.data!['username'].toUpperCase().toString()??''}",
+                            style: Theme.of(context).textTheme.subtitle1!.merge(
                                   TextStyle(fontSize: 22,color: Colors.black)),
                           ),
                               ),
                           SizedBox(height: 10,),
                           Center(
-                                child: Text( snapshot.data['phone'].toString()??'',
-                            style: Theme.of(context).textTheme.subtitle1.merge(
+                                child: Text( snapshot.data!['phone'].toString()??'',
+                            style: Theme.of(context).textTheme.subtitle1!.merge(
                                   TextStyle(color: Theme.of(context).hintColor)),
                           ),
                               ),
@@ -74,7 +74,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                           InkWell(
                             onTap: (){
-                              _textFieldController = TextEditingController(text:  snapshot.data['address'].toString());
+                              _textFieldController = TextEditingController(text:  snapshot.data!['address'].toString());
 
                               showDialog(
                                   context: context,
@@ -136,7 +136,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                                 children: [
                                   Expanded(
-                                    child: Text(snapshot.data['address'].toString()??'',
+                                    child: Text(snapshot.data!['address'].toString()??'',
                                       style: Theme.of(context).textTheme.subtitle1,
                                       maxLines: 2,
                                     ),

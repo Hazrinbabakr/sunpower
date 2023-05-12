@@ -7,14 +7,14 @@ import 'package:sunpower/services/local_storage_service.dart';
 
 
 class Search extends StatefulWidget {
-  const Search({Key key}) : super(key: key);
+  const Search({Key? key}) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
-  String searchInput;
+  String? searchInput;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +85,10 @@ class _SearchState extends State<Search> {
                       hintText: 'Search for your product',
                       hintStyle: Theme.of(context)
                           .textTheme
-                          .caption
+                          .caption!
                           .merge(TextStyle(fontSize: 14)),
                       prefixIcon:
-                      Icon(Icons.search, color: Theme.of(context).accentColor),
+                      Icon(Icons.search, color: Theme.of(context).colorScheme.secondary),
 //                  border: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.1)),borderRadius: BorderRadius.circular(40)),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -118,7 +118,7 @@ class _SearchState extends State<Search> {
                             itemBuilder: (_, index) {
                               String searchWord;
                               searchWord =
-                              snapshot.data.docs[index].data()['itemCode'].toString();
+                              snapshot.data!.docs[index].data()['itemCode'].toString();
                               // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
                               // snapshot.data.docs[index].data()['nameK']:
                               // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
@@ -129,10 +129,10 @@ class _SearchState extends State<Search> {
 
 
                               if (snapshot.hasData &&
-                                  searchWord.contains(searchInput)) {
+                                  searchWord.contains(searchInput!)) {
                                 // ignore: non_constant_identifier_names
                                 DocumentSnapshot ProductList =
-                                snapshot.data.docs[index];
+                                snapshot.data!.docs[index];
                                 return InkWell(
                                   onTap: (){
                                     Navigator.of(context).push(MaterialPageRoute(
@@ -144,12 +144,12 @@ class _SearchState extends State<Search> {
 
                                       title: Text(
                                         AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                        ProductList.data()['nameK'].toString():
+                                        ProductList['nameK'].toString():
                                         AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
                                         // ignore: unnecessary_statements
-                                        ProductList.data()['nameA'].toString():
+                                        ProductList['nameA'].toString():
                                         // ignore: unnecessary_statements
-                                        ProductList.data()['name'].toString(),
+                                        ProductList['name'].toString(),
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
@@ -162,7 +162,7 @@ class _SearchState extends State<Search> {
                                             style: TextStyle(fontSize: 14),
                                           ),
                                           SizedBox(width: 10,),
-                                          Text(ProductList.data()['itemCode'].toString(),
+                                          Text(ProductList['itemCode'].toString(),
                                             maxLines: 5,
                                             style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
                                           )
@@ -170,10 +170,10 @@ class _SearchState extends State<Search> {
                                       trailing:
                                       FirebaseAuth.instance.currentUser != null ?
 
-                                      Text('${LocalStorageService.instance.user.role == 1? ProductList.data()['wholesale price'].toString()
-                                          :ProductList.data()['retail price'].toString()}\$',
+                                      Text('${LocalStorageService.instance.user!.role == 1? ProductList['wholesale price'].toString()
+                                          :ProductList['retail price'].toString()}\$',
                                         style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
-                                      Text('${ProductList.data()['retail price'].toString()}\$',
+                                      Text('${ProductList['retail price'].toString()}\$',
                                         style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
 
 

@@ -10,7 +10,7 @@ import 'package:sunpower/screen/homepage.dart';
 import 'package:provider/provider.dart';
 
 class MainLoginPage extends StatefulWidget {
-  const MainLoginPage({Key key}) : super(key: key);
+  const MainLoginPage({Key? key}) : super(key: key);
 
   @override
   State<MainLoginPage> createState() => _MainLoginPageState();
@@ -46,7 +46,7 @@ class _MainLoginPageState extends State<MainLoginPage> {
       if(_loginProvider.error != null){
         print(_loginProvider.error);
         if(_loginProvider.error is FirebaseAuthException){
-          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message);
+          Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message??"");
         }
         else{
           Fluttertoast.showToast(msg: "Fail");

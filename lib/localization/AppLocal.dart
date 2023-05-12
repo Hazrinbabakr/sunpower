@@ -19,10 +19,10 @@ class AppLocalizations {
   final Locale locale;
 
   static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  Map<String, String> _sentences;
+  Map<String, String> _sentences = {};
 
   Future<bool> load() async {
     String data = await rootBundle

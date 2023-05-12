@@ -6,7 +6,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 class GalleryItem {
   String id;
   String image;
-  GalleryItem({this.id, this.image});
+  GalleryItem({required this.id,required this.image});
   @override
   String toString() {
     return "id: $id";
@@ -17,14 +17,14 @@ class PhotosGalleryPage extends StatefulWidget {
   final List<GalleryItem> galleryItems;
   final int initialPage;
 
-  const PhotosGalleryPage({Key key, this.galleryItems, this.initialPage = 0})
+  const PhotosGalleryPage({Key? key,required this.galleryItems, this.initialPage = 0})
       : super(key: key);
   @override
   _PhotosGalleryPageState createState() => _PhotosGalleryPageState();
 }
 
 class _PhotosGalleryPageState extends State<PhotosGalleryPage> {
-  PageController pageController;
+  late PageController pageController;
   @override
   void initState() {
     super.initState();

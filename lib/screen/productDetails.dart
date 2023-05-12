@@ -1,10 +1,8 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
 import 'package:sunpower/Widgets/empty.dart';
@@ -12,29 +10,28 @@ import 'package:sunpower/Widgets/photo_gellary.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/productDetailPDF.dart';
 import 'package:sunpower/services/local_storage_service.dart';
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'auth/normal_user_login/login_main_page.dart';
 
 class ProductDetails extends StatefulWidget {
   final String productID;
-  const ProductDetails(this.productID, {Key key}) : super(key: key);
+  const ProductDetails(this.productID, {Key? key}) : super(key: key);
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  DocumentSnapshot productDetailSnapShot;
-  DocumentSnapshot modelSnapshot;
-  DocumentSnapshot makeSnapshot;
-  DocumentSnapshot productSnapshot;
-  List<DocumentSnapshot> makeListSnapShot;
-  List<DocumentSnapshot> modelListSnapShot;
+  DocumentSnapshot? productDetailSnapShot;
+  DocumentSnapshot? modelSnapshot;
+  DocumentSnapshot? makeSnapshot;
+  DocumentSnapshot? productSnapshot;
+  List<DocumentSnapshot>? makeListSnapShot;
+  List<DocumentSnapshot>? modelListSnapShot;
   String modelName='';
   String makeName='';
-  FirebaseAuth _auth;
-  User user;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  User user = FirebaseAuth.instance.currentUser!;
   List<String> imgList=[];
 
   int _current = 0;
@@ -58,7 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       // inPrice= int.parse(productSnapshot.data()['retail price']);
       // //print(inPrice.toString());
       ////print('${productDetailSnapShot.data()['images'].toString()} imgggg');
-      productDetailSnapShot.data()['images'].forEach((element){
+      productDetailSnapShot!['images'].forEach((element){
         imgList.add(element);
       });
       // imgList.add(productDetailSnapShot.data()['images'].toString());
@@ -68,51 +65,49 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
   Future getMake() async{
     productDetailSnapShot = await FirebaseFirestore.instance
-        .collection('make').doc(productSnapshot.data()['makeId'].toString())
+        .collection('make').doc(productSnapshot!['makeId'].toString())
         .get();
     setState(() {
       makeSnapshot=productDetailSnapShot;
-      makeName=
-          modelName=
+      //makeName=
+      modelName=
       AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-      makeSnapshot.data()['makeK']:
+      makeSnapshot!['makeK']:
       AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-      makeSnapshot.data()['makeA']:
-      makeSnapshot.data()['make'];
+      makeSnapshot!['makeA']:
+      makeSnapshot!['make'];
 
 
     });
   }
   Future getModel() async{
     productDetailSnapShot = await FirebaseFirestore.instance
-        .collection('make').doc(productSnapshot.data()['makeId'].toString()).
-    collection('models').doc(productSnapshot.data()['modelId'].toString())
+        .collection('make').doc(productSnapshot!['makeId'].toString()).
+    collection('models').doc(productSnapshot!['modelId'].toString())
         .get();
     setState(() {
       modelSnapshot=productDetailSnapShot;
       modelName=
       AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-      modelSnapshot.data()['mnameK']:
+      modelSnapshot!['mnameK']:
       AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-      modelSnapshot.data()['mnameA']:
-      modelSnapshot.data()['mname'];
+      modelSnapshot!['mnameA']:
+      modelSnapshot!['mname'];
     });
   }
   getMakeRelated() {
     int i = 0;
     FirebaseFirestore.instance
         .collection('products')
-        .where('makeId',isEqualTo: productSnapshot.data()['makeId'])
+        .where('makeId',isEqualTo: productSnapshot!['makeId'])
     //.where('productID',isNotEqualTo: productSnapshot.id)
         .get()
         .then((value) {
-      makeListSnapShot = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
-        setState(() {
-          makeListSnapShot[i] = element;
-        });
-        i++;
+      makeListSnapShot = [];
+      makeListSnapShot!.addAll(value.docs);
+      setState(() {
       });
+
     }).whenComplete(() {
     });
 
@@ -121,23 +116,17 @@ class _ProductDetailsState extends State<ProductDetails> {
     int i = 0;
     FirebaseFirestore.instance
         .collection('products')
-        .where('modelId',isEqualTo: productSnapshot.data()['modelId'])
+        .where('modelId',isEqualTo: productSnapshot!['modelId'])
         .get()
         .then((value) {
-      modelListSnapShot = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
-        setState(() {
-          modelListSnapShot[i] = element;
-        });
-        i++;
-      });
+      modelListSnapShot= [];
+      modelListSnapShot!.addAll(value.docs);
+      setState(() {});
     });
 
   }
   @override
   void initState() {
-    _auth = FirebaseAuth.instance;
-    user= _auth.currentUser;
     getProducts().then((value)
     => getMake().then((value)
     => getModel()).then((value)
@@ -172,7 +161,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               builder: (BuildContext context){
                 return  productSnapshot==null?
                 EmptyWidget():
-                //Text(snapshot.data()['name']),
+                //Text(snapshot['name']),
                 Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
@@ -283,9 +272,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 decoration: BoxDecoration(
                                                   color: _current == i
                                                       ? Theme.of(context)
-                                                      .accentColor
+                                                      .colorScheme.secondary
                                                       : Theme.of(context)
-                                                      .accentColor
+                                                      .colorScheme.secondary
                                                       .withOpacity(
                                                       0.2),
                                                   shape: BoxShape.circle,
@@ -339,17 +328,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     Text(
 
                                                       AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                                      productSnapshot.data()['nameK'] ?? '':
+                                                      productSnapshot!['nameK'] ?? '':
                                                       AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                                      productSnapshot.data()['nameA'] ?? '':
-                                                      productSnapshot.data()['name'] ?? '',
+                                                      productSnapshot!['nameA'] ?? '':
+                                                      productSnapshot!['name'] ?? '',
 
                                                       // overflow: TextOverflow.fade,
                                                       maxLines: 3,
                                                       style: Theme.of(
                                                           context)
                                                           .textTheme
-                                                          .headline3
+                                                          .headline3!
                                                           .merge(TextStyle(
                                                           fontSize: 22,
                                                           fontWeight: FontWeight.bold,
@@ -365,7 +354,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                           style: TextStyle(fontSize: 14),
                                                         ),
                                                         SizedBox(width: 10,),
-                                                        Text(productSnapshot.data()['itemCode'].toString(),
+                                                        Text(productSnapshot!['itemCode'].toString(),
                                                           maxLines: 5,
                                                           style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
                                                         )
@@ -381,7 +370,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       SizedBox(
                                                         width: 5,
                                                       ),
-                                                      productSnapshot.data()['quantity']==0 ||productSnapshot.data()['quantity']<0 ||productSnapshot.data()['quantity']< quantity?
+                                                      productSnapshot!['quantity']==0 ||productSnapshot!['quantity']<0 ||productSnapshot!['quantity']< quantity?
                                                       Text(  AppLocalizations.of(context).trans("OutofStock"),
 
                                                         style: TextStyle(
@@ -413,11 +402,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                         child:  Row(
                                                           children: [
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text('${LocalStorageService.instance.user.role == 1?
-                                                            productSnapshot['wholesale price'].toString():productSnapshot['retail price'].toString()}',
+                                                            Text('${LocalStorageService.instance.user!.role == 1?
+                                                            productSnapshot!['wholesale price'].toString():productSnapshot!['retail price'].toString()}',
                                                               style:
                                                               TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.blue[800]),):
-                                                            Text('${productSnapshot['retail price'].toString()}',
+                                                            Text('${productSnapshot!['retail price'].toString()}',
                                                               style:
                                                               TextStyle(fontWeight: FontWeight.bold,fontSize:22,color: Colors.blue[800]),),
                                                             Text('\$',style:
@@ -431,9 +420,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                         // color: Colors.red,
                                                         child:  Row(
                                                           children: [
-                                                            Text( productSnapshot['old price'].toString()=='0'?'':'${productSnapshot['old price'].toString()}',style:
+                                                            Text( productSnapshot!['old price'].toString()=='0'?'':'${productSnapshot!['old price'].toString()}',style:
                                                             TextStyle(fontSize: 16,decoration: TextDecoration.lineThrough,color: Colors.red),),
-                                                            Text(  productSnapshot['old price'].toString()=='0'?'':'\$',style:
+                                                            Text(  productSnapshot!['old price'].toString()=='0'?'':'\$',style:
                                                             TextStyle(fontSize: 14,decoration: TextDecoration.lineThrough,color: Colors.red),),
                                                           ],
                                                         )
@@ -457,7 +446,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 child: Container(
                                                   // color: Colors.red,
                                                   child: TabBar(
-                                                    indicatorColor: Theme.of(context).accentColor,
+                                                    indicatorColor: Theme.of(context).colorScheme.secondary,
                                                     indicatorPadding: EdgeInsets.all(0),
                                                     labelPadding: EdgeInsets.symmetric(horizontal: 50),
                                                     // indicator: UnderlineTabIndicator(
@@ -508,12 +497,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       height: 190,
                                     ),
 
-                                    (makeListSnapShot == null || makeListSnapShot.isEmpty)
+                                    (makeListSnapShot == null || makeListSnapShot!.isEmpty)
                                         ? SizedBox()
                                         : Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(makeListSnapShot.length >1 ?  AppLocalizations.of(context).trans("RelatedMake"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                        Text(makeListSnapShot!.length >1 ?  AppLocalizations.of(context).trans("RelatedMake"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                         SizedBox(height: 15,),
                                         Container(
                                           // color: Colors.red,
@@ -522,13 +511,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
-                                              itemCount: makeListSnapShot.length,
+                                              itemCount: makeListSnapShot!.length,
                                               itemBuilder: (context, i) {
-                                                return (makeListSnapShot[i] != null && makeListSnapShot[i]['name'] !=  productSnapshot.data()['name'] )
+                                                return (makeListSnapShot![i] != null && makeListSnapShot![i]['name'] !=  productSnapshot!['name'] )
                                                     ? InkWell(
                                                   onTap: (){
                                                     Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) => ProductDetails( makeListSnapShot[i].id.toString()),
+                                                      builder: (context) => ProductDetails( makeListSnapShot![i].id.toString()),
                                                     ));
                                                   },
                                                   child: Padding(
@@ -548,7 +537,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                               image: DecorationImage(
                                                                 // fit: BoxFit.cover,
                                                                   image: NetworkImage(
-                                                                      makeListSnapShot[i]['images'][0].toString()
+                                                                      makeListSnapShot![i]['images'][0].toString()
                                                                   )
                                                               )),
                                                         ),
@@ -561,19 +550,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                               height: 30,
                                                               //color: Colors.grey,
                                                               child: Center(
-                                                                child: Text(makeListSnapShot[i]['name'],
+                                                                child: Text(makeListSnapShot![i]['name'],
                                                                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,), overflow: TextOverflow.ellipsis,),
                                                               ),
                                                             ),
                                                             //  SizedBox(height: 10,),
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text('${LocalStorageService.instance.user.role == 1? makeListSnapShot[i]['wholesale price'].toString():makeListSnapShot[i]['retail price'].toString()}\$',
+                                                            Text('${LocalStorageService.instance.user!.role == 1? makeListSnapShot![i]['wholesale price'].toString():makeListSnapShot![i]['retail price'].toString()}\$',
                                                               style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),):
-                                                            Text('${makeListSnapShot[i]['retail price'].toString()}\$',
+                                                            Text('${makeListSnapShot![i]['retail price'].toString()}\$',
                                                               style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                             SizedBox(height: 10,),
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text( makeListSnapShot[i]['old price'].toString()=='0'?'':'${makeListSnapShot[i]['old price'].toString()}\$',style:
+                                                            Text( makeListSnapShot![i]['old price'].toString()=='0'?'':'${makeListSnapShot![i]['old price'].toString()}\$',style:
                                                             TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),):
                                                                 SizedBox()
 
@@ -591,12 +580,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       height: 300,
                                     ),
 
-                                    (modelListSnapShot == null || modelListSnapShot.isEmpty)
+                                    (modelListSnapShot == null || modelListSnapShot!.isEmpty)
                                         ? SizedBox()
                                         : Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(modelListSnapShot.length >1 ?  AppLocalizations.of(context).trans("RelatedModel"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                        Text(modelListSnapShot!.length >1 ?  AppLocalizations.of(context).trans("RelatedModel"):'',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                         SizedBox(height: 15,),
                                         Container(
                                           // color: Colors.red,
@@ -605,13 +594,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
-                                              itemCount: modelListSnapShot.length,
+                                              itemCount: modelListSnapShot!.length,
                                               itemBuilder: (context, i) {
-                                                return (modelListSnapShot[i] != null && modelListSnapShot[i]['name'] !=  productSnapshot.data()['name'] )
+                                                return (modelListSnapShot![i] != null && modelListSnapShot![i]['name'] !=  productSnapshot!['name'] )
                                                     ? InkWell(
                                                   onTap: (){
                                                     Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) => ProductDetails( modelListSnapShot[i].id.toString()),
+                                                      builder: (context) => ProductDetails( modelListSnapShot![i].id.toString()),
                                                     ));
                                                   },
                                                   child: Padding(
@@ -631,7 +620,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                               image: DecorationImage(
                                                                 // fit: BoxFit.cover,
                                                                   image: NetworkImage(
-                                                                      modelListSnapShot[i]['images'][0].toString()
+                                                                      modelListSnapShot![i]['images'][0].toString()
                                                                   )
                                                               )),
                                                         ),
@@ -644,19 +633,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                               height: 30,
                                                               //color: Colors.grey,
                                                               child: Center(
-                                                                child: Text(modelListSnapShot[i]['name'],
+                                                                child: Text(modelListSnapShot![i]['name'],
                                                                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,), overflow: TextOverflow.ellipsis,),
                                                               ),
                                                             ),
                                                             //  SizedBox(height: 10,),
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text('${LocalStorageService.instance.user.role == 1? modelListSnapShot[i]['wholesale price'].toString():modelListSnapShot[i]['retail price'].toString()}\$',
+                                                            Text('${LocalStorageService.instance.user!.role == 1? modelListSnapShot![i]['wholesale price'].toString():modelListSnapShot![i]['retail price'].toString()}\$',
                                                               style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),):
-                                                            Text('${modelListSnapShot[i]['retail price'].toString()}\$',
+                                                            Text('${modelListSnapShot![i]['retail price'].toString()}\$',
                                                               style: TextStyle(fontSize: 14,color: Colors.black,fontWeight: FontWeight.w500),),
                                                             SizedBox(height: 10,),
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text( modelListSnapShot[i]['old price'].toString()=='0'?'':'${modelListSnapShot[i]['old price'].toString()}\$',style:
+                                                            Text( modelListSnapShot![i]['old price'].toString()=='0'?'':'${modelListSnapShot![i]['old price'].toString()}\$',style:
                                                             TextStyle(fontSize: 18,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),):
                                                                 SizedBox()
                                                           ],
@@ -736,7 +725,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child:  Icon(
                                           Icons.remove,
                                           size: 25,
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context).colorScheme.secondary,
                                         )
                                     ),
                                   ),
@@ -744,7 +733,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     padding: const EdgeInsets.symmetric(horizontal: 10),
                                     child: Container(
                                         decoration: BoxDecoration(
-                                          border: Border.all(width: 2, color: Colors.red[900].withOpacity(0.5),),
+                                          border: Border.all(width: 2, color: Colors.red[900]!.withOpacity(0.5),),
                                           borderRadius: BorderRadius.all(Radius.circular(10)),
                                           color: Colors.white,
 
@@ -768,13 +757,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           height: 40,
                                           child: TextField(
                                             onChanged: (val){
-                                              int number = int.tryParse(val);
+                                              int? number = int.tryParse(val);
                                               if(number != null){
                                                 quantity = number;
                                               }
                                             },
                                             onSubmitted: (val){
-                                              int number = int.tryParse(val);
+                                              int? number = int.tryParse(val);
                                               if(number != null){
                                                 quantity = number;
                                               }
@@ -838,7 +827,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child:  Icon(
                                           Icons.add,
                                           size: 25,
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context).colorScheme.secondary,
                                         )
                                     ),
                                   ),
@@ -875,14 +864,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       onTap: (){
                                        setState(() {
                                          if(   FirebaseAuth.instance.currentUser != null){
-                                           User user = _auth.currentUser;
+                                           User user = _auth.currentUser!;
                                            userCollection
                                                .doc(user.uid)
                                                .collection('favorite')
                                                .doc(widget.productID).delete();
                                            // //print('added to fav');
                                            isfav= !isfav;
-                                           Scaffold.of(context).showSnackBar(_snackBarRemoveFromFav);
+                                           ScaffoldMessenger.of(context).showSnackBar(_snackBarRemoveFromFav);
 
                                          }else{
                                            print('no user');
@@ -893,7 +882,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       child: Icon(
                                         Icons.favorite,
                                         size: 30,
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                       ),
                                     ):
 
@@ -901,7 +890,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       onTap: (){
                                        setState(() {
                                          if(   FirebaseAuth.instance.currentUser != null){
-                                           User user = _auth.currentUser;
+                                           User user = _auth.currentUser!;
                                            userCollection
                                                .doc(user.uid)
                                                .collection('favorite')
@@ -911,7 +900,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                            });
                                            isfav= !isfav;
                                            // //print('added to fav');
-                                           Scaffold.of(context).showSnackBar(_snackBarAddToFav);
+                                           ScaffoldMessenger.of(context).showSnackBar(_snackBarAddToFav);
 
                                          }else{
                                            Navigator.of(context).push(MaterialPageRoute(
@@ -924,7 +913,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       child: Icon(
                                         Icons.favorite_border,
                                         size: 30,
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                       ),
                                     )
                                 ),
@@ -933,7 +922,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 // addtocart
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width - 40,
-                                    child:  productSnapshot.data()['quantity']==0 ||productSnapshot.data()['quantity']<0  ||productSnapshot.data()['quantity']< quantity?
+                                    child:  productSnapshot!['quantity']==0 ||productSnapshot!['quantity']<0  ||productSnapshot!['quantity']< quantity?
                                     Center(
                                       child: Stack(
                                         fit: StackFit.loose,
@@ -1034,7 +1023,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               onTap: () {
 
  if(   FirebaseAuth.instance.currentUser != null){
-  User user = _auth.currentUser;
+  User user = _auth.currentUser!;
   userCollection
         .doc(user.uid)
         .collection('cart')
@@ -1043,23 +1032,23 @@ class _ProductDetailsState extends State<ProductDetails> {
       "productID": widget.productID,
       "quantity": quantity,
       "price":
-      LocalStorageService.instance.user.role == 1?
-      productSnapshot['wholesale price']
-          :productSnapshot['retail price'],
-      "name": productSnapshot.data()['name'],
-      "nameA": productSnapshot.data()['nameA'],
-      "nameK": productSnapshot.data()['nameK'],
+      LocalStorageService.instance.user!.role == 1?
+      productSnapshot!['wholesale price']
+          :productSnapshot!['retail price'],
+      "name": productSnapshot!['name'],
+      "nameA": productSnapshot!['nameA'],
+      "nameK": productSnapshot!['nameK'],
       "supPrice":
-      ( LocalStorageService.instance.user.role == 1?
-      productSnapshot['wholesale price']
-          :productSnapshot['retail price']) * quantity,
+      ( LocalStorageService.instance.user!.role == 1?
+      productSnapshot!['wholesale price']
+          :productSnapshot!['retail price']) * quantity,
 
 
-      "img": productSnapshot.data()['images'][0],
-    "itemCode": productSnapshot.data()['itemCode'],
+      "img": productSnapshot!['images'][0],
+    "itemCode": productSnapshot!['itemCode'],
   });
   //print('added');
-  Scaffold.of(context).showSnackBar(_snackBar);
+  ScaffoldMessenger.of(context).showSnackBar(_snackBar);
 
 }else{
   Navigator.of(context).push(MaterialPageRoute(
@@ -1133,10 +1122,10 @@ class _ProductDetailsState extends State<ProductDetails> {
 
 
         AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-        productSnapshot.data()['descK'] ?? '':
+        productSnapshot!['descK'] ?? '':
         AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-        productSnapshot.data()['descA'] ?? '':
-        productSnapshot.data()['desc'] ?? '',
+        productSnapshot!['descA'] ?? '':
+        productSnapshot!['desc'] ?? '',
 
        style: TextStyle(fontSize: 16,height: 1.3),);
 
@@ -1191,7 +1180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(productSnapshot.data()['brand'],
+                  child: Text(productSnapshot!['brand'],
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
@@ -1210,7 +1199,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(productSnapshot.data()['oemCode'].toString(),
+                  child: Text(productSnapshot!['oemCode'].toString(),
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
@@ -1227,7 +1216,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(productSnapshot.data()['piecesInBox'].toString(),
+                  child: Text(productSnapshot!['piecesInBox'].toString(),
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
@@ -1244,7 +1233,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 Expanded(
-                  child: Text(productSnapshot.data()['volt'],
+                  child: Text(productSnapshot!['volt'],
                     maxLines: 5,
                     style: TextStyle(fontSize: 15),
                   ),
@@ -1253,7 +1242,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             SizedBox(height: 15,),
 
 
-            productSnapshot.data()['pdfUrl'].toString()==""?
+            productSnapshot!['pdfUrl'].toString()==""?
                 SizedBox():
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1272,7 +1261,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     context,
     MaterialPageRoute(
     builder: (context) => PdfBook(
-    pdfUrl:productSnapshot.data()['pdfUrl'].toString(),
+    pdfUrl:productSnapshot!['pdfUrl'].toString(),
     )));
     },
                       child: Icon(Icons.picture_as_pdf_outlined))
@@ -1284,12 +1273,12 @@ class _ProductDetailsState extends State<ProductDetails> {
               width: 250,
               child:
               // SfBarcodeGenerator(
-              //   value: productSnapshot.data()['barCode'].toString(),
+              //   value: productSnapshot!['barCode'].toString(),
               //   symbology: EAN13(),
               //   showValue: true,
               // ),
               BarcodeWidget(
-                data: productSnapshot.data()['barCode'].toString(),
+                data: productSnapshot!['barCode'].toString(),
                 barcode: Barcode.code128(escapes: true),
               ),
             ),
@@ -1396,7 +1385,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     duration: Duration(seconds: 1),
   );
   bool isfav=false;
-  List<DocumentSnapshot> getFav;
+  List<DocumentSnapshot>? getFav;
   List <String> favList=[];
 
 
@@ -1404,21 +1393,17 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     int i = 0;
     FirebaseFirestore.instance.collection('users').doc(user.uid).collection('favorite').get().then((value) {
-      getFav = new List<DocumentSnapshot>(value.docs.length);
-      value.docs.forEach((element) async {
-        setState(() {
-          getFav[i] = element;
-          favList.add(getFav[i].id);
-          if(favList.contains(widget.productID)){
-            isfav=true;
-          }else{
-            isfav=false;
-          }
+      getFav = [];//new List<DocumentSnapshot>(value.docs.length);
+      getFav!.addAll(value.docs);
+      if(favList.contains(widget.productID)){
+        isfav=true;
+      }else{
+        isfav=false;
+      }
+      setState(() {
 
-          //print('$isfav    issfavvvvv');
-        });
-        i++;
       });
+
     });
 
   }

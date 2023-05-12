@@ -1,18 +1,16 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
 import 'package:flutter/material.dart';
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 class PdfBook extends StatefulWidget {
   String pdfUrl;
-  PdfBook({this.pdfUrl,});
+  PdfBook({required this.pdfUrl,});
   @override
   _PdfBookState createState() => _PdfBookState();
 }
 
 class _PdfBookState extends State<PdfBook> {
   bool _isLoading = true;
-  PDFDocument document;
+  PDFDocument? document;
 
   @override
   void initState() {
@@ -40,7 +38,7 @@ class _PdfBookState extends State<PdfBook> {
           icon: Icon(Icons.arrow_back_ios,),
           onPressed: () => Navigator.of(context).pop(),
         ),
-       // backgroundColor: Theme.of(context).accentColor,
+       // backgroundColor: Theme.of(context).colorScheme.secondary,
 
       ),
       body: _isLoading
@@ -61,16 +59,18 @@ class _PdfBookState extends State<PdfBook> {
         ),
       )
           : Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         child: Center(
           child: _isLoading
               ? Center(child: CircularProgressIndicator())
               : PDFViewer(
-            document: document,
+            document: document!,
             scrollDirection: Axis.vertical,
             zoomSteps: 1,
-            pickerIconColor: Theme.of(context).primaryColor,
-            pickerButtonColor: Theme.of(context).accentColor,
+            indicatorBackground: Theme.of(context).colorScheme.secondary,
+            indicatorText: Theme.of(context).primaryColor,
+            // pickerIconColor: Theme.of(context).primaryColor,
+            // pickerButtonColor: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ),
