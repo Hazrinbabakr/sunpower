@@ -10,6 +10,8 @@ import 'package:sunpower/Widgets/SocialMediaWidget.dart';
 import 'package:sunpower/Widgets/new_arrival.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 
+import '../Widgets/brands.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -43,27 +45,39 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             CategoriesWidget(),
 
-            //SizedBox(height: 120,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                  AppLocalizations.of(context).trans("NewArrivals").toUpperCase(),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  NewArrival(),
-                ],
-              ),
-            ),
+            //New arrival
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       // Text(
+            //       // AppLocalizations.of(context).trans("NewArrivals").toUpperCase(),
+            //       //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            //       // ),
+            //       // SizedBox(
+            //       //   height: 10,
+            //       // ),
+            //       NewArrival(),
+            //     ],
+            //   ),
+            // ),
             Offers('offerImages'),
             SizedBox(
               height: 30,
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Brands'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  SizedBox(height: 15,),
+                  Brands(),
+                ],
+              ),
+            ),
+            //SizedBox(height: 20,),
             SocialMediaWidget(),
             SizedBox(
               height: 30,

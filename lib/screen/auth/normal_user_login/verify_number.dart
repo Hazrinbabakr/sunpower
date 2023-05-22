@@ -7,6 +7,8 @@ import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/auth/providers/normal_user_login_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Widgets/BackArrowWidget.dart';
+
 class VerifyNumberPage extends StatefulWidget {
   final bool register;
   final UserRegisterRequest? request;
@@ -32,7 +34,11 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: BackArrowWidget(),
+        //automaticallyImplyLeading: true,
+       backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: SingleChildScrollView(

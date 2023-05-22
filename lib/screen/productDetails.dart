@@ -31,7 +31,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String modelName='';
   String makeName='';
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user = FirebaseAuth.instance.currentUser!;
+  User? user = FirebaseAuth.instance.currentUser;
   List<String> imgList=[];
 
   int _current = 0;
@@ -50,35 +50,48 @@ class _ProductDetailsState extends State<ProductDetails> {
     productDetailSnapShot = await FirebaseFirestore.instance
         .collection('products').doc(widget.productID)
         .get();
-    setState(() {
-      productSnapshot=productDetailSnapShot;
-      // inPrice= int.parse(productSnapshot.data()['retail price']);
-      // //print(inPrice.toString());
-      ////print('${productDetailSnapShot.data()['images'].toString()} imgggg');
-      productDetailSnapShot!['images'].forEach((element){
-        imgList.add(element);
-      });
-      // imgList.add(productDetailSnapShot.data()['images'].toString());
-      // //print('${productDetailSnapShot.data()['images'].length.toString()} imgggg');
+    if(mounted) {
+      setState(() {
+        productSnapshot = productDetailSnapShot;
+        // inPrice= int.parse(productSnapshot.data()['retail price']);
+        // //print(inPrice.toString());
+        ////print('${productDetailSnapShot.data()['images'].toString()} imgggg');
+        productDetailSnapShot!['images'].forEach((element) {
+          imgList.add(element);
+        });
+        // imgList.add(productDetailSnapShot.data()['images'].toString());
+        // //print('${productDetailSnapShot.data()['images'].length.toString()} imgggg');
 
-    });
+      });
+    }
   }
   Future getMake() async{
+
     productDetailSnapShot = await FirebaseFirestore.instance
         .collection('make').doc(productSnapshot!['makeId'].toString())
         .get();
-    setState(() {
-      makeSnapshot=productDetailSnapShot;
-      //makeName=
-      modelName=
-      AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-      makeSnapshot!['makeK']:
-      AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-      makeSnapshot!['makeA']:
-      makeSnapshot!['make'];
-
-
-    });
+    if(mounted) {
+      setState(() {
+        makeSnapshot = productDetailSnapShot;
+        //makeName=
+        makeName =
+        AppLocalizations
+            .of(context)
+            .locale
+            .languageCode
+            .toString() == 'ku' ?
+        makeSnapshot!['makeK'] :
+        AppLocalizations
+            .of(context)
+            .locale
+            .languageCode
+            .toString() == 'ar' ?
+        makeSnapshot!['makeA'] :
+        makeSnapshot!['make'];
+        print('testtttt');
+        print(modelName.toString());
+      });
+    }
   }
   Future getModel() async{
     productDetailSnapShot = await FirebaseFirestore.instance
@@ -151,8 +164,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            backgroundColor: Colors.white,
             elevation: 0,
-            title: Text(  AppLocalizations.of(context).trans("ProductDetails"),),
+            title: Text(  AppLocalizations.of(context).trans("ProductDetails"),style: TextStyle(color: Colors.black87),),
             leading: BackArrowWidget(),
           ),
           body:
@@ -402,10 +416,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                         child:  Row(
                                                           children: [
                                                             FirebaseAuth.instance.currentUser != null ?
-                                                            Text('${LocalStorageService.instance.user!.role == 1?
+                                                            Text(
+
+                                                              '${LocalStorageService.instance.user!.role == 1?
                                                             productSnapshot!['wholesale price'].toString():productSnapshot!['retail price'].toString()}',
                                                               style:
-                                                              TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.blue[800]),):
+                                                              TextStyle(fontWeight: FontWeight.bold,fontSize: 24,color: Colors.blue[800]),
+
+                                                            ):
                                                             Text('${productSnapshot!['retail price'].toString()}',
                                                               style:
                                                               TextStyle(fontWeight: FontWeight.bold,fontSize:22,color: Colors.blue[800]),),
@@ -1392,7 +1410,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   getFavList() {
 
     int i = 0;
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('favorite').get().then((value) {
+    FirebaseFirestore.instance.collection('users').doc(user?.uid).collection('favorite').get().then((value) {
       getFav = [];//new List<DocumentSnapshot>(value.docs.length);
       getFav!.addAll(value.docs);
       if(favList.contains(widget.productID)){

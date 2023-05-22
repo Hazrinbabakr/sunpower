@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
   String phone='';
   var uuid = Uuid();
   String? rundomNumber;
-  var formatter = NumberFormat('#,##,000');
+  var formatter = NumberFormat('#,###,000');
   getCart() {
     cartList=[];
     subTotal=0.0;
@@ -107,7 +107,8 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
         appBar: AppBar(
-            title:  Text(AppLocalizations.of(context).trans("CartScreen"),),
+            backgroundColor: Colors.white,
+            title:  Text(AppLocalizations.of(context).trans("CartScreen"),style: TextStyle(color: Colors.black87),),
             elevation: 0,
             leading: BackArrowWidget()
         ),

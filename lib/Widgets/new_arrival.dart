@@ -44,7 +44,13 @@ class _NewArrivalState extends State<NewArrival> {
           : Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
+          Text(
+            AppLocalizations.of(context).trans("NewArrivals").toUpperCase(),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             // color: Colors.red,
             // width: 200,

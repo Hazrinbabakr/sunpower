@@ -26,12 +26,11 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
             return const Text('Something went wrong');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
 
           return  Column(
             children: [
-
 
 
               SizedBox(height: 10,),
@@ -45,13 +44,21 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
 //AppLocalizations.of(context).trans("Deliverto"),
                       AppLocalizations.of(context).trans("categories").toUpperCase(),
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),              InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AllCategory(snapshot.data!.docs)),
-                          );
-                        },
-                        child: Text( AppLocalizations.of(context).trans("ShowAll"),style: TextStyle(fontSize: 12,color: Theme.of(context).colorScheme.secondary),)),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 8,right: 8,top: 6,bottom: 4),
+                      decoration: BoxDecoration(
+                          color: Colors.deepOrange[900],
+                          borderRadius:
+                          BorderRadius.circular(5)),
+                      child: InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AllCategory(snapshot.data!.docs)),
+                            );
+                          },
+                          child: Text( AppLocalizations.of(context).trans("ShowAll"),style: TextStyle(fontSize: 14,color:Colors.white,fontWeight: FontWeight.bold),)),
+                    ),
 
                   ],
                 ),

@@ -76,8 +76,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-            title: Text(  AppLocalizations.of(context).trans("Favorite"),),
+            title: Text(  AppLocalizations.of(context).trans("Favorite"),style: TextStyle(color: Colors.black87),),
             elevation: 0,
         ),
 

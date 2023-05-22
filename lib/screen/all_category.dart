@@ -24,11 +24,12 @@ class _AllCategoryState extends State<AllCategory> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           leading: BackArrowWidget(),
           automaticallyImplyLeading: false,
           title:
 
-          Text(AppLocalizations.of(context).trans("categories"),),
+          Text(AppLocalizations.of(context).trans("categories"),style: TextStyle(color: Colors.black87),),
           elevation: 0,
         ),
 

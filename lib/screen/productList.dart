@@ -29,7 +29,7 @@ class _ProductsListState extends State<ProductsList> {
     FirebaseFirestore.instance
         .collection('products')
         .where('categoryID',isEqualTo: widget.categoryID)
-        .where('makeId',isEqualTo: makeID)
+        .where('makeId',isEqualTo: makeID).where("newArrival",isEqualTo: true)
         .get()
         .then((value) {
       productListSnapShot.clear();
@@ -92,7 +92,8 @@ class _ProductsListState extends State<ProductsList> {
 
       appBar:
       AppBar(
-          title: Text(widget.categoryName),
+        backgroundColor: Colors.white,
+          title: Text(widget.categoryName,style: TextStyle(color: Colors.black87),),
           elevation: 0,
           leading: BackArrowWidget(),
           actions:[
@@ -100,6 +101,7 @@ class _ProductsListState extends State<ProductsList> {
             builder: (BuildContext context) {
               return productListSnapShot.length==0?SizedBox():
               IconButton(
+                color: Colors.black87,
                 icon: const Icon(Icons.filter_list),
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
@@ -194,7 +196,7 @@ class _ProductsListState extends State<ProductsList> {
                                         FirebaseAuth.instance.currentUser != null ?
 
                                             Text('${LocalStorageService.instance.user!.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
-                                              style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),):
+                                              style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.w500),):
                                         Text('${productListSnapShot[i]['retail price'].toString()}\$',
                                           style: TextStyle(fontSize: 18,color: Colors.blue[800],fontWeight: FontWeight.w500),),
 

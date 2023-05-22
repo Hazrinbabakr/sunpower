@@ -16,8 +16,8 @@ class HomeAppBar extends StatefulWidget {
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  User user = FirebaseAuth.instance.currentUser!;
+  //FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user = FirebaseAuth.instance.currentUser;
 
 
   @override
@@ -58,7 +58,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('users')
-                                .doc(user.uid)
+                                .doc(user?.uid)
                                 .collection('cart')
                                 .snapshots(),
                             builder: (context, snapshot) {
