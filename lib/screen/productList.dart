@@ -25,15 +25,19 @@ class _ProductsListState extends State<ProductsList> {
   List<QueryDocumentSnapshot> makeList = [];
   int? makeLength;
   String? makeID;
+
   getProducts() {
     FirebaseFirestore.instance
         .collection('products')
-        .where('categoryID',isEqualTo: widget.categoryID)
-        .where('makeId',isEqualTo: makeID).where("newArrival",isEqualTo: true)
+       // .where('categoryID',isEqualTo: widget.categoryID)
+       //  .where('makeId',isEqualTo: makeID)
+        //.where("newArrival",isEqualTo: true)
+        .orderBy("itemCode", descending: false)
         .get()
         .then((value) {
       productListSnapShot.clear();
-      productListSnapShot.addAll(value.docs);
+     productListSnapShot.addAll(value.docs);
+      //productListSnapShot.sort();
       if(mounted){
         setState(() {
 
@@ -64,6 +68,10 @@ class _ProductsListState extends State<ProductsList> {
                 makeLength=makeList.length;
               }
             }
+      }).whenComplete(() {
+        setState(() {
+          makeList = makeList;
+        });
       });
     }
     if(mounted){
@@ -125,8 +133,8 @@ class _ProductsListState extends State<ProductsList> {
                         shrinkWrap: true,
                         itemCount: productListSnapShot.length,
                         itemBuilder: (context, i) {
-                          return (productListSnapShot[i] != null)
-                              ? InkWell(
+                          return (productListSnapShot[i] != null )
+                              ?( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && makeID ==null)? InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
@@ -229,7 +237,110 @@ class _ProductsListState extends State<ProductsList> {
                                       ),
                                     ],
                                   )),
-                            ),)
+                            ),) :( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && (makeID.toString() ==productListSnapShot[i]['makeId'] ))? InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
+                              ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Container(
+                                  height: 140,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey[200]!,
+                                            spreadRadius: 1,
+                                            blurRadius: 10)
+                                      ]),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 140,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          //color: Colors.red,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)
+                                              //                 <--- border radius here
+                                            ),
+                                            border: Border.all(color: Colors.black12,width: 0.6),
+                                            image: DecorationImage(
+
+                                              // fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    productListSnapShot[i]['images'].isEmpty?
+                                                    "images/category/emptyimg.png":
+                                                    productListSnapShot[i]['images'][0].toString()
+                                                )
+                                            )
+                                        ),
+                                      ),
+                                      //SizedBox(width: 30,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            //name
+                                            Container(
+                                              // color: Colors.red,
+                                                width: 220,
+                                                child: Text(
+                                                  AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                                                  productListSnapShot[i]['nameK'].toString().toUpperCase():
+                                                  AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                                                  productListSnapShot[i]['nameA'].toString().toUpperCase():
+                                                  productListSnapShot[i]['name'].toString().toUpperCase(),
+
+                                                  style: TextStyle(fontSize: 14,),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                )),
+
+
+
+                                            SizedBox(height: 15,),
+                                            //LocalStorageService.instance.user.role == 1?
+                                            FirebaseAuth.instance.currentUser != null ?
+
+                                            Text('${LocalStorageService.instance.user!.role == 1? productListSnapShot[i]['wholesale price'].toString():productListSnapShot[i]['retail price'].toString()}\$',
+                                              style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.w500),):
+                                            Text('${productListSnapShot[i]['retail price'].toString()}\$',
+                                              style: TextStyle(fontSize: 18,color: Colors.blue[800],fontWeight: FontWeight.w500),),
+
+                                            SizedBox(height: 5,),
+
+
+
+
+
+                                            // item code
+                                            Row(
+                                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text( AppLocalizations.of(context).trans("ItemCode"),
+                                                  maxLines: 3,
+                                                  style: TextStyle(fontSize: 12),
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Container(
+                                                  width: 150,
+                                                  child: Text(productListSnapShot[i]['itemCode'].toString(),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(fontSize: 14,color: Colors.red[900]),
+                                                  ),
+                                                )
+                                              ],),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),) : Container()
                               :  Center(
                               child: CircularProgressIndicator(
                                 backgroundColor: Colors.black,
@@ -251,6 +362,7 @@ class _ProductsListState extends State<ProductsList> {
                   itemCount: makeList.length,
                   itemBuilder: (context, i) {
                     if(makeList.length <= i){
+                      print(makeList);
                       print(makeList.length);
                       return const SizedBox();
                     }
@@ -271,7 +383,7 @@ class _ProductsListState extends State<ProductsList> {
                             color: Colors.white,
                             boxShadow:  [
                               BoxShadow(
-                                color: Colors.grey[300]!,
+                                color: makeID==makeList[i].id.toString()? Colors.red: Colors.grey[300]!,
                                 spreadRadius: 1,
                                 blurRadius: 7,
                                 offset: Offset(-4, 4),
