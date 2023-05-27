@@ -1,6 +1,5 @@
 import 'package:advance_pdf_viewer_fork/advance_pdf_viewer_fork.dart';
 import 'package:flutter/material.dart';
-
 class PdfBook extends StatefulWidget {
   String pdfUrl;
   PdfBook({required this.pdfUrl,});

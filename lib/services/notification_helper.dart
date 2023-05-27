@@ -41,7 +41,7 @@ class NotificationHelper {
     //await Firebase.initializeApp();
 
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var android = new AndroidInitializationSettings('logo');
+    var android = new AndroidInitializationSettings('app_icon');
     var ios = new DarwinInitializationSettings();
     var platform = new InitializationSettings(android: android, iOS: ios);
     flutterLocalNotificationsPlugin.initialize(platform).then((v) {
