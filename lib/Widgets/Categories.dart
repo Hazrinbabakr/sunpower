@@ -89,9 +89,16 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                       // print('Main Category ID  ${data.id.toString()}');
 
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductsList( data.id.toString(),data['name']),
-                      ));
+                        builder: (context) => ProductsList(
+                            data.id.toString(),
 
+                            AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                            data['nameK'].toString():
+                            AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                            data['nameA'].toString():
+                            data['name'].toString(),
+                        ),
+                      ));
                     },
                     child: Column(
                       children: [

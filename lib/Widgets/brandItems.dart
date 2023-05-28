@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 
+import '../localization/AppLocal.dart';
+import '../screen/productDetails.dart';
 import '../screen/products_widget.dart';
 import 'BackArrowWidget.dart';
 import 'empty.dart';
@@ -19,10 +21,11 @@ class _BrandItemsState extends State<BrandItems> {
   List<DocumentSnapshot>? productListSnapShot ;
 
   getProducts() {
-    int i = 0;
+    //int i = 0;
     FirebaseFirestore.instance
         .collection('products')
-        .where('brand',isEqualTo:widget.brandName)
+        .orderBy("itemCode", descending: false)
+     //.where('brand',isEqualTo:widget.brandName)
         .get()
         .then((value) {
       productListSnapShot = [];
@@ -59,31 +62,21 @@ class _BrandItemsState extends State<BrandItems> {
             ? Center(child: EmptyWidget())
             : SingleChildScrollView(
             child:
-            Padding(
-              padding: const EdgeInsets.only(top: 20,left: 10,right: 10),              child: GridView.count(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                primary: false,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.85,
-                //childAspectRatio: 0.60, // (itemWidth/itemHeight),
-                // padding: EdgeInsets.symmetric(
-                //     horizontal: 0, vertical: 10),
-                // Create a grid with 2 columns. If you change the scrollDirection to
-                // horizontal, this produces 2 rows.
-                crossAxisCount: MediaQuery.of(context).orientation ==
-                    Orientation.portrait
-                    ? 2
-                    : 4,
-                children:
-                List.generate(productListSnapShot!.length, (i) {
-                  DocumentSnapshot data= productListSnapShot!.elementAt(i);
-                  return ProductCard(
-                    product: data,
-                  );
-                }),
-              ),
+            Container(
+              height:700,
+              // color: Colors.red,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: productListSnapShot!.length,
+                  itemBuilder: (context, i) {
+                    DocumentSnapshot data=  productListSnapShot!.elementAt(i);
+                    return
+                      productListSnapShot![i]['brand']==widget.brandName?
+                      ProductCard(
+                              product: data,
+                            ):SizedBox();
+                  }),
             )
 
 

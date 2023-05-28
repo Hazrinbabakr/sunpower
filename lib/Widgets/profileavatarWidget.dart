@@ -21,8 +21,8 @@ class ProfileAvatarWidget extends StatefulWidget {
 }
 
 class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
+  TextEditingController _nameFieldController = TextEditingController();
   TextEditingController _textFieldController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,52 +74,70 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
 
                           InkWell(
                             onTap: (){
+                              _nameFieldController = TextEditingController(text:  snapshot.data!['username'].toString());
                               _textFieldController = TextEditingController(text:  snapshot.data!['address'].toString());
 
                               showDialog(
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text('Edit Your Address'),
-                                      content: TextField(
-                                        controller: _textFieldController,
-                                        decoration: const InputDecoration(hintText: "New Address"),
+                                      title:  Text( AppLocalizations.of(context).trans('editYourAddress'),),
+                                      content: Container(
+                                        height: 150,
+                                        child: Column(
+                                          children: [
+                                            TextField(
+                                              controller: _nameFieldController,
+                                              decoration:  InputDecoration(hintText:  AppLocalizations.of(context).trans('name'),),
+                                            ),
+                                            SizedBox(height: 10,),
+                                            TextField(
+                                              controller: _textFieldController,
+                                              decoration:  InputDecoration(hintText:  AppLocalizations.of(context).trans('address'),),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       actions: <Widget>[
-                                        ElevatedButton(
-                                          child: const Text("Cancel"),
-                                          onPressed: () => Navigator.pop(context),
-                                            style: ButtonStyle(
-                                                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10.0),
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                        ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    )
-                                    )
-                                    ),
-                                          child: const Text('Edit'),
-                                          onPressed: () {
-                                           // widget.address=_textFieldController.text;
-                                            FirebaseFirestore.instance
-                                                .collection("users").doc(widget.userID).update({
-                                              "address":  _textFieldController.text,
-                                              // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
-                                            });
-                                            Navigator.pop(context);
+                                       Row(
+                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                         children: [
+                                         ElevatedButton(
+                                             child:  Text( AppLocalizations.of(context).trans('cancel'),),
+                                             onPressed: () => Navigator.pop(context),
+                                             style: ButtonStyle(
+                                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                     RoundedRectangleBorder(
+                                                       borderRadius: BorderRadius.circular(10.0),
+                                                     )
+                                                 )
+                                             )
+                                         ),
+                                         ElevatedButton(
+                                             style: ButtonStyle(
+                                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                     RoundedRectangleBorder(
+                                                       borderRadius: BorderRadius.circular(10.0),
+                                                     )
+                                                 )
+                                             ),
+                                             child:  Text( AppLocalizations.of(context).trans('edit'),),
+                                             onPressed: () {
+                                               // widget.address=_textFieldController.text;
+                                               FirebaseFirestore.instance
+                                                   .collection("users").doc(widget.userID).update({
+                                                 "username":  _nameFieldController.text,
+                                                 "address":  _textFieldController.text,
+                                                 // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
+                                               });
+                                               Navigator.pop(context);
 
-                                    }
+                                             }
 
-                                        ),
+                                         ),
+                                       ],)
                                       ],
                                     );
                                   });

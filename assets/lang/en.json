@@ -79,5 +79,9 @@
   "en": "English",
   "ar": "العربية",
   "ku": "كوردى",
-  "tryAgain": "Try Again"
+  "tryAgain": "Try Again",
+
+  "edit": "Edit",
+  "cancel": "Cancel",
+  "editYourAddress": "Edit Your Address"
 }

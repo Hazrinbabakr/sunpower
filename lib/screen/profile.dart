@@ -192,7 +192,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: 22,
                         color: Theme.of(context).focusColor,
                       ),
-                      title: Text(AppLocalizations.of(context).trans('deleteAccount'),
+                      title: Text(
+                        AppLocalizations.of(context).trans('deleteAccount'),
                         style: TextStyle(color: Colors.red[900],fontSize: 16),
                       ),
                       trailing: Icon(Icons.arrow_forward_ios)),

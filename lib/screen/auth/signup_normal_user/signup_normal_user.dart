@@ -25,8 +25,10 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).trans("signup")),
+        backgroundColor: Colors.white,
+        title: Text(AppLocalizations.of(context).trans("signup"),style: TextStyle(color: Colors.black87),),
         leading: BackArrowWidget(),
         elevation: 0,
         centerTitle: true,
