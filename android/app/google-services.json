@@ -8,50 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816179177968:android:23ae0cc22bde7980629535",
-        "android_client_info": {
-          "package_name": "com.krmanj.sunpowertest"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "816179177968-fd3do3qktthib39evgk4afpe58r9rvcp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.krmanj.sunpowertest",
-            "certificate_hash": "773272a8a383113ec8ed10a60ed8d5af37d4c018"
-          }
-        },
-        {
-          "client_id": "816179177968-767srij6fk8qfa7q1ptegdb8vlo7dsr8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA2dsh1F7mWTpT-YfY4BgBVF6cqat3TaD4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "816179177968-767srij6fk8qfa7q1ptegdb8vlo7dsr8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "816179177968-24gig0vh411ri7cq6papdi5jmeqhg9np.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "d"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:816179177968:android:5f4aab7a126b1fa4629535",
         "android_client_info": {
           "package_name": "com.sunpower.guideware"
@@ -72,6 +28,14 @@
           "android_info": {
             "package_name": "com.sunpower.guideware",
             "certificate_hash": "dfdad4e34647a0ab984a777e490fd3cd63422d7e"
+          }
+        },
+        {
+          "client_id": "816179177968-6sgf0pjqak7kaj8cgj5ad6o17i2u6qt0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sunpower.guideware",
+            "certificate_hash": "c7c0908eecda62d337482bcf06ae259b6e16c6df"
           }
         },
         {
