@@ -21,6 +21,7 @@ class SocialMediaWidget extends StatelessWidget {
           InkWell(
               onTap: (){
 
+                launch("https://sunpowerc.com/#/");
               },
               child: Image.asset('images/category/web.png',width: 30,)),
 

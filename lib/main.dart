@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                   primaryColor: Colors.white,
-                  accentColor: Colors.red[900],
+                colorScheme: ColorScheme.fromSwatch()
+                    .copyWith(secondary: Colors.red[900]),
                   fontFamily: 'NRT',
               ),
               home: SplashScreen(),//SignUpMainPage(),

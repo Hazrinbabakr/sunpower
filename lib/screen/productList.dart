@@ -69,9 +69,11 @@ class _ProductsListState extends State<ProductsList> {
               }
             }
       }).whenComplete(() {
-        setState(() {
-          makeList = makeList;
-        });
+        if (mounted) {
+          setState(() {
+            makeList = makeList;
+          });
+        }
       });
     }
     if(mounted){
@@ -134,7 +136,8 @@ class _ProductsListState extends State<ProductsList> {
                         itemCount: productListSnapShot.length,
                         itemBuilder: (context, i) {
                           return (productListSnapShot[i] != null )
-                              ?( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && makeID ==null)? InkWell(
+                              ?( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && makeID ==null)?
+                          InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
@@ -228,7 +231,7 @@ class _ProductsListState extends State<ProductsList> {
                                                   child: Text(productListSnapShot[i]['itemCode'].toString(),
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 14,color: Colors.red[900]),
+                                                    style: TextStyle(fontSize: 13,color: Colors.red[900]),
                                                   ),
                                                 )
                                               ],),
@@ -237,7 +240,8 @@ class _ProductsListState extends State<ProductsList> {
                                       ),
                                     ],
                                   )),
-                            ),) :( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && (makeID.toString() ==productListSnapShot[i]['makeId'] ))? InkWell(
+                            ),)
+                              :( productListSnapShot[i]['categoryID']==widget.categoryID && productListSnapShot[i]['newArrival'] && (makeID.toString() ==productListSnapShot[i]['makeId'] ))? InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ProductDetails( productListSnapShot[i].id.toString()),
@@ -412,6 +416,7 @@ SizedBox(height: 100,),
               makeID==null?SizedBox():
               InkWell(
                 onTap: (){
+
                   setState(() {
                     makeID=null;
                     getProducts();

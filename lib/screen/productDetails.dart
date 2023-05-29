@@ -98,15 +98,25 @@ class _ProductDetailsState extends State<ProductDetails> {
         .collection('make').doc(productSnapshot!['makeId'].toString()).
     collection('models').doc(productSnapshot!['modelId'].toString())
         .get();
-    setState(() {
-      modelSnapshot=productDetailSnapShot;
-      modelName=
-      AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-      modelSnapshot!['mnameK']:
-      AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-      modelSnapshot!['mnameA']:
-      modelSnapshot!['mname'];
-    });
+    if(mounted) {
+      setState(() {
+        modelSnapshot = productDetailSnapShot;
+        modelName =
+        AppLocalizations
+            .of(context)
+            .locale
+            .languageCode
+            .toString() == 'ku' ?
+        modelSnapshot!['mnameK'] :
+        AppLocalizations
+            .of(context)
+            .locale
+            .languageCode
+            .toString() == 'ar' ?
+        modelSnapshot!['mnameA'] :
+        modelSnapshot!['mname'];
+      });
+    }
   }
   getMakeRelated() {
     int i = 0;
@@ -118,8 +128,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         .then((value) {
       makeListSnapShot = [];
       makeListSnapShot!.addAll(value.docs);
-      setState(() {
-      });
+      if(mounted) {
+        setState(() {});
+      }
 
     }).whenComplete(() {
     });
@@ -134,7 +145,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         .then((value) {
       modelListSnapShot= [];
       modelListSnapShot!.addAll(value.docs);
-      setState(() {});
+      if(mounted) {
+        setState(() {});
+      }
     });
 
   }
@@ -146,9 +159,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     => getMakeRelated()).then((value)
     => getModelRelated()));
     if(  FirebaseAuth.instance.currentUser != null ){
-      setState(() {
-        getFavList();
-      });
+      if(mounted) {
+        setState(() {
+          getFavList();
+        });
+      }
     }
 
     // TODO: implement initState
@@ -1280,7 +1295,8 @@ class _ProductDetailsState extends State<ProductDetails> {
     MaterialPageRoute(
     builder: (context) => PdfBook(
     pdfUrl:productSnapshot!['pdfUrl'].toString(),
-    )));
+    )
+    ));
     },
                       child: Icon(Icons.picture_as_pdf_outlined))
                 )

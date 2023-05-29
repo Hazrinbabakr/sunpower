@@ -17,14 +17,14 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool isFav = false;
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  User user = FirebaseAuth.instance.currentUser!;
-  final userCollection = FirebaseFirestore.instance.collection('users');
+  // bool isFav = false;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
+  // User user = FirebaseAuth.instance.currentUser!;
+  // final userCollection = FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat formatter = NumberFormat("###,###,###,###");
+    //NumberFormat formatter = NumberFormat("###,###,###,###");
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -33,144 +33,100 @@ class _ProductCardState extends State<ProductCard> {
         ));
       },
       child: Container(
-        // decoration: BoxDecoration(
-        //   // color: Colors.grey[20],
-        //   borderRadius: BorderRadius.circular(20),
-        //   border: Border.all(color: Colors.black12, width: 1.2),
-        // ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-
-                  decoration: BoxDecoration(
-                     color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      border: Border.all(color: Colors.grey[200]!)
-                  ),
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                        widget.product['images'][0],
-                        fit: BoxFit.cover
+          height: 140,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[200]!,
+                    spreadRadius: 1,
+                    blurRadius: 10)
+              ]),
+          child: Row(
+            children: [
+              Container(
+                height: 140,
+                width: 150,
+                decoration: BoxDecoration(
+                  //color: Colors.red,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(20)
+                      //                 <--- border radius here
                     ),
-                  )
+                    border: Border.all(color: Colors.black12,width: 0.6),
+                    image: DecorationImage(
+
+                      // fit: BoxFit.cover,
+                        image: NetworkImage(
+                            widget.product['images'].isEmpty?
+                            "images/category/emptyimg.png":
+                            widget.product['images'][0].toString()
+                        )
+                    )
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 5
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: Row(
+              //SizedBox(width: 30,),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)
-                                .locale
-                                .languageCode
-                                .toString() ==
-                                'ku'
-                                ? widget.product['nameK']
-                                .toString()
-                                .toUpperCase()
-                                : AppLocalizations.of(context)
-                                .locale
-                                .languageCode
-                                .toString() ==
-                                'ar'
-                                ? widget.product['nameA']
-                                .toString()
-                                .toUpperCase()
-                                : widget.product['name']
-                                .toString()
-                                .toUpperCase(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                    //name
+                    Container(
+                      // color: Colors.red,
+                        width: 220,
+                        child: Text(
+                          AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
+                          widget.product['nameK'].toString().toUpperCase():
+                          AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
+                          widget.product['nameA'].toString().toUpperCase():
+                          widget.product['name'].toString().toUpperCase(),
+
+                          style: TextStyle(fontSize: 14,),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        )),
+
+
+
+                    SizedBox(height: 15,),
+                    //LocalStorageService.instance.user.role == 1?
+                    FirebaseAuth.instance.currentUser != null ?
+
+                    Text('${LocalStorageService.instance.user!.role == 1? widget.product['wholesale price'].toString():widget.product['retail price'].toString()}\$',
+                      style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.w500),):
+                    Text('${widget.product['retail price'].toString()}\$',
+                      style: TextStyle(fontSize: 18,color: Colors.blue[800],fontWeight: FontWeight.w500),),
+
+                    SizedBox(height: 5,),
+
+
+
+
+
+                    // item code
+                    Row(
+                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text( AppLocalizations.of(context).trans("ItemCode"),
+                          maxLines: 3,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(width: 5,),
+                        Container(
+                          width: 150,
+                          child: Text(widget.product['itemCode'].toString(),
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 12,color: Colors.red[900]),
                           ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            '${LocalStorageService.instance.user!.role == 1?
-                            widget.product['wholesale price'].toString():widget.product['retail price'].toString()}',
-                            style:
-                            TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.blue[800]),
-
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //Icon(Icons.add)
-
-
-                    //favorite
-                    // Container(
-                    //     height: 50,
-                    //     width: 50,
-                    //     child: isFav
-                    //         ? InkWell(
-                    //       onTap: () {
-                    //         setState(() {
-                    //           User user = _auth.currentUser;
-                    //           userCollection
-                    //               .doc(user.uid)
-                    //               .collection('favorite')
-                    //               .doc(widget.product.id)
-                    //               .delete();
-                    //           isFav = !isFav;
-                    //         });
-                    //       },
-                    //       child: Icon(
-                    //         Icons.favorite,
-                    //         size: 30,
-                    //         color: Theme.of(context).colorScheme.secondary,
-                    //       ),
-                    //     )
-                    //         : InkWell(
-                    //       onTap: () {
-                    //         setState(() {
-                    //           User user = _auth.currentUser;
-                    //           userCollection
-                    //               .doc(user.uid)
-                    //               .collection('favorite')
-                    //               .doc(widget.product.id)
-                    //               .set({"productID": widget.product.id});
-                    //           isFav = !isFav;
-                    //         });
-                    //       },
-                    //       child: Icon(
-                    //         Icons.favorite_border,
-                    //         size: 30,
-                    //         color: Theme.of(context).colorScheme.secondary,
-                    //       ),
-                    //     )
-                    // ),
+                        )
+                      ],),
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }

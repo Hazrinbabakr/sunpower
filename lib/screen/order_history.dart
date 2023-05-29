@@ -72,15 +72,18 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       length: 2, // length of tabs
       initialIndex: 0,
       child: Scaffold(
-
           backgroundColor: Colors.white,
-
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+        ),
           body:
           SingleChildScrollView(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                 SizedBox(   height:  MediaQuery.of(context).size.height - 770,),
+                 //SizedBox(   height: 25),
                   Container(
             // color: Colors.red,
             height: 30,
