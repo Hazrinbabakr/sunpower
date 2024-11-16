@@ -26,11 +26,13 @@ class _MainLoginPageState extends State<MainLoginPage> {
   ];
   initState() {
     super.initState();
-    _loginProvider.addListener(_handleStateChange);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _loginProvider.addListener(_handleStateChange);
+    });
+
   }
 
   _handleStateChange() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if(_loginProvider.done){
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
           return HomePage();
@@ -44,7 +46,6 @@ class _MainLoginPageState extends State<MainLoginPage> {
         ));
       }
       if(_loginProvider.error != null){
-        print(_loginProvider.error);
         if(_loginProvider.error is FirebaseAuthException){
           Fluttertoast.showToast(msg: (_loginProvider.error as FirebaseAuthException).message??"");
         }
@@ -52,14 +53,14 @@ class _MainLoginPageState extends State<MainLoginPage> {
           Fluttertoast.showToast(msg: "Fail");
         }
       }
-    });
   }
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return _loginProvider.handleBackButton(context);
+    return PopScope(
+      onPopInvoked: (didPop) async {
+        _loginProvider.handleBackButton(context);
       },
+      canPop: false,
       child: ChangeNotifierProvider.value(
         value: _loginProvider,
         child: Consumer<NormalUserLoginProvider>(

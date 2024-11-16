@@ -80,8 +80,14 @@
   "ar": "العربية",
   "ku": "كوردى",
   "tryAgain": "Try Again",
-
   "edit": "Edit",
   "cancel": "Cancel",
-  "editYourAddress": "Edit Your Address"
+  "editYourAddress": "Edit Your Address",
+  "favorite": "Favorite",
+  "cart": "Cart",
+  "notifications": "Notifications",
+  "RelatedBrand": "Related brands",
+  "update": "Update",
+  "delete": "Delete",
+  "profileImage": "Profile image"
 }

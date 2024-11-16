@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,9 +35,11 @@ class _OffersState extends State<Offers> {
   
   @override
   Widget build(BuildContext context) {
-    return imgList.isEmpty? SizedBox(): Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+    return imgList.isEmpty? const SizedBox():
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
+        height: 160.0,
         child:
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -52,15 +55,14 @@ class _OffersState extends State<Offers> {
                   return Builder(
                     builder: (BuildContext context) {
                       return
-                        // Text('ssss ${i['test1'].toString()}');
                         Container(
                           width: double.infinity,
-                          // decoration: BoxDecoration(
-                          //     image: DecorationImage(
-                          //         fit: BoxFit.cover,
-                          //         image: NetworkImage(i.toString())
-                          //     )),
-
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(i.toString())
+                              )
+                          ),
                           child: CachedNetworkImage(
                             height: 120,
                             width: double.infinity,

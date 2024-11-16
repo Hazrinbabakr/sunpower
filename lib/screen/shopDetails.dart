@@ -118,7 +118,7 @@ print(name+'nmeeeee');
               child: shopCategorySnapshots.isEmpty
                   ? Text('Empty category')
                   : TabBar(
-                  labelColor: Theme.of(context).colorScheme.secondary,
+                  labelColor: Theme.of(context).colorScheme.primary,
                   unselectedLabelColor: Theme.of(context).hintColor,
                   labelStyle: Theme.of(context).textTheme.subtitle2,
                   isScrollable: false,

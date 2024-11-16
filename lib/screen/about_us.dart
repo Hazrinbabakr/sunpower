@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
 import 'package:sunpower/localization/AppLocal.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class AboutUs extends StatefulWidget {
@@ -39,7 +38,7 @@ class _AboutUsState extends State<AboutUs> {
                 height: 50,
                 width: 280,
                 //width: double.infinity,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
             SizedBox(height: 30,),

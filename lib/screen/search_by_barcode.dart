@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:sunpower/screen/productDetails.dart';
 
 class SearchByBarcode extends StatefulWidget {
@@ -12,8 +13,12 @@ class SearchByBarcode extends StatefulWidget {
   State<SearchByBarcode> createState() => _SearchByBarcodeState();
 
   static openCamera(BuildContext context) async {
-    var res = await FlutterBarcodeScanner.scanBarcode(
-        "#00BCD4", "Cancel", false, ScanMode.DEFAULT);
+
+    var res = await Navigator.of(context).push(MaterialPageRoute(builder: (context){
+      return SimpleBarcodeScannerPage();
+    }));
+    // await FlutterBarcodeScanner.scanBarcode(
+    //     "#00BCD4", "Cancel", false, ScanMode.DEFAULT);
     //print(res);
     if(res == null || res.isEmpty) return;
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {

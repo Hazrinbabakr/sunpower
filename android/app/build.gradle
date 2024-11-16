@@ -50,7 +50,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.sunpower.guideware"
+        applicationId "shko.guideware.project"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()

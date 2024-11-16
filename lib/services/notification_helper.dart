@@ -56,7 +56,7 @@ class NotificationHelper {
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
 
     });
-    _firebaseMessaging.subscribeToTopic("general");
+    //_firebaseMessaging.subscribeToTopic("general");
   }
 
   void iOS_Permission() {

@@ -42,14 +42,9 @@ class _AllCategoryState extends State<AllCategory> {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           primary: false,
-          // crossAxisSpacing: 1,
-          // mainAxisSpacing: 1,
-          //childAspectRatio: 0.8,
           childAspectRatio: 0.8, // (itemWidth/itemHeight),
           padding: EdgeInsets.symmetric(
                 horizontal: 10, vertical: 0),
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
           crossAxisCount: MediaQuery.of(context).orientation ==
                 Orientation.portrait
                 ? 3

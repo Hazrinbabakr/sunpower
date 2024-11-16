@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
 import 'package:sunpower/localization/AppLocal.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 
 class ContactUS extends StatefulWidget {
@@ -46,7 +46,7 @@ class _ContactUSState extends State<ContactUS> {
                     AppLocalizations.of(context).trans("CONTACTSUNPOWER"),
 
                     style: Theme.of(context).textTheme.headline6!.merge(TextStyle(
-                        letterSpacing: 0, color: Theme.of(context).colorScheme.secondary,fontSize: 20,fontWeight: FontWeight.bold)),
+                        letterSpacing: 0, color: Theme.of(context).colorScheme.primary,fontSize: 20,fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -65,7 +65,7 @@ Padding(
 
     InkWell(
       onTap: (){
-        launch("tel:0${7722777000}");
+        //launch("tel:0${7722777000}");
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,7 +85,7 @@ Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: InkWell(
         onTap: (){
-           launch("https://wa.link/nu7nyt");
+           //launch("https://wa.link/nu7nyt");
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

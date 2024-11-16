@@ -73,13 +73,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       initialIndex: 0,
       child: Scaffold(
           backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          elevation: 0,
-        ),
-          body:
-          SingleChildScrollView(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: SingleChildScrollView(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -102,7 +100,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 // ),
                 // indicatorPadding: EdgeInsets.all(90),
 indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Theme.of(context).colorScheme.secondary,
+                indicatorColor: Theme.of(context).colorScheme.primary,
                 indicatorPadding: EdgeInsets.all(0),
                 labelPadding: EdgeInsets.symmetric(horizontal: 50),
 

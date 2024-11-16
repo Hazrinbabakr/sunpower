@@ -9,8 +9,10 @@ import 'package:sunpower/Widgets/homeAppBar.dart';
 import 'package:sunpower/Widgets/SocialMediaWidget.dart';
 import 'package:sunpower/Widgets/new_arrival.dart';
 import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 
 import '../Widgets/brands.dart';
+import 'products/special_offers.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -23,22 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Delivery address widget
             HomeAppBar(),
             SizedBox(
               height: 10,
             ),
-
-            //
-            // LocalStorageService.instance.user.role == 1?
-            // Text('wholesale'):
-            // Text('normal'),
-
-            // Text(FirebaseAuth.instance.currentUser.uid.toString()),
-
             Offers('sliderImages'),
             SizedBox(
               height: 20,
@@ -62,20 +54,54 @@ class _HomeScreenState extends State<HomeScreen> {
             //     ],
             //   ),
             // ),
+            const SizedBox(height: 16,),
             Offers('offerImages'),
-            SizedBox(
-              height: 30,
+            const SizedBox(height: 16,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16
+                  ),
+                  child: Text(AppLocalizations.of(context).trans('NewArrivals').toUpperCase(),
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                ),
+                SizedBox(height: 16,),
+                SpecialOffersProducts(),
+                SizedBox(height: 16,),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Brands'.toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 15,),
-                  Brands(),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16
+                  ),
+                  child: Text(AppLocalizations.of(context).trans('SpecialOffers').toUpperCase(),
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                ),
+                SizedBox(height: 16,),
+                SpecialOffersProducts(),
+                SizedBox(height: 16,),
+              ],
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16
+                  ),
+                  child: Text(AppLocalizations.of(context).trans('Brands').toUpperCase(),
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                ),
+                SizedBox(height: 16,),
+                Brands(),
+                SizedBox(height: 16,),
+              ],
             ),
             //SizedBox(height: 20,),
             SocialMediaWidget(),

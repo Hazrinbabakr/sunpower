@@ -93,7 +93,9 @@ class _ProductCardState extends State<ProductCard> {
                     //LocalStorageService.instance.user.role == 1?
                     FirebaseAuth.instance.currentUser != null ?
 
-                    Text('${LocalStorageService.instance.user!.role == 1? widget.product['wholesale price'].toString():widget.product['retail price'].toString()}\$',
+                    Text('${LocalStorageService.instance.user?.role == 1?
+                    widget.product['wholesale price'].toString():
+                    widget.product['retail price'].toString()}\$',
                       style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.w500),):
                     Text('${widget.product['retail price'].toString()}\$',
                       style: TextStyle(fontSize: 18,color: Colors.blue[800],fontWeight: FontWeight.w500),),
@@ -118,7 +120,7 @@ class _ProductCardState extends State<ProductCard> {
                           child: Text(widget.product['itemCode'].toString(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 12,color: Colors.red[900]),
+                            style: TextStyle(fontSize: 12,color: Theme.of(context).primaryColor),
                           ),
                         )
                       ],),

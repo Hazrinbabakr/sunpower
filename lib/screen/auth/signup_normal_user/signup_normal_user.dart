@@ -22,6 +22,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+  String countryCode = '964';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +60,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   const SizedBox(height: 16.0,),
-                  PhoneNumberInput(controller: phoneNumberController),
+                  PhoneNumberInput(
+                    controller: phoneNumberController,
+                    countryCode: (countryCode){
+                      setState(() {
+                        this.countryCode = countryCode;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 16.0,),
                   Row(
                     children: [
@@ -76,26 +85,27 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: CustomAppButton(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       borderRadius: 10.0,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       elevation: 0,
                       onTap: () {
                         if(_form.currentState!.validate()){
-
                           NormalUserLoginProvider.of(context).signUp(
                             request: UserRegisterRequest(
                               name: name.text.trim(),
                               address: address.text.trim(),
-                              phone: phoneNumberController.text.replaceAll(" ", "").trim()
+                              phone: phoneNumberController.text.replaceAll(" ", "").trim(),
+                                countryCode: countryCode
                           ),);
                         }
                       },
                       child: Consumer<NormalUserLoginProvider>(
                         builder: (BuildContext context, value,child) {
-                          if (value.loading)
+                          if (value.loading) {
                             return SpinKitThreeBounce(
                               size: 22,
                               color: Colors.white,
                             );
+                          }
                           return Text(
                             AppLocalizations.of(context).trans("continue"),
                             textAlign: TextAlign.center,
@@ -152,7 +162,7 @@ class _SignUpPageState extends State<SignUpPage> {
           border: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary)),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
           hintStyle: TextStyle(color: Colors.grey)),
     );
   }

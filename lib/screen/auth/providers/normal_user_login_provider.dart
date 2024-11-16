@@ -9,12 +9,18 @@ class UserRegisterRequest {
   String name;
   String address;
   String phone;
+  String countryCode;
 
   UserRegisterRequest(
-      {required this.name, required this.address, required this.phone});
+      {
+        required this.name,
+        required this.address,
+        required this.phone,
+        required this.countryCode
+      });
 
-  Map<String, dynamic> toJson() {
-    return {"address": address, "username": name, "phone": phone, "role": 0,"email":""};
+  Map<String, dynamic> toJson({int? role}) {
+    return {"address": address, "username": name, "phone": phone, "role": role??0,"email":"","country_code":countryCode};
   }
 }
 
@@ -34,19 +40,18 @@ class NormalUserLoginProvider extends ChangeNotifier {
   UserRegisterRequest? request;
   dynamic error;
 
-
-
   //ConfirmationResult confirmationResult;
 
-  loginWithPhone({required String phone}) async {
+  loginWithPhone({
+    required String countryCode,
+    required String phone}) async {
     try {
       error = null;
       loading = true;
       waitingForConfirmation = false;
       notifyListeners();
-
       if (await checkIfPhoneExist(phone: phone)) {
-        verifyPhoneNumber(request: UserRegisterRequest(name: "", address: "", phone: phone));
+        verifyPhoneNumber(request: UserRegisterRequest(name: "", address: "", phone: phone,countryCode: countryCode));
       } else {
         moveToSignUp = true;
         loading = true;
@@ -69,22 +74,14 @@ class NormalUserLoginProvider extends ChangeNotifier {
       loading = true;
       notifyListeners();
       this.request = request;
-
       _firebaseAuth.verifyPhoneNumber(
-          phoneNumber: "+964${request.phone}",
-          //autoRetrievedSmsCodeForTesting: "111111",
+          phoneNumber: "+${request.countryCode}${request.phone}",
           verificationCompleted: (credentials) async {
             print("verificationCompleted $credentials");
             print(credentials.verificationId);
             print(credentials.smsCode);
             print(credentials.token);
-            // await _firebaseAuth.signInWithCredential(credentials);
-            // await _firebaseFirestore
-            //     .collection("users")
-            //     .doc(_firebaseAuth.currentUser.uid)
-            //     .set(request.toJson());
-            // done = true;
-            // notifyListeners();
+
           },
           verificationFailed: (FirebaseAuthException error) {
             print("verificationFailed $error");
@@ -121,23 +118,29 @@ class NormalUserLoginProvider extends ChangeNotifier {
         );
         var doc = await _firebaseFirestore
             .collection("users")
-            .doc(_firebaseAuth.currentUser!.uid).get();
+            .doc(_firebaseAuth.currentUser!.uid)
+            .get();
         if(!doc.exists){
           _firebaseFirestore
               .collection("users")
-              .doc(_firebaseAuth.currentUser!.uid).set(request!.toJson());
+              .doc(_firebaseAuth.currentUser!.uid)
+              .set(request!.toJson());
+          LocalStorageService.instance.user = AppUser.fromJson(request!.toJson());
+
+        } else {
+          LocalStorageService.instance.user = AppUser.fromJson(doc.data()!);
         }
         done= true;
-        LocalStorageService.instance.user = AppUser.fromJson(request!.toJson());
         notifyListeners();
       }catch(error){
+        print(error);
         loading = false;
         this.error = error;
         notifyListeners();
       }
-
-
-    } catch (error) {}
+    } catch (error) {
+      print(error);
+    }
   }
 
   // confirmLoginResult({@required String code}) async {
@@ -186,8 +189,8 @@ class NormalUserLoginProvider extends ChangeNotifier {
       _verificationId = null;
       notifyListeners();
     }
-    else {
-
-    }
+    // else {
+    //
+    // }
   }
 }

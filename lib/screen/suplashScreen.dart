@@ -1,11 +1,7 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/CustomAppButton.dart';
 import 'package:sunpower/localization/AppLocal.dart';
-
-import 'auth/normal_user_login/login_main_page.dart';
 import 'homepage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,9 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         Navigator.push(context, MaterialPageRoute(builder: (crl) =>
-        FirebaseAuth.instance.currentUser != null ?
-        HomePage():
-        MainLoginPage()
+        //FirebaseAuth.instance.currentUser != null ?
+        HomePage()
+            //:
+        //MainLoginPage()
         ));
       }
       else {
@@ -79,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   SizedBox(height: 20,),
                   CircularProgressIndicator(
-                    backgroundColor: Colors.red[800],
+                    //backgroundColor: Colors.red[800],
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                   ),
                   SizedBox(height: 150,),
@@ -89,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       onTap: (){
                         CheckUserConnection();
                       },
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       elevation: 0,
                       borderRadius: 5,
                       padding: EdgeInsets.symmetric(

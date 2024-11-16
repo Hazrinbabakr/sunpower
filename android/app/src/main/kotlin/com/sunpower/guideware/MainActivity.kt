@@ -1,4 +1,4 @@
-package com.sunpower.guideware
+package shko.guideware.project
 
 import io.flutter.embedding.android.FlutterActivity
 

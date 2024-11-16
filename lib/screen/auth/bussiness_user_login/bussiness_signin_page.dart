@@ -99,7 +99,7 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
                           child: CustomAppButton(
                             padding: EdgeInsets.symmetric(vertical: 16),
                             borderRadius: 10.0,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                             elevation: 0,
                             onTap: () {
                               if(_form.currentState!.validate()){
@@ -184,7 +184,7 @@ class _BusinessSignInPageState extends State<BusinessSignInPage> {
           border: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
           focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary)),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
           hintStyle: TextStyle(color: Colors.grey)),
     );
   }

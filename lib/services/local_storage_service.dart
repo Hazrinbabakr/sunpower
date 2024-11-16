@@ -38,7 +38,8 @@ class LocalStorageService {
     if (_user != null) return _user;
     String? res = _getFromDisk(UserKey);
     if (res == null) return null;
-    return AppUser.fromJson(json.decode(res));
+    _user = AppUser.fromJson(json.decode(res));
+    return _user!;
   }
 
   set user(AppUser? value) {

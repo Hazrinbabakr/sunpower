@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,6 +16,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await LocalStorageService.instance.init();
+  //FirebaseAuth.instance.signOut();
   notificationHelper.firebaseCloudMessaging_Listeners();
   if(LocalStorageService.instance.languageCode == null){
     LocalStorageService.instance.languageCode = "en";
@@ -38,12 +37,19 @@ class MyApp extends StatelessWidget {
         child: Consumer<SettingsServiceProvider>(
           builder: (context,settings,child){
             return MaterialApp(
-
+              title: 'AutoTruck',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                  primaryColor: Colors.white,
-                colorScheme: ColorScheme.fromSwatch()
-                    .copyWith(secondary: Colors.red[900]),
+                primaryColor: Color(0xFFF58020),//Theme.of(context).primaryColor!,//Colors.white,
+                canvasColor: Colors.white,
+                dialogBackgroundColor: Colors.white,
+                colorScheme: ColorScheme.light(
+                  primary: Color(0xFFF58020),//
+                  secondary: Colors.white,
+                  onPrimary: Colors.white
+
+                ),
+                //colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.red[900]),
                   fontFamily: 'NRT',
               ),
               home: SplashScreen(),//SignUpMainPage(),

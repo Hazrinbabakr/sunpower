@@ -109,8 +109,9 @@ class _CartScreenState extends State<CartScreen> {
         appBar: AppBar(
             backgroundColor: Colors.white,
             title:  Text(AppLocalizations.of(context).trans("CartScreen"),style: TextStyle(color: Colors.black87),),
-            elevation: 0,
-            leading: BackArrowWidget()
+            //elevation: 0,
+            automaticallyImplyLeading: false,
+            //leading: BackArrowWidget()
         ),
         body:
         Builder(
@@ -244,8 +245,7 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                               Positioned(
                                                 bottom: 15,
-                                                  left:
-
+                                                left:
                                                 AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
                                                 0:
                                                 AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
@@ -283,7 +283,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                     Navigator.of(context).pop();
                                                                   },
 
-                                                                  child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Colors.red[900]),)),
+                                                                  child: Text(AppLocalizations.of(context).trans('no'),style: TextStyle(fontSize: 20,color: Theme.of(context).primaryColor),)),
                                                               SizedBox(height: 30,),
                                                               InkWell(
                                                                 onTap: (){
@@ -311,7 +311,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       child: Container(
                                                           decoration: BoxDecoration(
                                                             color: Theme.of(context)
-                                                                .primaryColor,
+                                                                .colorScheme.secondary,
                                                             borderRadius:
                                                             BorderRadius.circular(
                                                                 10),
@@ -332,7 +332,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.delete,
                                                             size: 25,
-                                                            color: Theme.of(context).colorScheme.secondary,
+                                                            color: Theme.of(context).colorScheme.primary,
                                                           )
                                                       ),
                                                     ):
@@ -381,20 +381,17 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.remove,
                                                             size: 25,
-                                                            color: Theme.of(context).colorScheme.secondary,
+                                                            color: Theme.of(context).colorScheme.primary,
                                                           )
                                                       ),
                                                     ),
-
-
                                                     Padding(
                                                       padding: const EdgeInsets.symmetric(horizontal: 10),
                                                       child: Container(
                                                           decoration: BoxDecoration(
-                                                            border: Border.all(width: 2, color: Colors.red[900]!.withOpacity(0.5),),
+                                                            border: Border.all(width: 2, color: Theme.of(context).primaryColor!.withOpacity(0.5),),
                                                             borderRadius: BorderRadius.all(Radius.circular(10)),
                                                             color: Colors.white,
-
                                                             boxShadow: [
                                                               BoxShadow(
                                                                 color: Colors.grey
@@ -436,7 +433,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       child: Container(
                                                           decoration: BoxDecoration(
                                                             color: Theme.of(context)
-                                                                .primaryColor,
+                                                                .colorScheme.secondary,
                                                             borderRadius:
                                                             BorderRadius.circular(
                                                                 10),
@@ -457,7 +454,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           child:  Icon(
                                                             Icons.add,
                                                             size: 23,
-                                                            color: Theme.of(context).colorScheme.secondary,
+                                                            color: Theme.of(context).colorScheme.primary,
                                                           )
                                                       ),
                                                     ),
@@ -631,7 +628,7 @@ class _CartScreenState extends State<CartScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.red[900],
+                                  color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(8)
                                     //                 <--- border radius here

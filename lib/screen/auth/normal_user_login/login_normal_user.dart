@@ -9,7 +9,6 @@ import 'package:sunpower/screen/auth/signup_normal_user/sign_up_main_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../homepage.dart';
-import 'login_main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController phoneNumberController = TextEditingController();
   GlobalKey<FormState> _form = GlobalKey<FormState>();
+  String countryCode = '964';
 
   @override
   void initState() {
@@ -44,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-
           height: MediaQuery.of(context).size.height * 0.9,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: indent),
@@ -57,10 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                         AppLocalizations.of(context).trans("WelcomeBack"),
-
-
-                        //AppLocalizations.of(context).trans("welcome_back"),
-                      style: TextStyle()
+                        style: TextStyle()
                     ),
                   ],
                 ),
@@ -69,7 +65,6 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                       AppLocalizations.of(context).trans("Mobilenumber"),
-                      //AppLocalizations.of(context).trans("mobile_number"),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
@@ -82,23 +77,26 @@ class _LoginPageState extends State<LoginPage> {
                   key: _form,
                   child: PhoneNumberInput(
                     controller: phoneNumberController,
+                    countryCode: (countryCode){
+                      this.countryCode = countryCode;
+                    },
                   ),
                 ),
-                // SizedBox(height: spacing,),
-                // PrivacyPolicyWidget(),
-                // Expanded(child: SizedBox()),
                 SizedBox(height: 30,),
                 SizedBox(
                   width: double.infinity,
                   child: CustomAppButton(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     borderRadius: 10,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                     elevation: 0,
                     onTap: () {
                       if (_form.currentState!.validate())
                       {
-                        NormalUserLoginProvider.of(context).loginWithPhone(phone: phoneNumberController.text.trim().replaceAll(" ", ""));
+
+                        NormalUserLoginProvider.of(context).loginWithPhone(
+                            countryCode: countryCode,
+                            phone: "${phoneNumberController.text.trim().replaceAll(" ", "")}");
                       }
                     },
                     child: Consumer<NormalUserLoginProvider>(
@@ -125,8 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: spacing,
                 ),
-
-                //register
                 InkWell(
                   onTap: (){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context){

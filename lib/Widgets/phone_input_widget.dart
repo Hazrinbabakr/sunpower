@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:country_picker/country_picker.dart';
 
-class PhoneNumberInput extends StatelessWidget {
+class PhoneNumberInput extends StatefulWidget {
   final TextEditingController controller;
+  final Function(String) countryCode;
 
-  const PhoneNumberInput({Key? key, required this.controller})
+  const PhoneNumberInput({Key? key, required this.controller, required this.countryCode})
       : super(key: key);
 
+  @override
+  State<PhoneNumberInput> createState() => _PhoneNumberInputState();
+}
 
+class _PhoneNumberInputState extends State<PhoneNumberInput> {
+  String countryCode = '964';
   @override
   Widget build(BuildContext context) {
     NumberTextInputFormatter formatter = NumberTextInputFormatter();
@@ -16,15 +23,32 @@ class PhoneNumberInput extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border:
-                  Border(bottom: BorderSide(color: Colors.grey, width: 1)),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 14),
-            child: Text(
-              "+964",
-              style: TextStyle(fontSize: 16, color: Colors.black),
+          InkWell(
+            onTap: (){
+              showCountryPicker(
+                context: context,
+                showPhoneCode: true,
+                useSafeArea: true,
+                favorite: ["IQ","TR","AE"],
+                onSelect: (Country country) {
+                  print('Select country: ${country.toJson()}');
+                  this.widget.countryCode(country.phoneCode);
+                  setState(() {
+                    this.countryCode = country.phoneCode;
+                  });
+                },
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: Text(
+                "+${countryCode}",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
             ),
           ),
           SizedBox(
@@ -34,26 +58,26 @@ class PhoneNumberInput extends StatelessWidget {
             child: TextFormField(
               autofocus: true,
 
-              controller: controller,
+              controller: widget.controller,
               validator: (val) {
                 String text = val!.trim().replaceAll(" ", "");
                 if (text.trim().isEmpty) {
                   return "phoneNumberEmpty";//AppLocalizations.of(context).trans("phoneNumberEmpty");
                 }
-                if (text.length < 10) {
+                if (text.length < 8) {
                   return "phoneNumberInvalid";
                     //AppLocalizations.of(context).trans("phoneNumberInvalid");
                 }
-                if (text.length == 10 && text[0] != "7") {
-                  return "phoneNumberInvalid";
-                    // AppLocalizations.of(context)
-                    //   .trans("phoneNumberInvalid");
-                }
-                if (text.length == 11 && (text[0] != "0" || text[1] != "7")) {
-                  return "phoneNumberInvalid";
-                    // AppLocalizations.of(context)
-                    //   .trans("phoneNumberInvalid");
-                }
+                // if (text.length == 10 && text[0] != "7") {
+                //   return "phoneNumberInvalid";
+                //     // AppLocalizations.of(context)
+                //     //   .trans("phoneNumberInvalid");
+                // }
+                // if (text.length == 11 && (text[0] != "0" || text[1] != "7")) {
+                //   return "phoneNumberInvalid";
+                //     // AppLocalizations.of(context)
+                //     //   .trans("phoneNumberInvalid");
+                // }
                 return null;
               },
               inputFormatters: [
@@ -66,7 +90,7 @@ class PhoneNumberInput extends StatelessWidget {
               textDirection: TextDirection.ltr,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                hintText: "7xxx xxx xxx",
+                hintText: "xxx xxx xxx",
                 //hintTextDirection: TextDirection.ltr,
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
@@ -74,9 +98,9 @@ class PhoneNumberInput extends StatelessWidget {
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
                 ),
-                focusColor: Theme.of(context).colorScheme.secondary,
+                focusColor: Theme.of(context).colorScheme.primary,
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
+                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ),

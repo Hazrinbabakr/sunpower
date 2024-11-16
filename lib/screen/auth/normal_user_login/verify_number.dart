@@ -87,7 +87,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
                                 border: Border.all(
-                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                    color: Theme.of(context).colorScheme.primary, width: 0.7
                                 ),
                               ),
                             ),
@@ -97,7 +97,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
                                 border: Border.all(
-                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                    color: Theme.of(context).colorScheme.primary, width: 0.7
                                 ),
                               ),
                             ),
@@ -118,7 +118,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
                                 border: Border.all(
-                                    color: Theme.of(context).colorScheme.secondary, width: 0.7
+                                    color: Theme.of(context).colorScheme.primary, width: 0.7
                                 ),
                               ),
                             )
@@ -138,7 +138,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                       padding: EdgeInsets.symmetric(vertical: 16),
                       borderRadius: 10.0,
                       elevation: 0,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       onTap: () {
                         if (code.length == 6) {
                           //if (widget.register) {

@@ -8,9 +8,12 @@ import 'package:sunpower/Widgets/profileavatarWidget.dart';
 import 'package:sunpower/app/Application.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/contact_us.dart';
+import 'package:sunpower/screen/order_history.dart';
 import 'package:sunpower/services/local_storage_service.dart';
 
+import 'Favorites.dart';
 import 'about_us.dart';
+import 'notification/notification_list.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -39,7 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
    // getUserInfo();
   }
@@ -66,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Colors.white,//Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
@@ -78,7 +80,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Column(
                 children: <Widget>[
-
+                  ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> OrderHistoryScreen()));
+                      },
+                      dense: true,
+                      leading: Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 22,
+                        color: Theme.of(context).focusColor,
+                      ),
+                      title: Text(
+                        AppLocalizations.of(context).trans("orderHistory"),
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38,)
+                  ),
+                  ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FavoriteScreen()));
+                      },
+                      dense: true,
+                      leading: Icon(
+                        Icons.favorite_border,
+                        size: 22,
+                        color: Theme.of(context).focusColor,
+                      ),
+                      title: Text(
+                        AppLocalizations.of(context).trans("favorite"),
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38,)),
+                  ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> NotificationsList()));
+                      },
+                      dense: true,
+                      leading: Icon(
+                        Icons.notifications_active_outlined,
+                        size: 22,
+                        color: Theme.of(context).focusColor,
+                      ),
+                      title: Text(
+                        AppLocalizations.of(context).trans("notifications"),
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38)
+                  ),
                   ListTile(
                       onTap: () {
                         LanguageBottomSheet.showLanguageBottomSheet(context);
@@ -93,15 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         AppLocalizations.of(context).trans("language"),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios)),
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38)),
                   ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ContactUS()));
-
-
-
-
-
                       },
                       dense: true,
                       leading: Icon(
@@ -112,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: Text(AppLocalizations.of(context).trans('contact_us'),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios)),
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38)),
                   ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AboutUs()));
@@ -126,9 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: Text(AppLocalizations.of(context).trans('about_us'),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios)),
-
-
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38)),
                   ListTile(
                       onTap: ()  {
                         showDialog(context:context,
@@ -148,7 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             elevation: 30,
                             backgroundColor: Colors.white,
                             actions: <Widget>[
-
                               InkWell(
                                   onTap:(){
                                     Navigator.of(context).pop();
@@ -178,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Colors.red[900])),
+                                  child: Text(AppLocalizations.of(context).trans('yes'),style: TextStyle(fontSize: 20,color: Theme.of(context).primaryColor)),
                                 ),
                               )
                             ],
@@ -194,16 +234,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       title: Text(
                         AppLocalizations.of(context).trans('deleteAccount'),
-                        style: TextStyle(color: Colors.red[900],fontSize: 16),
+                        style: TextStyle(color: Colors.red,fontSize: 16),
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios)),
-
-
+                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.black38)),
                 ],
               ),
             ),
             SizedBox(height: 120,),
-
             InkWell(
               onTap: () async {
                 LocalStorageService.instance.user = null;
@@ -216,23 +253,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                 Icon(
                     Icons.exit_to_app_sharp,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Colors.red,
                   size: 25,
                   //  color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 SizedBox(width: 10,),
                 Text(AppLocalizations.of(context).trans('logout'),
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary,fontSize: 18)
+                    style: TextStyle(color: Colors.red,fontSize: 18)
                 ),
               ],
               ),
             ),
-            SizedBox(height:  MediaQuery.of(context).size.height - 710,),
-            InkWell(
-                onTap: (){
-                //  launch("https://www.facebook.com/vinforitsolution?mibextid=LQQJ4d");
-                },
-                child: Text('Powered by Vin Agency',style: TextStyle(fontSize: 12),))
+            //SizedBox(height:  MediaQuery.of(context).size.height - 710,),
+            // InkWell(
+            //     onTap: (){
+            //     //  launch("https://www.facebook.com/vinforitsolution?mibextid=LQQJ4d");
+            //     },
+            //     child: Text('Powered by Vin Agency',style: TextStyle(fontSize: 12),)
+            // )
           ],
         ),
       ),

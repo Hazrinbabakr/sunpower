@@ -58,7 +58,7 @@ class _PdfBookState extends State<PdfBook> {
         ),
       )
           : Container(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.primary,
         child: Center(
           child: _isLoading
               ? Center(child: CircularProgressIndicator())
@@ -66,7 +66,7 @@ class _PdfBookState extends State<PdfBook> {
             document: document!,
             scrollDirection: Axis.vertical,
             zoomSteps: 1,
-            indicatorBackground: Theme.of(context).colorScheme.secondary,
+            indicatorBackground: Theme.of(context).colorScheme.primary,
             indicatorText: Theme.of(context).primaryColor,
             // pickerIconColor: Theme.of(context).primaryColor,
             // pickerButtonColor: Theme.of(context).colorScheme.secondary,

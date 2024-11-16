@@ -77,11 +77,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
             title: Text(  AppLocalizations.of(context).trans("Favorite"),style: TextStyle(color: Colors.black87),),
             elevation: 0,
         ),
-
         body:
         (allProductListSnapShot == null || allProductListSnapShot!.isEmpty)
             ? Padding(
@@ -190,7 +188,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     setState(() {
                                     });
                                   },
-                                  child: Icon(Icons.favorite,size: 30,color: Colors.red[900],)))
+                                  child: Icon(Icons.favorite,size: 30,color: Theme.of(context).primaryColor,)))
                         ],
                       ),
                     ),)
