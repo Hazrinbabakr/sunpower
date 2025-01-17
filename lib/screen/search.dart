@@ -27,10 +27,10 @@ class _SearchState extends State<Search> {
   SearchProductProvider searchProductProvider = SearchProductProvider();
   TextEditingController _searchController = TextEditingController();
 
-  void searchApi(String query) {
+  void searchApi(String query,bool reset) {
     // Replace this with your actual API call
     print("Searching for: $query");
-    searchProductProvider.getProducts(query);
+    searchProductProvider.getProducts(query,reset: reset);
   }
 
   void _onSearchTextChanged() {
@@ -44,7 +44,7 @@ class _SearchState extends State<Search> {
     // Set up a new timer
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       if (_searchText.length > 3) {
-        searchApi(_searchText);
+        searchApi(_searchText,true);
       }
     });
   }
@@ -112,7 +112,7 @@ class _SearchState extends State<Search> {
                       onSubmitted: (val) {
                         // Manually trigger search if text length <= 3
                         if (_searchText.length <= 3 && _searchText.isNotEmpty) {
-                          searchApi(_searchText);
+                          searchApi(_searchText,true);
                         }
                       },
                       autofocus: true,
@@ -159,8 +159,12 @@ class _SearchState extends State<Search> {
                               crossAxisSpacing: 8,
                               childAspectRatio: 0.7
                           ),
-                          itemCount: value.products!.length,
+                          itemCount: value.products!.length + 1,
                           itemBuilder: (context, i) {
+                            if(i == value.products!.length){
+                              //searchApi(_searchText,false);
+                              return const SizedBox();
+                            }
                             return InkWell(
                               onTap: (){
                                 Navigator.of(context).push(MaterialPageRoute(

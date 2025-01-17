@@ -29,21 +29,31 @@ class _HomePageState extends State<HomePage> {
       currentTabIndex=index;
     });
   }
+  List<Widget> currentPage = [];
+  @override
+  void initState() {
+    super.initState();
 
-  final currentPage = [
-    HomeScreen(),
-    FirebaseAuth.instance.currentUser != null ?
-    CategoryListScreen():MainLoginPage(),
-    // CartScreen(),
-    FirebaseAuth.instance.currentUser != null ?
-    CartScreen():MainLoginPage(),
-    //OrderHistoryScreen():MainLoginPage(),
-    FirebaseAuth.instance.currentUser != null ?
-    ProfileScreen():MainLoginPage(),
-  ];
+    currentPage = [
+      HomeScreen(
+        onCategoryClicked: (){
+          onTapped(1);
+        },
+      ),
+      FirebaseAuth.instance.currentUser != null ?
+      CategoryListScreen():MainLoginPage(),
+      // CartScreen(),
+      FirebaseAuth.instance.currentUser != null ?
+      CartScreen():MainLoginPage(),
+      //OrderHistoryScreen():MainLoginPage(),
+      FirebaseAuth.instance.currentUser != null ?
+      ProfileScreen():MainLoginPage(),
+    ];
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -64,7 +74,6 @@ class _HomePageState extends State<HomePage> {
               label: "",
               // backgroundColor: Colors.purple[600]
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart),
               label: "",

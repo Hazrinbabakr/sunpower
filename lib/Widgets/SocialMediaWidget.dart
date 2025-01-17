@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SocialMediaWidget extends StatelessWidget {
   const SocialMediaWidget({key}) : super(key: key);
@@ -14,55 +15,43 @@ class SocialMediaWidget extends StatelessWidget {
           children: [
             InkWell(
                 onTap: (){
-                  //launch("https://maps.google.com?q=Sun%20Power%20Company,%20North%20Industrial%20Area%20G33,%20Erbil%2044001&ftid=0x400721bde5c36167:0x3da92b465a7893c&hl=en-US&gl=us&entry=gps&coh=166245&lucs=47057720&g_st=ic");
+                  launch("https://maps.app.goo.gl/Q9hEqy6aKtUsJKsh8");
                 },
                 child: Image.asset('images/category/location.png',width: 27,)),
 
           InkWell(
               onTap: (){
-
-                //launch("https://sunpowerc.com/#/");
+                launch("https://autotruckstore.com");
               },
               child: Image.asset('images/category/web.png',width: 30,)),
 
           InkWell(
               onTap: (){
-                //   print('whatsapp');
-                 //launch("https://m.facebook.com/SunPowerCompany/?refsrc=deprecated&_rdr");
-
+                launch("https://www.facebook.com/profile.php?id=61566192984414&mibextid=ZbWKwL");
               },
               child: Image.asset('images/category/fb.png',width: 30,)),
-          InkWell(
+            InkWell(
               onTap: (){
-//launch("https://instagram.com/sunpower_iraq?igshid=MWI4MTIyMDE=");
+                launch("https://www.instagram.com/autotruckstore?igsh=MXBseWk4dWdwaHB4Mg==");
               },
               child: Image.asset('images/category/insta.png',width: 30,)),
-
-
-
             InkWell(
                 onTap: (){
-                  //launch("https://youtube.com/@sunpowercompany");
+                  launch("https://youtube.com/@autotruckstore?si=36CAN1bARrlI1ohN");
                 },
                 child: Image.asset('images/category/youtube.png',width: 30,)),
 
             InkWell(
                 onTap: (){
-                  //launch("https://www.tiktok.com/@sunpowercompany");
+                  launch("https://www.tiktok.com/@autotruckstore");
                 },
                 child: Image.asset('images/category/tiktik.png',width: 30,)),
 
             InkWell(
                 onTap: (){
-                  //launch("https://t.snapchat.com/uZ5Cxe5q");
+                  launch("https://www.snapchat.com/add/autotruckstore?share_id=fiUgj91anQY&locale=en-GB");
                 },
                 child: Image.asset('images/category/snap.png',width: 30,)),
-      //
-      // InkWell(
-      // onTap: (){
-      //   launch("tel:0${7501440058}");
-      // },
-      // child: Icon(Icons.phone_outlined)),
           ],),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
 import 'package:sunpower/Widgets/empty.dart';
+import 'package:sunpower/Widgets/product_card.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/productDetails.dart';
 import 'package:sunpower/services/local_storage_service.dart';
@@ -22,29 +23,28 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   User user = FirebaseAuth.instance.currentUser!;
   FirebaseAuth _auth = FirebaseAuth.instance;
   List<String> favList=[];
+  bool deleting = false;
   getFavProduct() {
     FirebaseFirestore.instance
         .collection('users').doc(user.uid).collection('favorite')
         .get()
         .then((value) {
-      favListSnapShot = [];
+          favListSnapShot = [];
       favList = [];
       allProductListSnapShot = [];
       favListSnapShot!.addAll(value.docs);
       favList.addAll(value.docs.map((e) => e.id));
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        setState(() {
-
-        });
-      });
-
     }).whenComplete((){
       if(favListSnapShot!.isNotEmpty){
         getAllProduct();
       }
-      setState(() {
+      else{
+        deleting = false;
+        setState(() {
 
-      });
+        });
+      }
+
     });
   }
   getAllProduct() {
@@ -56,6 +56,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           .get()
           .then((value) {
         allProductListSnapShot!.addAll(value.docs);
+        deleting = false;
         setState(() {
 
         });
@@ -80,120 +81,78 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             title: Text(  AppLocalizations.of(context).trans("Favorite"),style: TextStyle(color: Colors.black87),),
             elevation: 0,
         ),
-        body:
-        (allProductListSnapShot == null || allProductListSnapShot!.isEmpty)
-            ? Padding(
-          padding: const EdgeInsets.only(top: 200),
-              child: EmptyWidget(),
-            )
-            : Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: allProductListSnapShot!.length,
-                itemBuilder: (context, i) {
-                  return (allProductListSnapShot![i] != null)
-                      ? InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetails( allProductListSnapShot![i].id.toString()),
-                      ));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Stack(
-                        children: [
-                          Container(
-                              height: 140,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey[200]!,
-                                        spreadRadius: 1,
-                                        blurRadius: 10)
-                                  ]),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 120,
-                                   // height: 100,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)
-                                          //                 <--- border radius here
-                                        ),
-                                        border: Border.all(color: Colors.black12,width: 0.6),
-                                        image: DecorationImage(
-                                          // fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                allProductListSnapShot![i]['images'][0].toString()
-                                            )
-                                        )),
-                                  ),
-                                  //SizedBox(width: 30,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10,top: 20,left: 30,right: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          //color: Colors.red,
-                                            width: 170,
-                                            child: Text(
-                                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                              allProductListSnapShot![i]['nameK'].toString().toUpperCase():
-                                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                              allProductListSnapShot![i]['nameA'].toString().toUpperCase():
-                                              allProductListSnapShot![i]['name'].toString().toUpperCase(),
-
-                                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,), overflow: TextOverflow.visible,maxLines: 3,)),
-                                        SizedBox(height: 5,),
-                                        //LocalStorageService.instance.user.role == 1?
-                                        Text('${LocalStorageService.instance.user!.role == 1? allProductListSnapShot![i]['wholesale price'].toString():
-                                        allProductListSnapShot![i]['retail price'].toString()}\$',style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
-                                        SizedBox(height: 5,),
-                                        Text( allProductListSnapShot![i]['old price'].toString()=='0'?'':'${allProductListSnapShot![i]['old price'].toString()}\$',style:
-                                        TextStyle(fontSize: 15,color: Colors.black54,fontWeight: FontWeight.w500,decoration: TextDecoration.lineThrough),),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-
-                          Positioned(
-                              left:
-
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                              0:
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                              0:
-                              290,
-                              right:
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                              290:
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                              290:
-                              0,
-
-                              bottom: 20,
-                              child: InkWell(
-                                  onTap: (){
-                                    User user = _auth.currentUser!;
-                                    userCollection
-                                        .doc(user.uid)
-                                        .collection('favorite')
-                                        .doc(allProductListSnapShot![i].id).delete();
-                                    getFavProduct();
-                                    setState(() {
-                                    });
-                                  },
-                                  child: Icon(Icons.favorite,size: 30,color: Theme.of(context).primaryColor,)))
-                        ],
+        body: Builder(
+          builder: (BuildContext context) {
+            if(allProductListSnapShot == null){
+              return Center(child: const CircularProgressIndicator());
+            }
+            if(allProductListSnapShot!.isEmpty){
+              return const SizedBox();
+            }
+            bool isTab = MediaQuery.of(context).orientation == Orientation.landscape || MediaQuery.of(context).size.width > 460;
+            return GridView.builder(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: isTab ? 4 : 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 0.8
+              ),
+              itemCount: allProductListSnapShot!.length,
+              itemBuilder: (context, i) {
+                return InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProductDetails( allProductListSnapShot![i].id.toString()),
+                    ));
+                  },
+                  child: Stack(
+                    children: [
+                      ProductCard(
+                          productListSnapShot:allProductListSnapShot![i].data()
                       ),
-                    ),)
-                      : SizedBox();
-                }),
+                      Align(
+                        alignment: AlignmentDirectional.topEnd,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black12,
+                              shape: BoxShape.circle
+                            ),
+                            child: IconButton(
+                              icon: Icon(Icons.favorite,size: 30,color: Colors.red,),
+                              onPressed: () {
+                                try {
+                                  if(deleting){
+                                    return;
+                                  }
+                                  deleting = true;
+                                  User user = _auth.currentUser!;
+                                  userCollection
+                                      .doc(user.uid)
+                                      .collection('favorite')
+                                      .doc(allProductListSnapShot![i].id)
+                                      .delete();
+                                  getFavProduct();
+                                  setState(() {});
+                                } catch (error){
+                                  deleting = false;
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
+          },
         )
     );
   }

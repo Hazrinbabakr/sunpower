@@ -1,7 +1,12 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/CustomAppButton.dart';
 import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/models/user.dart';
+import 'package:sunpower/services/brands_service.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 import 'homepage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,8 +21,21 @@ class _SplashScreenState extends State<SplashScreen> {
   String text = '';
   // ignore: non_constant_identifier_names
   Future CheckUserConnection() async {
-      final result = await InternetAddress.lookup('google.com');
+      final result = await InternetAddress.lookup('8.8.8.8');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        if(FirebaseAuth.instance.currentUser != null){
+          var res = await FirebaseFirestore.instance
+              .collection("users")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get();
+          if(res.exists){
+            LocalStorageService.instance.user = AppUser.fromJson(res.data() as Map<String,dynamic>);
+          } else {
+            FirebaseAuth.instance.signOut();
+          }
+        }
+
+        
         Navigator.push(context, MaterialPageRoute(builder: (crl) =>
         //FirebaseAuth.instance.currentUser != null ?
         HomePage()
@@ -38,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    BrandsService.init();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(Duration(seconds: 2),(){
         CheckUserConnection();

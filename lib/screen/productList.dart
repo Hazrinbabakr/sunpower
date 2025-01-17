@@ -1,16 +1,10 @@
-
-// ignore_for_file: file_names, prefer_const_constructors_in_immutables, prefer_const_constructors, unrelated_type_equality_checks
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
-import 'package:sunpower/Widgets/empty.dart';
 import 'package:sunpower/Widgets/product_card.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/productDetails.dart';
-import 'package:sunpower/services/local_storage_service.dart';
 
 class ProductsList extends StatefulWidget {
    final String categoryID;
@@ -36,7 +30,6 @@ class _ProductsListState extends State<ProductsList> {
         .then((value) {
       productListSnapShot.clear();
       productListSnapShot.addAll(value.docs);
-      print(productListSnapShot.length);
       if(mounted){
         setState(() {
 
@@ -116,7 +109,7 @@ class _ProductsListState extends State<ProductsList> {
                 color: Colors.black87,
                 icon: const Icon(Icons.filter_list),
                 onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
+                  Scaffold.of(context).openDrawer();
                 },
               );
             },
@@ -135,32 +128,20 @@ class _ProductsListState extends State<ProductsList> {
         if(makeID != null){
           filteredList = productListSnapShot.where((element) => element['makeId'] == makeID).toList();
         }
+        bool isTab = MediaQuery.of(context).orientation == Orientation.landscape || MediaQuery.of(context).size.width > 460;
         return GridView.builder(
           padding: EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 16
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: isTab ? 4 : 2,
               mainAxisSpacing: 12,
               crossAxisSpacing: 8,
-              childAspectRatio: 0.7
+              childAspectRatio: 0.8
           ),
           itemCount: filteredList.length,
           itemBuilder: (context, i) {
-            // if (
-            // true
-            // //productListSnapShot[i]['categoryID'] == widget.categoryID && productListSnapShot[i]['newArrival'] //&& makeID == null
-            // )
-            // {
-            //
-            // }
-            // print(makeID);
-            // print(filteredList[i]['makeId']);
-            // if(makeID != null && makeID != filteredList[i]['makeId']){
-            //   return const SizedBox();
-            // }
-
             return InkWell(
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
@@ -168,102 +149,114 @@ class _ProductsListState extends State<ProductsList> {
                 ));
               },
               child: ProductCard(
-                  productListSnapShot:filteredList[i]
+                  productListSnapShot:filteredList[i].data()
               ),
             );
 
           },
         );
       }),
-
-
-      endDrawer: Drawer(
-        child: Center(
+      drawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16
+          ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 100,),
-              Text(  AppLocalizations.of(context).trans("Filterbymake"),style: TextStyle(
-                  fontSize: 25, fontWeight: FontWeight.bold),),
-              makeList.isEmpty ?
-                  const SizedBox():
-              //EmptyWidget() :
-              ListView.builder(
-                  shrinkWrap: true,
+              SizedBox(
+                height: MediaQuery.of(context).padding.top + 8,
+              ),
+              Text(
+                AppLocalizations.of(context).trans("filters"),
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+              const SizedBox(height: 16,),
+              // Text(
+              //   AppLocalizations.of(context).trans("Filterbymake"),
+              //   style: TextStyle(
+              //       fontSize: 18,
+              //       fontWeight: FontWeight.bold
+              //   ),
+              // ),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 2,
+                    crossAxisSpacing: 8
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8
+                  ),
                   itemCount: makeList.length,
                   itemBuilder: (context, i) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-                      child: InkWell(
+                    return InkWell(
                         onTap: (){
                           makeID=makeList[i].id.toString();
                           setState(() {
 
                           });
-                          //getProducts();
                           Navigator.of(context).pop();
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            boxShadow:  [
-                              BoxShadow(
-                                color: makeID==makeList[i].id.toString()? Colors.red: Colors.grey[300]!,
-                                spreadRadius: 1,
-                                blurRadius: 7,
-                                offset: Offset(-4, 4),
-                              ),
-                            ],
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: makeID == makeList[i].id?
+                                  Theme.of(context).primaryColor:
+                                  Colors.black38,
+                                width: 2
+                              )
                           ),
-
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 6),
-                            child: Text(
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                              makeList[i]['makeK'].toString().toUpperCase():
-                              AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                              makeList[i]['makeA'].toString().toUpperCase():
-                              makeList[i]['make'].toString().toUpperCase(),
-
-                              style: TextStyle(fontSize: 18,),
-                              overflow: TextOverflow.visible,maxLines: 3,),
+                          child: CachedNetworkImage(
+                            imageUrl: makeList[i]['img'],
+                            fit: BoxFit.contain,
                           ),
                         ),
-                      ),
-                    );
-                  }),
-              SizedBox(height: 100,),
-              makeID==null?
-              SizedBox():
-              InkWell(
-                onTap: (){
-                  setState(() {
-                    makeID=null;
-                    //getProducts();
-                   // Navigator.of(context).pop();
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Theme.of(context).primaryColor,
-                    boxShadow:  [
-                      BoxShadow(
-                        color: Colors.grey[300]!,
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset: Offset(-4, 4),
-                      ),
-                    ],
-                  ),
-                  child: Text('Remove Filter',style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight:  FontWeight.bold
-                  ),),
+                      );
+                  },
                 ),
-              )
+              ),
+              SizedBox(height: 16,),
+              if(makeID != null)
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      makeID=null;
+                      //getProducts();
+                     // Navigator.of(context).pop();
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.black,
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.grey[300]!,
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: Offset(-4, 4),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(AppLocalizations.of(context).trans('removeFilter'),style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight:  FontWeight.bold
+                    ),),
+                  ),
+                ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom ,),
             ],
           ),
         ),

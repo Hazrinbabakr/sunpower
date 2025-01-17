@@ -11,6 +11,7 @@ import 'package:sunpower/Widgets/empty.dart';
 import 'package:sunpower/Widgets/photo_gellary.dart';
 import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/screen/productDetailPDF.dart';
+import 'package:sunpower/services/brands_service.dart';
 import 'package:sunpower/services/local_storage_service.dart';
 import '../app/AppColors.dart';
 import 'auth/normal_user_login/login_main_page.dart';
@@ -86,8 +87,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         'ar'
                     ? makeSnapshot!['makeA']
                     : makeSnapshot!['make'];
-        print('testtttt');
-        print(modelName.toString());
+
       });
     }
   }
@@ -175,7 +175,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       }
     }
 
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      initSnackBars();
+    });
     super.initState();
   }
 
@@ -223,103 +225,85 @@ class _ProductDetailsState extends State<ProductDetails> {
                             elevation: 0,
                             automaticallyImplyLeading: false,
                             flexibleSpace: FlexibleSpaceBar(
-                              background: GestureDetector(
-                                onTap: () {},
-                                child: Hero(
-                                  tag: 'testt',
-                                  child: imgList == null
-                                      ? Center(child: CircularProgressIndicator())
-                                      :
-                                  Column(
+                              background:
+                              Column(
+                                children: [
+                                  Expanded(
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CarouselSlider(
+                                          options:
+                                          CarouselOptions(
+                                              viewportFraction: 1,
+                                              autoPlay: false,
+                                              onPageChanged:
+                                                  (index, reason) {
+                                                setState(() {
+                                                  _current =
+                                                      index;
+                                                });
+                                              }),
+                                          items: imgList.map((i) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PhotosGalleryPage(
+                                                                initialPage: imgList.indexOf(i),
+                                                                galleryItems: imgList.map((e) => GalleryItem(id: i, image: e)).toList()
+                                                            )
+                                                    )
+                                                );
+                                              },
+                                              child: SizedBox(
+                                                  width: double.infinity,
+                                                  child:CachedNetworkImage(
+                                                    imageUrl: i.toString(),
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                            );
+                                          }).toList(),
+                                        )
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        height: 0,
-                                      ),
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: Stack(
-                                            children: [
-                                              CarouselSlider(
-                                                options:
-                                                CarouselOptions(
-                                                    viewportFraction:
-                                                    1,
-                                                    autoPlay: false,
-                                                    onPageChanged:
-                                                        (index,
-                                                        reason) {
-                                                      setState(() {
-                                                        _current =
-                                                            index;
-                                                      });
-                                                    }),
-                                                items: imgList.map((i) {
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context).push(
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  PhotosGalleryPage(
-                                                                      initialPage: imgList.indexOf(i),
-                                                                      galleryItems: imgList.map((e) => GalleryItem(id: i, image: e)).toList()
-                                                                  )
-                                                          )
-                                                      );
-                                                    },
-                                                    child: SizedBox(
-                                                        width: double
-                                                            .infinity,
-                                                        child: Image
-                                                            .network(
-                                                          i.toString(),
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )),
-                                                  );
-                                                }).toList(),
-                                              ),
-                                            ],
-                                          )
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          for (int i = 0;
-                                          i < imgList.length;
-                                          i++)
-                                            Center(
-                                              child: Container(
-                                                height: 8,
-                                                width: 8,
-                                                margin:
-                                                EdgeInsets.all(5),
-                                                decoration:
-                                                BoxDecoration(
-                                                  color: _current == i
-                                                      ? Theme.of(
-                                                      context)
-                                                      .colorScheme
-                                                      .primary
-                                                      : Theme.of(
-                                                      context)
-                                                      .colorScheme
-                                                      .primary
-                                                      .withOpacity(
-                                                      0.2),
-                                                  shape:
-                                                  BoxShape.circle,
-                                                ),
-                                              ),
-                                            )
-                                        ],
-                                      ),
+                                      for (int i = 0;
+                                      i < imgList.length;
+                                      i++)
+                                        Center(
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            margin:
+                                            EdgeInsets.all(5),
+                                            decoration:
+                                            BoxDecoration(
+                                              color: _current == i
+                                                  ? Theme.of(
+                                                  context)
+                                                  .colorScheme
+                                                  .primary
+                                                  : Theme.of(
+                                                  context)
+                                                  .colorScheme
+                                                  .primary
+                                                  .withOpacity(
+                                                  0.2),
+                                              shape:
+                                              BoxShape.circle,
+                                            ),
+                                          ),
+                                        )
                                     ],
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ),
@@ -413,7 +397,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                   fontSize:
                                                                   18,
                                                                   color:
-                                                                  Colors.black),
+                                                                  Colors.blue),
                                                             )
                                                                 : Text(
                                                               '${productSnapshot!['retail price'].toString()}',
@@ -423,7 +407,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                   fontSize:
                                                                   18,
                                                                   color:
-                                                                  Colors.black),
+                                                                  Colors.blue),
                                                             ),
                                                             Text(
                                                               '\$',
@@ -434,47 +418,43 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                                   fontSize:
                                                                   14,
                                                                   color: Colors
-                                                                      .black),
+                                                                      .blue),
                                                             ),
                                                           ],
-                                                        )),
+                                                        )
+                                                    ),
                                                     Container(
                                                         height: 20,
                                                         child: Row(
                                                           mainAxisSize: MainAxisSize.min,
                                                           children: [
-                                                            Text(
-                                                              productSnapshot!['old price']
-                                                                  .toString() ==
-                                                                  '0'
-                                                                  ? ''
-                                                                  : '${productSnapshot!['old price'].toString()}',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                  14,
-                                                                  decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text(
-                                                              productSnapshot!['old price']
-                                                                  .toString() ==
-                                                                  '0'
-                                                                  ? ''
-                                                                  : '\$',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                  12,
-                                                                  decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
+                                                            if(_getOldPrice(productSnapshot!.data()).isNotEmpty && _getOldPrice(productSnapshot!.data()) != '0')
+                                                              Text(
+                                                                '${_getOldPrice(productSnapshot!.data())}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    14,
+                                                                    decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                            if(_getOldPrice(productSnapshot!.data()).isNotEmpty && _getOldPrice(productSnapshot!.data()) != '0')
+                                                              Text(
+                                                                '\$',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    12,
+                                                                    decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
                                                           ],
-                                                        )),
+                                                        )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -532,6 +512,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           height: 8,
                                         ),
                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             if(makeSnapshot != null && (makeSnapshot!.data() as Map)['img'] != null)
                                               SizedBox(
@@ -541,9 +522,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     borderRadius: BorderRadius.circular(15),
                                                     child: CachedNetworkImage(
                                                       imageUrl: (makeSnapshot!.data() as Map)['img'],
-                                                      fit: BoxFit.cover,
+                                                      fit: BoxFit.contain,
                                                     )),
-                                              )
+                                              ),
+                                            const SizedBox(),
+                                            const SizedBox(),
+
+                                            if(BrandsService.getBrandImage(productSnapshot!['brand']).isNotEmpty)
+                                              SizedBox(
+                                              width: 120,
+                                              height: 60,
+                                              child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: BrandsService.getBrandImage(productSnapshot!['brand']),
+                                                    fit: BoxFit.contain,
+                                                  )),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -1205,7 +1200,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             .symmetric(
                                             vertical: 20),
                                         decoration: BoxDecoration(
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                             borderRadius:
                                             BorderRadius
                                                 .circular(
@@ -1292,7 +1287,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                   .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Add to cart',
+                                                  AppLocalizations.of(context).trans("AddToCart"),
                                                   textAlign:
                                                   TextAlign
                                                       .center,
@@ -1537,109 +1532,31 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   int quantity = 1;
+  late Flushbar _snackBar,_snackBarAddToFav,_snackBarRemoveFromFav;
 
-  final _snackBar = Flushbar(
-    title: 'Added Successfully',
-    message: "Product Has been added to cart Successfully",
-    duration: Duration(seconds: 2),
-    backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
-    //backgroundColor: Colors.red,
-  );
-  /*SnackBar(
-    padding: EdgeInsets.zero,
-    content: Container(
-      decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(15),
-          topLeft: Radius.circular(15),
-        ),
-      ),
-      height: 70,
-      width: double.infinity,
-      child: Center(
-        child: Text(
-          'Added Successfully',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-        ),
-      ),
-    ),
-    backgroundColor: Colors.transparent,
-    duration: Duration(seconds: 2),
-  );*/
+  initSnackBars(){
+    _snackBar = Flushbar(
+      title: AppLocalizations.of(context).trans("addedSuccessfully"),
+      message: AppLocalizations.of(context).trans("addedToCart"),
+      duration: Duration(seconds: 2),
+      backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
+      //backgroundColor: Colors.red,
+    );
 
-  final _snackBarAddToFav = Flushbar(
-    title: 'Added To Favorite',
-    message: 'Product Has been added to favorite',
-    duration: Duration(seconds: 2),
-    backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
-    //backgroundColor: Colors.red,
-  );
-  /*SnackBar(
-    content: Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(15)
-              //                 <--- border radius here
-              ),
-          // border: Border.all(color: Colors.black12,width: 0.6),
-        ),
-        height: 130,
-        width: 300,
-        child: Center(
-          child: Text(
-            'Added To Favorite',
-            //AppLocalizations.of(context).trans("Addedtofavorite"),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.green,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-        ),
-      ),
-    ),
-    backgroundColor: Colors.transparent,
-    duration: Duration(seconds: 1),
-  );*/
-  final _snackBarRemoveFromFav = Flushbar(
-    title: 'Removed From Favorite',
-    message: "Product Has been removed from favorite",
-    duration: Duration(seconds: 2),
-    backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
-  );
-  /*SnackBar(
-    content: Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-        ),
-        height: 130,
-        width: 300,
-        child: Center(
-          child: Text(
-            'Removed From Favorite',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-        ),
-      ),
-    ),
-    backgroundColor: Colors.transparent,
-    duration: Duration(seconds: 1),
-  );*/
+    _snackBarAddToFav = Flushbar(
+      title: AppLocalizations.of(context).trans('addedToFavorite'),
+      message: AppLocalizations.of(context).trans('addedToFavoriteDetails'),
+      duration: Duration(seconds: 2),
+      backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
+      //backgroundColor: Colors.red,
+    );
+    _snackBarRemoveFromFav = Flushbar(
+      title: AppLocalizations.of(context).trans('removedFromFavorite'),
+      message: AppLocalizations.of(context).trans("removedFromFavoriteDetails"),
+      duration: Duration(seconds: 2),
+      backgroundGradient: LinearGradient(colors: [ Colors.black87,AppColors.primaryColor]),
+    );
+  }
   bool isfav = false;
   List<DocumentSnapshot>? getFav;
   List<String> favList = [];
@@ -1661,6 +1578,34 @@ class _ProductDetailsState extends State<ProductDetails> {
       }
       setState(() {});
     });
+  }
+
+
+
+
+  String _getOldPrice(dynamic product){
+    if(FirebaseAuth.instance.currentUser != null){
+      if(LocalStorageService.instance.user?.role == 1){
+        return product['old wholesale price']?.toString()??'';
+      }
+      else {
+        return product['old price']?.toString()??"";
+      }
+    }
+    return product['old price']?.toString()??"";
+
+  }
+
+  String _getPrice(dynamic product){
+    if(FirebaseAuth.instance.currentUser != null){
+      if(LocalStorageService.instance.user?.role == 1){
+        return product['wholesale price']?.toString()??'';
+      }
+      else {
+        return product['retail price']?.toString()??"";
+      }
+    }
+    return product['retail price']?.toString()??"";
   }
 }
 

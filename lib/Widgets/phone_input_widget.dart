@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:sunpower/app/AppColors.dart';
 
 class PhoneNumberInput extends StatefulWidget {
   final TextEditingController controller;
@@ -20,92 +21,108 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     NumberTextInputFormatter formatter = NumberTextInputFormatter();
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: (){
-              showCountryPicker(
-                context: context,
-                showPhoneCode: true,
-                useSafeArea: true,
-                favorite: ["IQ","TR","AE"],
-                onSelect: (Country country) {
-                  print('Select country: ${country.toJson()}');
-                  this.widget.countryCode(country.phoneCode);
-                  setState(() {
-                    this.countryCode = country.phoneCode;
-                  });
-                },
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Colors.grey, width: 1)),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                "+${countryCode}",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.primaryColor,
+            width: 1.2
           ),
-          SizedBox(
-            width: 32,
-          ),
-          Expanded(
-            child: TextFormField(
-              autofocus: true,
-
-              controller: widget.controller,
-              validator: (val) {
-                String text = val!.trim().replaceAll(" ", "");
-                if (text.trim().isEmpty) {
-                  return "phoneNumberEmpty";//AppLocalizations.of(context).trans("phoneNumberEmpty");
-                }
-                if (text.length < 8) {
-                  return "phoneNumberInvalid";
-                    //AppLocalizations.of(context).trans("phoneNumberInvalid");
-                }
-                // if (text.length == 10 && text[0] != "7") {
-                //   return "phoneNumberInvalid";
-                //     // AppLocalizations.of(context)
-                //     //   .trans("phoneNumberInvalid");
-                // }
-                // if (text.length == 11 && (text[0] != "0" || text[1] != "7")) {
-                //   return "phoneNumberInvalid";
-                //     // AppLocalizations.of(context)
-                //     //   .trans("phoneNumberInvalid");
-                // }
-                return null;
+          borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(15),
+            bottomEnd: Radius.circular(15),
+          )
+        ),
+        padding: EdgeInsets.all(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: (){
+                showCountryPicker(
+                  context: context,
+                  showPhoneCode: true,
+                  useSafeArea: true,
+                  favorite: ["IQ","TR","AE"],
+                  onSelect: (Country country) {
+                    print('Select country: ${country.toJson()}');
+                    this.widget.countryCode(country.phoneCode);
+                    setState(() {
+                      this.countryCode = country.phoneCode;
+                    });
+                  },
+                );
               },
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(11),
-                formatter
-              ],
-              keyboardType: TextInputType.phone,
-              textAlign: TextAlign.start,
-              textDirection: TextDirection.ltr,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                hintText: "xxx xxx xxx",
-                //hintTextDirection: TextDirection.ltr,
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                focusColor: Theme.of(context).colorScheme.primary,
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+              child: Container(
+                // decoration: BoxDecoration(
+                //   border: Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+                // ),
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  "+${countryCode}",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                autofocus: true,
+
+                controller: widget.controller,
+                validator: (val) {
+                  String text = val!.trim().replaceAll(" ", "");
+                  if (text.trim().isEmpty) {
+                    return "phoneNumberEmpty";//AppLocalizations.of(context).trans("phoneNumberEmpty");
+                  }
+                  if (text.length < 8) {
+                    return "phoneNumberInvalid";
+                      //AppLocalizations.of(context).trans("phoneNumberInvalid");
+                  }
+                  // if (text.length == 10 && text[0] != "7") {
+                  //   return "phoneNumberInvalid";
+                  //     // AppLocalizations.of(context)
+                  //     //   .trans("phoneNumberInvalid");
+                  // }
+                  // if (text.length == 11 && (text[0] != "0" || text[1] != "7")) {
+                  //   return "phoneNumberInvalid";
+                  //     // AppLocalizations.of(context)
+                  //     //   .trans("phoneNumberInvalid");
+                  // }
+                  return null;
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                  formatter
+                ],
+                keyboardType: TextInputType.phone,
+                textAlign: TextAlign.start,
+                textDirection: TextDirection.ltr,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                  hintText: "xxx xxx xxx",
+                  border: InputBorder.none,
+                  enabledBorder:InputBorder.none,
+                  focusedBorder:InputBorder.none,
+                  //hintTextDirection: TextDirection.ltr,
+                  // border: UnderlineInputBorder(
+                  //   borderSide: BorderSide(color: Colors.grey),
+                  // ),
+                  // enabledBorder: UnderlineInputBorder(
+                  //   borderSide: BorderSide(color: Colors.grey),
+                  // ),
+                  // focusColor: Theme.of(context).colorScheme.primary,
+                  // focusedBorder: UnderlineInputBorder(
+                  //   borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+                  // ),
+
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

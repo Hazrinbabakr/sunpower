@@ -1,9 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="shko.guideware.project">
+    package="com.sunpower.guideware">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="mailto" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+
+        <!--#docregion android-queries-->
+    </queries>
+
     <application
-        android:label="SunPower"
+        android:label="Truck Store"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

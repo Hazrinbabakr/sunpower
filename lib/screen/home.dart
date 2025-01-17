@@ -12,9 +12,14 @@ import 'package:sunpower/localization/AppLocal.dart';
 import 'package:sunpower/services/local_storage_service.dart';
 
 import '../Widgets/brands.dart';
+import 'Special_produt_list.dart';
+import 'products/new_products.dart';
 import 'products/special_offers.dart';
 
 class HomeScreen extends StatefulWidget {
+  final VoidCallback onCategoryClicked;
+
+  const HomeScreen({super.key, required this.onCategoryClicked});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -29,13 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             HomeAppBar(),
             SizedBox(
-              height: 10,
+              height: 8,
             ),
             Offers('sliderImages'),
             SizedBox(
-              height: 20,
+              height: 8,
             ),
-            CategoriesWidget(),
+            CategoriesWidget(
+              callback: widget.onCategoryClicked,
+            ),
 
             //New arrival
             // Padding(
@@ -54,40 +61,27 @@ class _HomeScreenState extends State<HomeScreen> {
             //     ],
             //   ),
             // ),
-            const SizedBox(height: 16,),
+            const SizedBox(height: 8,),
             Offers('offerImages'),
             const SizedBox(height: 16,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16
-                  ),
-                  child: Text(AppLocalizations.of(context).trans('NewArrivals').toUpperCase(),
-                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                ),
-                SizedBox(height: 16,),
-                SpecialOffersProducts(),
-                SizedBox(height: 16,),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16
-                  ),
-                  child: Text(AppLocalizations.of(context).trans('SpecialOffers').toUpperCase(),
-                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                ),
-                SizedBox(height: 16,),
-                SpecialOffersProducts(),
-                SizedBox(height: 16,),
-              ],
-            ),
-
+            NewProducts(),
+            SizedBox(height: 16,),
+            SpecialOffersProducts(),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(
+            //           horizontal: 16
+            //       ),
+            //       child: Text(AppLocalizations.of(context).trans('SpecialOffers').toUpperCase(),
+            //         style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+            //     ),
+            //     SizedBox(height: 12,),
+            //
+            //   ],
+            // ),
+            SizedBox(height: 16,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -96,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     horizontal: 16
                   ),
                   child: Text(AppLocalizations.of(context).trans('Brands').toUpperCase(),
-                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                 ),
-                SizedBox(height: 16,),
+                SizedBox(height: 12,),
                 Brands(),
                 SizedBox(height: 16,),
               ],

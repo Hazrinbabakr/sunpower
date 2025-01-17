@@ -4,6 +4,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:sunpower/services/brands_service.dart';
 
 
 import '../localization/AppLocal.dart';
@@ -22,10 +24,12 @@ class _BrandsState extends State<Brands> {
   getBrands() {
     FirebaseFirestore.instance
         .collection('brands')
+        .where('img',isNull: false)
         .get()
         .then((value) {
           brandsSnapshot = [];
-          brandsSnapshot!.addAll(value.docs);
+          brandsSnapshot!.addAll(value.docs.where((element) => element['img'].isNotEmpty));
+          //BrandsService.localInit(brandsSnapshot!);
           setState(() {
 
           });
@@ -39,9 +43,37 @@ class _BrandsState extends State<Brands> {
   @override
   Widget build(BuildContext context) {
     if(brandsSnapshot == null || brandsSnapshot!.isEmpty){
-      return const SizedBox();
+      return SizedBox(
+        height: 100,
+        child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            itemBuilder: (context, index) {
+              return Shimmer.fromColors(
+                baseColor: Colors.grey.shade600,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(
+                width: 12,
+              );
+            },
+            itemCount: 3
+        ),
+      );
     }
-    return Container(
+    return SizedBox(
       height: 100,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -52,6 +84,9 @@ class _BrandsState extends State<Brands> {
         itemCount: brandsSnapshot!.length,
         itemBuilder: (context, i) {
           DocumentSnapshot data= brandsSnapshot!.elementAt(i);
+          if((data.data() as Map)['img'] == null || (data.data() as Map)['img'] == ''){
+            return const SizedBox();
+          }
           return InkWell(
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(
@@ -77,8 +112,8 @@ class _BrandsState extends State<Brands> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: (data.data() as Map)['img'] ?? 'https://lh6.googleusercontent.com/proxy/eFllJZlFCADuv4dhykffNELu4YseKtdRl0jEqSdNN_1w4c6pKME8Sti-f6szCz9w62qX9BhanQb__kxgTxEH9A',
-                    fit: BoxFit.cover,
+                    imageUrl: (data.data() as Map)['img'],
+                    fit: BoxFit.contain,
                   ),
                 ),
               )

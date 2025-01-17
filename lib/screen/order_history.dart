@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:sunpower/Widgets/BackArrowWidget.dart';
 import 'package:sunpower/Widgets/empty.dart';
 import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/order_details.dart';
 import 'package:sunpower/screen/productDetails.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
@@ -21,19 +22,18 @@ class OrderHistoryScreen extends StatefulWidget {
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   List<DocumentSnapshot>? orderHistoryList;
-  // List<DocumentSnapshot> currentOrderList;
-  FirebaseAuth _auth = FirebaseAuth.instance;
   User user = FirebaseAuth.instance.currentUser!;
-
   getProducts() {
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('orders').
-    orderBy('date', descending: true)
+    FirebaseFirestore.instance.collection('users')
+        .doc(user.uid)
+        .collection('orders')
+        .orderBy('date', descending: true)
         .get()
         .then((value) {
-      orderHistoryList = [];
-      orderHistoryList!.addAll(value.docs);
-      setState(() {});
-    }).whenComplete(() {
+          orderHistoryList = [];
+          orderHistoryList!.addAll(value.docs);
+          setState(() {});
+        }).whenComplete(() {
       // print(orderHistoryList.length);
     });
   }
@@ -62,14 +62,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   void initState() {
     super.initState();
     getProducts();
-    //getCurrentProducts();
   }
 
 
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(
-      length: 2, // length of tabs
+      length: 2,
       initialIndex: 0,
       child: Scaffold(
           backgroundColor: Colors.white,
@@ -77,68 +76,56 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             backgroundColor: Colors.white,
             elevation: 0,
           ),
-          body: SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                 //SizedBox(   height: 25),
-                  Container(
-            // color: Colors.red,
-            height: 30,
-              width: double.infinity,
-              // padding: const EdgeInsets.symmetric(
-              //   horizontal: 20,
-              //   vertical: 5,
-              // ),
-              child: TabBar(
-                // labelColor:  Colors.white,
-                // unselectedLabelColor: Colors.grey[700],
-                // indicatorSize: TabBarIndicatorSize.tab,
-                // indicator: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(50),
-                //  // color: Theme.of(context).colorScheme.secondary,
-                // ),
-                // indicatorPadding: EdgeInsets.all(90),
-indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Theme.of(context).colorScheme.primary,
-                indicatorPadding: EdgeInsets.all(0),
-                labelPadding: EdgeInsets.symmetric(horizontal: 50),
-
-                onTap: (index){
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                isScrollable: true,
-                tabs: [
-                  Tab(
-                      child: Text(
-                        AppLocalizations.of(context).trans("currentorder"),
-                        style: TextStyle(fontSize: 15),
+          body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                  height: 30,
+                  width: double.infinity,
+                  child: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    indicatorPadding: EdgeInsets.all(0),
+                    labelPadding: EdgeInsets.symmetric(horizontal: 50),
+                    onTap: (index){
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      },
+                    isScrollable: true,
+                    tabs: [
+                      Tab(
+                          child: Text(
+                            AppLocalizations.of(context).trans("currentorder"),
+                            style: TextStyle(fontSize: 15),
+                          ),
                       ),
+                      Tab(
+                        child: Text(
+                            AppLocalizations.of(context).trans("Previousorder"),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  Tab(
-                    child: Text(
-                        AppLocalizations.of(context).trans("Previousorder"),
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-                  Container(
+                ),
+                Expanded(
+                  child: Container(
                       decoration: BoxDecoration(
                           border: Border(
                               top: BorderSide(
                                   color: Colors.grey,
-                                  width: 0.5))),
+                                  width: 0.5)
+                          )
+                      ),
                       child: Padding(
                           padding:
                           const EdgeInsets.all(15.0),
                           child: getCurrentPage()
-                      ))
-                ]),
+                      )
+                  ),
+                )
+              ]
           )
       ),
     );
@@ -150,289 +137,146 @@ indicatorSize: TabBarIndicatorSize.tab,
   int selectedIndex = 0;
   getCurrentPage(){
     if(selectedIndex == 0){
-      return
-        ((orderHistoryList?.length??0)==0)
-            ? Padding(
-              padding: const EdgeInsets.only(top: 200),
-              child: Center(child: EmptyWidget()),
-            )
-            : Container(
-              color: Colors.white,
-              height:  MediaQuery.of(context).size.height - 200,
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: orderHistoryList!.length,
-                  itemBuilder: (context, i) {
-                    return (orderHistoryList![i] != null && orderHistoryList![i]['OrderStatus'] == "Pending")
-                        ? ExpansionTile(title: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Container(
-                        // height: 175,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[200]!,
-                                    spreadRadius: 1,
-                                    blurRadius: 10)
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
+      if(orderHistoryList?.isEmpty??true){
+        return Center(child: CircularProgressIndicator());
+      }
+      List orders = orderHistoryList!.where((element) => element['OrderStatus'] == "Pending" ).toList();
 
-
-                                  AppLocalizations.of(context).trans(orderHistoryList![i]['OrderStatus']),
-                                  style: TextStyle(color: Colors.deepOrange[600],fontSize: 18),),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical:7 ),
-                                  child: Text(orderHistoryList![i]['date'],style: TextStyle(fontSize: 12),),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                    Expanded(child: Text(orderHistoryList![i]['userAddress'].toString())),
-                                  ],
-                                ),
-
-
-
-
-                              ],
-                            ),
-                          )),
+      return Container(
+        color: Colors.white,
+        child: ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: orders.length,
+            itemBuilder: (context, i) {
+              return InkWell(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return OrderDetailsPage(order: orders[i],);
+                  }));
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[200]!,
+                              spreadRadius: 1,
+                              blurRadius: 10
+                          )
+                        ]
                     ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(children: [
-                            Container(
-                              height: 60,
-                              // color: Colors.red,
-                              // margin: EdgeInsets.only(
-                              //     left: 15.0),
-                              child: ListView.builder(
-                                  itemCount: orderHistoryList![i][
-                                  "productList"]
-                                      .length,
-                                  itemBuilder:
-                                      (context, index) {
-                                    return Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .start,
-                                        children: [
-                                          Row(
-                                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('${orderHistoryList![i]["productList"][index]['quantity'].toString()}x'),
-                                              SizedBox(width: 10,),
-                                              Text(
-
-                                                orderHistoryList![i]["productList"][index]['name'],
-
-
-                                                //
-                                                // AppLocalizations.of(context).locale.languageCode.toString()=='ku'?
-                                                // currentOrderList[i]["productList"][index]['nameK'].toString().toUpperCase():
-                                                // AppLocalizations.of(context).locale.languageCode.toString()=='ar'?
-                                                // currentOrderList[i]["productList"][index]['namA'].toString().toUpperCase():
-                                                // currentOrderList[i]["productList"][index]['name'].toString().toUpperCase(),
-
-
-                                                style:
-                                                TextStyle(fontSize: 14
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 5,),
-
-                                        ],
-                                      ),
-                                    );
-                                  }),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context).trans(orders[i]['OrderStatus'].toString()),
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold
                             ),
-                            Row(
-                              children: [
-                                Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList![i]['deliveryFee'].toString()}\$')),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList![i]['totalPrice'].toString()}\S')),
-                              ],
-                            ),
-                            Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text( AppLocalizations.of(context).trans("Exchangedrate"),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical:7 ),
+                            child: Text(orders[i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                AppLocalizations.of(context).trans("Deliverto"),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black
                                 ),
-                                SizedBox(width: 10,),
-                                Text('${(orderHistoryList![i]['dinnar']*100).floor().toString()} IQD',
-                                  style: TextStyle(fontSize: 13,),
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 10,)
-
-                          ],),
-                        )
-
-                      ],
+                              ),
+                              Expanded(child: Text(orders[i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
-                        : SizedBox();
-                  }),
-            );
-
+                ),
+              );
+            }, separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(height: 16,);
+        },),
+      );
     }
+
+
 
     else {
-      return
-        ((orderHistoryList?.length??0)==0)
-            ? EmptyWidget()
-            : Container(
-              color: Colors.white,
-              height:  MediaQuery.of(context).size.height - 200,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: orderHistoryList!.length,
-                  itemBuilder: (context, i) {
-                    return (orderHistoryList![i] != null  && orderHistoryList![i]['OrderStatus'] == "Accepted" || orderHistoryList![i]['OrderStatus'] == "Rejected")
-                        ? ExpansionTile(title: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Container(
-                        // height: 175,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[200]!,
-                                    spreadRadius: 1,
-                                    blurRadius: 10)
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+      if(orderHistoryList?.isEmpty??true){
+        return Center(child: EmptyWidget());
+      }
+      List orders = orderHistoryList!.where((element) => element['OrderStatus'] == "Accepted" || element['OrderStatus'] == "Rejected").toList();
+      return Container(
+          color: Colors.white,
+          child: ListView.separated(
+              itemCount: orders.length,
+              itemBuilder: (context, i) {
+                return InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      return OrderDetailsPage(order: orders[i],);
+                    }));
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey[200]!,
+                                spreadRadius: 1,
+                                blurRadius: 10
+                            )
+                          ]
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).trans(orders[i]['OrderStatus'].toString()),
+                              style: TextStyle(
+                                  color: orders[i]['OrderStatus']== "Rejected"?
+                                  Colors.red[700]:  Colors.green[700],
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical:7 ),
+                              child: Text(orders[i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
+                            ),
+                            Row(
                               children: [
                                 Text(
-                                  AppLocalizations.of(context).trans(orderHistoryList![i]['OrderStatus'].toString()),
-
-                                  style: TextStyle(color:
-                                  orderHistoryList![i]['OrderStatus']== "Rejected"?
-                                  Colors.red[700]:  Colors.green[700]
-
-                                      ,fontSize: 18,fontWeight: FontWeight.bold),),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical:7 ),
-                                  child: Text(orderHistoryList![i]['date'],style: TextStyle(fontSize: 12,color: Colors.black),),
+                                  AppLocalizations.of(context).trans("Deliverto"),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Text(  AppLocalizations.of(context).trans("Deliverto"),style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
-                                    Expanded(child: Text(orderHistoryList![i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
-                                  ],
-                                ),
-
-
-
-
+                                Expanded(child: Text(orders[i]['userAddress'].toString(),style: TextStyle(color: Colors.black),)),
                               ],
                             ),
-                          )),
-                    ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(children: [
-                            Container(
-                              height: 80,
-                              // color: Colors.red,
-                              // margin: EdgeInsets.only(
-                              //     left: 15.0),
-                              child: ListView.builder(
-                                  itemCount: orderHistoryList![i][
-                                  "productList"]
-                                      .length,
-                                  itemBuilder:
-                                      (context, index) {
-                                    return Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .start,
-                                        children: [
-                                          Row(
-                                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('${orderHistoryList![i]["productList"][index]['quantity'].toString()}x'),
-                                              SizedBox(width: 10,),
-                                              Text(
-                                                orderHistoryList![i]["productList"][index]['name'],
-                                                style:
-                                                TextStyle(fontSize: 14
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 5,),
-
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            ),
-                            Row(
-                              children: [
-                                Text(  AppLocalizations.of(context).trans("DeliveryFee"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList![i]['deliveryFee'].toString()}\$')),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text( AppLocalizations.of(context).trans("TotalPrice"),style: TextStyle(fontWeight: FontWeight.bold),),
-                                Expanded(child: Text('${orderHistoryList![i]['totalPrice'].toString()}\S')),
-                              ],
-                            ),
-                            Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text( AppLocalizations.of(context).trans("Exchangedrate"),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-
-                                ),
-                                SizedBox(width: 10,),
-                                Text('${(orderHistoryList![i]['dinnar']*100).floor().toString()} IQD',
-                                  style: TextStyle(fontSize: 13,),
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 10,)
-
-                          ],),
-                        )
-
-                      ],
-                    )
-                        : SizedBox();
-                  }),
-            );
-
+                          ],
+                        ),
+                      )
+                  ),
+                );
+              },
+            separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 16,);
+            },),
+        );
     }
-
   }
-
 }
 
 

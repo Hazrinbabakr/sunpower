@@ -8,7 +8,9 @@ class Product {
   double wholesalePrice;
   double retailPrice;
   double? oldPrice;
+  double? wholesalePriceOld;
   String itemCode;
+  String brand;
 
   List<String> image;
 
@@ -20,7 +22,10 @@ class Product {
     required this.image,
     required this.itemCode,
     required this.wholesalePrice,
+    required this.wholesalePriceOld,
     required this.retailPrice,
+    required this.brand,
+
     this.oldPrice
   });
 
@@ -30,25 +35,29 @@ class Product {
       nameA: doc['nameA'],
       nameK: doc['nameK'],
       id: doc.id,
-      image: doc['images'],
+      image: doc['images']?.map<String>((item) => item.toString()).toList(),
       itemCode: doc['itemCode'],
-      wholesalePrice: (doc.data() as Map)['wholesale price']??'',
-      retailPrice: (doc.data() as Map)['retail price']??'',
-      oldPrice: (doc.data() as Map)['old price']??'',
+      wholesalePrice: doc['wholesale price']?.toDouble(),
+      retailPrice: doc['retail price']?.toDouble(),
+      oldPrice: doc['old price']?.toDouble(),
+      brand: doc['brand'],
+        wholesalePriceOld: (doc.data()! as Map)['old wholesale price']?.toDouble()??0
     );
   }
 
   factory Product.fromJson(Map doc){
     return Product(
-      name: doc['name'],
-      nameA: doc['nameA'],
-      nameK: doc['nameK'],
-      id: doc['productID'],
-      image: (doc['images'] as List).map((e) => e.toString()).toList(),
-      itemCode: doc['itemCode'],
-      wholesalePrice: doc['wholesale price']?.toDouble(),
-      retailPrice: doc['retail price']?.toDouble(),
-      oldPrice: doc['old price']?.toDouble(),
+        name: doc['name'],
+        nameA: doc['nameA'],
+        nameK: doc['nameK'],
+        id: doc['productID'],
+        image: (doc['images'] as List).map((e) => e.toString()).toList(),
+        itemCode: doc['itemCode'],
+        wholesalePrice: doc['wholesale price']?.toDouble(),
+        retailPrice: doc['retail price']?.toDouble(),
+        oldPrice: doc['old price']?.toDouble(),
+        brand: doc['brand'],
+        wholesalePriceOld: doc['old wholesale price']?.toDouble()??0
     );
   }
   get toJson => {
@@ -60,7 +69,9 @@ class Product {
     'itemCode':itemCode,
     'wholesale price': wholesalePrice,
     'retail price': retailPrice,
-    'old price': oldPrice
+    'old price': oldPrice,
+    'old wholesale price': wholesalePriceOld,
+    'brand': brand
   };
 
   @override

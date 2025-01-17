@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sunpower/app/Application.dart';
 import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/screen/languages_page.dart';
 import 'package:sunpower/screen/suplashScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,10 @@ void main() async{
   await LocalStorageService.instance.init();
   //FirebaseAuth.instance.signOut();
   notificationHelper.firebaseCloudMessaging_Listeners();
-  if(LocalStorageService.instance.languageCode == null){
-    LocalStorageService.instance.languageCode = "en";
-  }
+  // LocalStorageService.instance.languageCode = null;
+  // if(LocalStorageService.instance.languageCode == null){
+  //   LocalStorageService.instance.languageCode = "en";
+  // }
   runApp(MyApp());
 }
 
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         child: Consumer<SettingsServiceProvider>(
           builder: (context,settings,child){
             return MaterialApp(
-              title: 'AutoTruck',
+              title: 'Truck Store',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 primaryColor: Color(0xFFF58020),//Theme.of(context).primaryColor!,//Colors.white,
@@ -47,15 +49,14 @@ class MyApp extends StatelessWidget {
                   primary: Color(0xFFF58020),//
                   secondary: Colors.white,
                   onPrimary: Colors.white
-
                 ),
-                //colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.red[900]),
-                  fontFamily: 'NRT',
+                  fontFamily: LocalStorageService.instance.languageCode == 'ku'? 'NRT' :'Cairo',
               ),
-              home: SplashScreen(),//SignUpMainPage(),
+              home:
+              LocalStorageService.instance.languageCode == null?
+              LanguagesPage() : SplashScreen(),
               builder: (context, child) {
-                if (AppLocalizations.of(context).locale.languageCode ==
-                    "ku") {
+                if (AppLocalizations.of(context).locale.languageCode == "ku") {
                   child = Directionality(
                       textDirection: TextDirection.rtl, child: child!);
                 }

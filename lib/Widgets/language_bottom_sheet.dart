@@ -53,17 +53,29 @@ class LanguageBottomSheet extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      AppLocalizations.of(context).trans(Lang.values[index]),
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).trans(Lang.values[index]),
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(width: 16,),
+                        SizedBox(
+                          width: 70,
+                            height: 40,
+                            child: Image.asset("images/flags/${Lang.values[index]}.png",fit: BoxFit.contain,))
+                      ],
                     ),
                   ),
                 );
               },
               separatorBuilder: (context, index) {
-                return const Divider();
+                return const Divider(
+                  thickness: 0.5,
+                );
               },
               itemCount: Lang.values.length),
         ],

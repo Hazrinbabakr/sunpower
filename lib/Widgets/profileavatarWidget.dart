@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunpower/localization/AppLocal.dart';
+import 'package:sunpower/services/local_storage_service.dart';
 
 import 'profile_image/profile_image_dialog.dart';
 
@@ -11,12 +12,10 @@ import 'profile_image/profile_image_dialog.dart';
 class ProfileAvatarWidget extends StatefulWidget {
 
   final String? userID;
-  //bool isGuest;
 
   ProfileAvatarWidget({
     Key? key,
     this.userID
-    //this.isGuest,
   }) : super(key: key);
 
   @override
@@ -24,8 +23,8 @@ class ProfileAvatarWidget extends StatefulWidget {
 }
 
 class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
-  TextEditingController _nameFieldController = TextEditingController();
-  TextEditingController _textFieldController = TextEditingController();
+  TextEditingController? _nameFieldController;
+  TextEditingController? _textFieldController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,15 +109,20 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text("${ snapshot.data!['username'].toUpperCase().toString()??''}",
-                                    style: Theme.of(context).textTheme.subtitle1!.merge(
-                                        TextStyle(fontSize: 22,color: Colors.black)),
+                                    style: TextStyle(fontSize: 22,color: Colors.black),
                                   ),
-                                  SizedBox(height: 10,),
+                                  Text(_getUserType,
+                                    style: TextStyle(
+                                        fontSize: 14
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                  SizedBox(height: 4,),
                                   Text("+${snapshot.data!['country_code']??''}${snapshot.data!['phone'].toString()??''}",
                                     style: Theme.of(context).textTheme.subtitle1!.merge(
                                     TextStyle(color: Theme.of(context).hintColor)),
                                   ),
-                                  SizedBox(height: 10,),
+                                  SizedBox(height: 4,),
                                   InkWell(
                                     onTap: (){
                                       _nameFieldController = TextEditingController(text:  snapshot.data!['username'].toString());
@@ -175,8 +179,8 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                                        // widget.address=_textFieldController.text;
                                                        FirebaseFirestore.instance
                                                            .collection("users").doc(widget.userID).update({
-                                                         "username":  _nameFieldController.text,
-                                                         "address":  _textFieldController.text,
+                                                         "username":  _nameFieldController!.text,
+                                                         "address":  _textFieldController!.text,
                                                          // "subPrice": (cartInfo.data()['quantity'] +1) * cartInfo.data()['price']
                                                        });
                                                        Navigator.pop(context);
@@ -200,6 +204,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                           ),
                                         ),
                                         SizedBox(width: 10,),
+
                                         Icon(Icons.edit)
                                       ],
                                     ),
@@ -221,5 +226,21 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
         ],
       ),
     );
+  }
+
+  get _getUserType {
+    if(LocalStorageService.instance.user!.role == 1){
+      return "(${AppLocalizations.of(context).trans("wholesaleUser")})";
+    }
+    else {//
+      return "(${AppLocalizations.of(context).trans("normalUser")})";
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameFieldController?.dispose();
+    _textFieldController?.dispose();
+    super.dispose();
   }
 }

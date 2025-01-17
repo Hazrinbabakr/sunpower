@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sunpower/screen/auth/normal_user_login/login_normal_user.dart';
+import 'package:sunpower/screen/auth/normal_user_login/new_login_page.dart';
 import 'package:sunpower/screen/auth/providers/normal_user_login_provider.dart';
 import 'package:sunpower/screen/auth/signup_normal_user/sign_up_main_page.dart';
 import 'package:sunpower/screen/auth/normal_user_login/verify_number.dart';
-import 'package:sunpower/screen/auth/signup_normal_user/signup_normal_user.dart';
 import 'package:sunpower/screen/homepage.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,7 @@ class _MainLoginPageState extends State<MainLoginPage> {
   List<Widget> pages = [
     LoginPage(),
     //SignUpPage(),
-    VerifyNumberPage()
+    VerifyNumberPage(register: false,)
   ];
   initState() {
     super.initState();

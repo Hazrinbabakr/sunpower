@@ -12,7 +12,7 @@ class BackArrowWidget extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          elevation: 2.0,
+          elevation: 0.2,
           fillColor: Colors.white,
           child: Center(
             child: Icon(
