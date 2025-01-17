@@ -45,7 +45,7 @@ class _ContactUSState extends State<ContactUS> {
                   child: Text(
                     AppLocalizations.of(context).trans("CONTACTSUNPOWER"),
 
-                    style: Theme.of(context).textTheme.headline6!.merge(TextStyle(
+                    style: Theme.of(context).textTheme.titleLarge!.merge(TextStyle(
                         letterSpacing: 0, color: Theme.of(context).colorScheme.primary,fontSize: 20,fontWeight: FontWeight.bold)),
                   ),
                 ),

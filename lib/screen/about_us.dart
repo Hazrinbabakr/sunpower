@@ -31,7 +31,7 @@ class _AboutUsState extends State<AboutUs> {
             SizedBox(height: 60,),
             // Text(
             //   'About',
-            //   style: Theme.of(context).textTheme.headline6.merge(TextStyle(
+            //   style: Theme.of(context).textTheme.titleLarge.merge(TextStyle(
             //       letterSpacing: 0, color: Theme.of(context).colorScheme.secondary,fontSize: 25,fontWeight: FontWeight.bold)),
             // ),
             // SizedBox(height: 10,),
@@ -48,14 +48,14 @@ class _AboutUsState extends State<AboutUs> {
             Text(
               AppLocalizations.of(context).trans("aboutUsTitle"),
 
-              style: Theme.of(context).textTheme.headline6!.merge(TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+              style: Theme.of(context).textTheme.titleLarge!.merge(TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
             ),
            // SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 20),
               child: Text(
                 AppLocalizations.of(context).trans("aboutUsBody"),
-                style: Theme.of(context).textTheme.headline6!.merge(TextStyle(fontSize: 20)),
+                style: Theme.of(context).textTheme.titleLarge!.merge(TextStyle(fontSize: 20)),
               ),
             ),
 

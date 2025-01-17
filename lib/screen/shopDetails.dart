@@ -120,7 +120,7 @@ print(name+'nmeeeee');
                   : TabBar(
                   labelColor: Theme.of(context).colorScheme.primary,
                   unselectedLabelColor: Theme.of(context).hintColor,
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: Theme.of(context).textTheme.titleSmall,
                   isScrollable: false,
                   indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
                   indicatorSize: TabBarIndicatorSize.tab,

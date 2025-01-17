@@ -82,7 +82,7 @@ class _SearchState extends State<Search> {
                     ),
                     title: Text(
                       'search',
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ),
                 ),

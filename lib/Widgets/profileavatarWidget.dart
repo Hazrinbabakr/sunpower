@@ -119,7 +119,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                   ),
                                   SizedBox(height: 4,),
                                   Text("+${snapshot.data!['country_code']??''}${snapshot.data!['phone'].toString()??''}",
-                                    style: Theme.of(context).textTheme.subtitle1!.merge(
+                                    style: Theme.of(context).textTheme.titleMedium!.merge(
                                     TextStyle(color: Theme.of(context).hintColor)),
                                   ),
                                   SizedBox(height: 4,),
@@ -199,7 +199,7 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
                                     children: [
                                         Expanded(
                                           child: Text(snapshot.data!['address'].toString()??'',
-                                            style: Theme.of(context).textTheme.subtitle1,
+                                            style: Theme.of(context).textTheme.titleMedium,
                                             maxLines: 2,
                                           ),
                                         ),

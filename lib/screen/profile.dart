@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: Text(
                           AppLocalizations.of(context).trans("orderHistory"),
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)
                     ),
@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: Text(
                           AppLocalizations.of(context).trans("favorite"),
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)),
                     ListTile(
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: Text(
                           AppLocalizations.of(context).trans("notifications"),
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)
                     ),
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: Text(
                           AppLocalizations.of(context).trans("language"),
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)),
                     // ListTile(
@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //       color: Theme.of(context).focusColor,
                     //     ),
                     //     title: Text(AppLocalizations.of(context).trans('contact_us'),
-                    //       style: Theme.of(context).textTheme.subtitle1,
+                    //       style: Theme.of(context).textTheme.titleMedium,
                     //     ),
                     //     trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)
                     // ),
@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Theme.of(context).focusColor,
                         ),
                         title: Text(AppLocalizations.of(context).trans('about_us'),
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios,color: Colors.black26,size: 22,)),
                     ListTile(
