@@ -365,6 +365,7 @@ class KurdishCupertinoLocalization extends CupertinoLocalizationAr{
     localeName: localeName,
     fullYearFormat: fullYearFormat,
     dayFormat: dayFormat,
+    weekdayFormat: dayFormat,
     mediumDateFormat: mediumDateFormat,
     singleDigitHourFormat: singleDigitHourFormat,
     singleDigitMinuteFormat: singleDigitMinuteFormat,

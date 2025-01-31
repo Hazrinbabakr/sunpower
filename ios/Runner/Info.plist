@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sunpower</string>
+	<string>Truck Store</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,11 +38,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to upload image</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need to upload image</string>
+	<string>The app allows the user to scan a product barcode using the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to upload image</string>
+	<string>The user can upload an image to his profile</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -71,10 +69,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>mailto</string>
-      <string>tel</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>tel</string>
+	</array>
 </dict>
 </plist>

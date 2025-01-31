@@ -121,7 +121,7 @@ class _SearchState extends State<Search> {
                         hintText: 'Search for your product',
                         hintStyle: Theme.of(context)
                             .textTheme
-                            .caption!
+                            .bodySmall!
                             .merge(TextStyle(fontSize: 14)),
                         prefixIcon:
                         Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
